@@ -1,22 +1,36 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { requestHelloWorld } from "./actions";
+import { requestApiData } from "actions";
 
 class Home extends React.Component {
   componentDidMount() {
-    this.props.requestHelloWorld();
+    this.props.requestApiData();
   }
 
+  person = (x, i) => (
+    <div key={x.id.value}>
+      <h1>{x.gender}</h1>
+      <h1>{x.name.first}</h1>
+      <h1>{x.name.last}</h1>
+      <img src={x.picture.medium} alt="hello"/>
+    </div>
+  );
+
   render() {
-    return <h1>{this.props.helloWorld}</h1>;
+    const { results = [] } = this.props.data;
+    return results.length ? (
+      <h1>{results.map(this.person)}</h1>
+    ) : (
+      <h1>loading...</h1>
+    );
   }
 }
 
-const mapStateToProps = state => ({ helloWorld: state.helloWorld });
+const mapStateToProps = state => ({ data: state.data });
 
 const mapDispatchToProps = dispatch => ({
-  requestHelloWorld: () => dispatch(requestHelloWorld())
+  requestApiData: () => dispatch(requestApiData())
 });
 
 export default connect(
