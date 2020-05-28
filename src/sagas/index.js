@@ -1,10 +1,10 @@
 import { all, fork } from "redux-saga/effects";
 
-import * as userSagas from "sagas/users";
-import * as accountSagas from "sagas/accounts";
+import * as homeSagas from "containers/HomePage/saga.js";
+import * as profileSagas from "containers/ProfilePage/saga.js";
 
 export default function* rootSaga() {
   yield all(
-    [...Object.values(userSagas), ...Object.values(accountSagas)].map(fork)
+    [...Object.values(homeSagas), ...Object.values(profileSagas)].map(fork)
   );
 }

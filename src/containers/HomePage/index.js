@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { requestApiData } from "actions";
+import { requestApiData } from "./actions";
 
 class Home extends React.Component {
   componentDidMount() {
@@ -26,7 +26,7 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ data: state.data });
+const mapStateToProps = state => ({ data: state.HomeReducer });
 
 const mapDispatchToProps = dispatch => ({
   requestApiData: () => dispatch(requestApiData())

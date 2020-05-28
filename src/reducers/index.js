@@ -1,8 +1,9 @@
- 
 import { combineReducers } from "redux";
 
-import data from "./data";
+import HomeReducer from "containers/HomePage/reducer.js";
+import ProfileReducer from "containers/ProfilePage/reducer.js";
 
 export default combineReducers({
-  data
+  HomeReducer,
+  ProfileReducer
 });
