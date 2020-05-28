@@ -1,4 +1,4 @@
-import { RECEIVE_API_DATA } from "../actions";
+import { RECEIVE_API_DATA } from "actions";
 
 export default (state = {}, action) => {
   switch (action.type) {

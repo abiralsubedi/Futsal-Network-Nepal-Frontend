@@ -13,10 +13,9 @@ class Home extends React.Component {
       <h1>{x.gender}</h1>
       <h1>{x.name.first}</h1>
       <h1>{x.name.last}</h1>
-      <img src={x.picture.medium} alt="hello"/>
+      <img src={x.picture.medium} alt="hello" />
     </div>
   );
-
   render() {
     const { results = [] } = this.props.data;
     return results.length ? (
@@ -33,7 +32,4 @@ const mapDispatchToProps = dispatch => ({
   requestApiData: () => dispatch(requestApiData())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
