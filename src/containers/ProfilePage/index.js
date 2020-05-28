@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import { getTestData } from "./actions";
 
-class Home extends React.Component {
+class ProfilePage extends React.Component {
   componentDidMount() {
     this.props.fetchTestData();
   }
@@ -14,10 +15,14 @@ class Home extends React.Component {
   }
 }
 
+ProfilePage.propTypes = {
+  data: PropTypes.object
+};
+
 const mapStateToProps = state => ({ data: state.ProfileReducer });
 
 const mapDispatchToProps = dispatch => ({
   fetchTestData: () => dispatch(getTestData())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

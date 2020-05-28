@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import { requestApiData } from "./actions";
 
@@ -25,6 +26,10 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  data: PropTypes.object
+};
 
 const mapStateToProps = state => ({ data: state.HomeReducer });
 

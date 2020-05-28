@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import store from "./configureStore";
 import Main from "./Main";
 
-import "assets/App.scss";
+import "assets/App.css";
 
 export default () => (
   <Provider store={store}>
