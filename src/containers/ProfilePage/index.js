@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import { getTestData } from "./actions";
 
@@ -11,7 +12,11 @@ class ProfilePage extends React.Component {
 
   render() {
     const { data } = this.props;
-    return <h1>{data.updated || data.default}</h1>;
+    return (
+      <h1>
+        <Link to="/">{data.updated || data.default}</Link>
+      </h1>
+    );
   }
 }
 

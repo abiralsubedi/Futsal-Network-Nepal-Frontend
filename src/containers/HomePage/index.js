@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import { requestApiData } from "./actions";
 
@@ -20,7 +21,9 @@ class Home extends React.Component {
   render() {
     const { results = [] } = this.props.data;
     return results.length ? (
-      <h1>{results.map(this.person)}</h1>
+      <h1>
+        <Link to="/profile">{results.map(this.person)}</Link>
+      </h1>
     ) : (
       <h1>loading...</h1>
     );
