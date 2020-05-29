@@ -19,7 +19,7 @@ class Home extends React.Component {
     </div>
   );
   render() {
-    const { results = [] } = this.props.data;
+    const { results = [] } = this.props.data.fetched;
     return results.length ? (
       <h1>
         <Link to="/profile">{results.map(this.person)}</Link>
