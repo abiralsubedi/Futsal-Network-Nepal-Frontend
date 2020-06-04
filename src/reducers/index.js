@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
-import HomeReducer from "containers/HomePage/reducer.js";
+import LoginReducer from "containers/LoginPage/reducer.js";
 import ProfileReducer from "containers/ProfilePage/reducer.js";
 
 export default combineReducers({
-  HomeReducer,
+  LoginReducer,
   ProfileReducer
 });
