@@ -1,12 +1,14 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Header from "components/Header";
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const PrivateRoute = ({ component: Component, data, ...rest }) => (
   <Route
     {...rest}
     render={props => {
+      if (!data.isAuthenticated) return <Redirect to="/login" />;
       return (
         <>
           <Header />
@@ -19,4 +21,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 PrivateRoute.propTypes = { component: PropTypes.func };
 
-export default PrivateRoute;
+const mapStateToProps = state => ({ data: state.LoginReducer });
+
+export default connect(mapStateToProps)(PrivateRoute);
