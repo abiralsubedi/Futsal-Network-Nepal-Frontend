@@ -1,19 +1,40 @@
 import React from "react";
 import { connect } from "react-redux";
-// import PropTypes from "prop-types";
+import { compose } from "redux";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
+import { logoutSuccess } from "containers/LoginPage/actions";
+import useStyles from "./style";
 
-class Header extends React.Component {
-  componentDidMount() {}
+const Header = props => {
+  const classes = useStyles();
 
-  render() {
-    return <h1>This is header</h1>;
-  }
-}
+  return (
+    <div>
+      <h1>This is header</h1>
+      <h3
+        onClick={() => {
+          localStorage.removeItem("token");
+          props.postLogout();
+        }}
+        className={classes.logoutButton}
+      >
+        Logout
+      </h3>
+    </div>
+  );
+};
 
-Header.propTypes = {};
+Header.propTypes = {
+  postLogout: PropTypes.func
+};
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  postLogout: () => dispatch(logoutSuccess())
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(withRouter, withConnect)(Header);

@@ -1,15 +1,17 @@
-import { GET_TEST_DATA_SUCCESS } from "./constants";
+import { GET_TEST_DATA_SUCCESS, GET_TEST_DATA } from "./constants";
 
 export default (
   state = {
-    default: "hello there, please wait",
-    updated: ""
+    testData: []
   },
   action
 ) => {
   switch (action.type) {
+    case GET_TEST_DATA:
+      return { ...state, testData: [] };
+
     case GET_TEST_DATA_SUCCESS:
-      return { ...state, updated: action.data };
+      return { ...state, testData: action.data };
     default:
       return state;
   }

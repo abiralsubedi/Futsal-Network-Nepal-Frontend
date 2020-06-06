@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import LoginPage from "containers/LoginPage";
+import RegisterPage from "containers/RegisterPage";
 import ProfilePage from "containers/ProfilePage";
 import PrivateRoute from "components/PrivateRoute";
 import { Link } from "react-router-dom";
@@ -18,6 +19,7 @@ const Main = () => {
       <CssBaseline />
       <Switch key="routes">
         <Route path="/login" component={LoginPage} exact />
+        <Route path="/register" component={RegisterPage} exact />
         <PrivateRoute path="/profile" component={ProfilePage} exact />
         <Route path="" component={NotFound} />
       </Switch>

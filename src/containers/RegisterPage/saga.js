@@ -1,13 +1,14 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import request from "utils/request";
 
-import { LOGIN } from "./constants";
-import { loginSuccess, loginError } from "./actions";
+import { REGISTER } from "./constants";
+import { registerSuccess, registerError } from "./actions";
+import { loginSuccess } from "containers/LoginPage/actions";
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
-function* login({ payload }) {
+function* register({ payload }) {
   try {
-    const response = yield call(request, "/login", {
+    const response = yield call(request, "/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -17,12 +18,13 @@ function* login({ payload }) {
     if (response.success) {
       localStorage.setItem("token", response.token);
       yield put(loginSuccess(response));
+      yield put(registerSuccess(response));
     }
   } catch (e) {
-    yield put(loginError(e));
+    yield put(registerError(e));
   }
 }
 
 export default function* mySaga() {
-  yield takeLatest(LOGIN, login);
+  yield takeLatest(REGISTER, register);
 }

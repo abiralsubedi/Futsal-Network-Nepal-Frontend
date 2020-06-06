@@ -19,7 +19,7 @@ const PrivateRoute = ({ component: Component, data, ...rest }) => (
   />
 );
 
-PrivateRoute.propTypes = { component: PropTypes.func };
+PrivateRoute.propTypes = { component: PropTypes.object };
 
 const mapStateToProps = state => ({ data: state.LoginReducer });
 

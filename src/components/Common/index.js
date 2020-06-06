@@ -6,7 +6,7 @@ export const Wrapper = ({ className, style, children, ...props }) => {
   return (
     <div
       {...props}
-      className={["container", className || ""].join(" ")}
+      className={["container", classes.random, className || ""].join(" ")}
       style={{
         flex: 1,
         minHeight: "calc(100vh - 19rem)",

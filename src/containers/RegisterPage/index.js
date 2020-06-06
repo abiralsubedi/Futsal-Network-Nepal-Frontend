@@ -4,10 +4,10 @@ import { compose } from "redux";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { Wrapper } from "components/Common";
-import { login } from "./actions";
+import { register } from "./actions";
 import useStyles from "./style";
 
-const LoginPage = props => {
+const Home = props => {
   const { isAuthenticated } = props.data;
   const { history } = props;
   const classes = useStyles();
@@ -23,11 +23,11 @@ const LoginPage = props => {
     <Wrapper>
       <div className={classes.content}>
         <div className={classes.loginScreen}>
-          <h1>Login</h1>
+          <h1>Register</h1>
           <form
             onSubmit={e => {
               e.preventDefault();
-              props.postLogin({ username, password });
+              props.postRegister({ username, password });
             }}
           >
             <input
@@ -47,25 +47,28 @@ const LoginPage = props => {
               value={password}
               onChange={({ target }) => setPassword(target.value)}
             />
-            <button type="submit">Login</button>
+            <button type="submit">Register</button>
           </form>
-          <Link to="/register">Register account</Link>
+          <Link to="/login">Login</Link>
         </div>
       </div>
     </Wrapper>
   );
 };
 
-LoginPage.propTypes = {
+Home.propTypes = {
   data: PropTypes.object
 };
 
-const mapStateToProps = state => ({ data: state.LoginReducer });
+const mapStateToProps = state => ({
+  data: state.LoginReducer,
+  registerData: state.RegisterReducer
+});
 
 const mapDispatchToProps = dispatch => ({
-  postLogin: credential => dispatch(login(credential))
+  postRegister: credential => dispatch(register(credential))
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withRouter, withConnect)(LoginPage);
+export default compose(withRouter, withConnect)(Home);

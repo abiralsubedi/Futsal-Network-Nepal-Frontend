@@ -7,11 +7,15 @@ import { getTestDataSuccess } from "./actions";
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* getApiData(action) {
   try {
-    const response = yield call(request, "/me", {
-      method: "GET"
+    const token = localStorage.getItem("token");
+    const response = yield call(request, "/posts", {
+      method: "GET",
+      headers: {
+        Authorization: token
+      }
     });
+    yield put(getTestDataSuccess(response));
   } catch (e) {
-    yield put(getTestDataSuccess("You are welcome!"));
     console.error(e);
   }
 }
