@@ -11,7 +11,7 @@ function* getApiData(action) {
     const response = yield call(request, "/posts", {
       method: "GET",
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     });
     yield put(getTestDataSuccess(response));

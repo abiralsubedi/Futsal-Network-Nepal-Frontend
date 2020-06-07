@@ -2,18 +2,25 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import PropTypes from "prop-types";
+import queryString from "query-string";
 import { Link, withRouter } from "react-router-dom";
 import { Wrapper } from "components/Common";
-import { login } from "./actions";
+import { login, loginSuccess } from "./actions";
 import useStyles from "./style";
 
 const LoginPage = props => {
   const { isAuthenticated } = props.data;
-  const { history } = props;
+  const { history, location, postLogin, postLoginSuccess } = props;
   const classes = useStyles();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const parsedQuery = queryString.parse(location.search);
+  if (parsedQuery.token) {
+    localStorage.setItem("token", parsedQuery.token);
+    postLoginSuccess({ token: parsedQuery.token });
+  }
 
   if (isAuthenticated) {
     history.push("/profile");
@@ -27,7 +34,7 @@ const LoginPage = props => {
           <form
             onSubmit={e => {
               e.preventDefault();
-              props.postLogin({ username, password });
+              postLogin({ username, password });
             }}
           >
             <input
@@ -50,6 +57,14 @@ const LoginPage = props => {
             <button type="submit">Login</button>
           </form>
           <Link to="/register">Register account</Link>
+          <h3
+            onClick={() =>
+              (window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/google`)
+            }
+            className={classes.cursorPointer}
+          >
+            Login with Google
+          </h3>
         </div>
       </div>
     </Wrapper>
@@ -57,13 +72,16 @@ const LoginPage = props => {
 };
 
 LoginPage.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  postLogin: PropTypes.func,
+  postLoginSuccess: PropTypes.func
 };
 
 const mapStateToProps = state => ({ data: state.LoginReducer });
 
 const mapDispatchToProps = dispatch => ({
-  postLogin: credential => dispatch(login(credential))
+  postLogin: credential => dispatch(login(credential)),
+  postLoginSuccess: data => dispatch(loginSuccess(data))
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

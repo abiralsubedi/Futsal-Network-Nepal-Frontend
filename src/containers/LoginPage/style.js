@@ -16,6 +16,9 @@ const useStyles = makeStyles(theme => ({
       margin: "1rem 0",
       padding: "0.5rem"
     }
+  },
+  cursorPointer: {
+    cursor: "pointer"
   }
 }));
 
