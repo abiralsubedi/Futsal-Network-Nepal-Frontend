@@ -1,10 +1,13 @@
 import useStyles from "./style";
 import React from "react";
+import { Paper } from "@material-ui/core";
 
 export const Wrapper = ({ className, style, children, ...props }) => {
   const classes = useStyles();
   return (
-    <div
+    <Paper
+      elevation={0}
+      square
       {...props}
       className={["container", classes.random, className || ""].join(" ")}
       style={{
@@ -14,6 +17,6 @@ export const Wrapper = ({ className, style, children, ...props }) => {
       }}
     >
       {children}
-    </div>
+    </Paper>
   );
 };

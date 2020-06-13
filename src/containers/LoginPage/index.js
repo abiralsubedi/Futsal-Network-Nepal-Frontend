@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import PropTypes from "prop-types";
 import queryString from "query-string";
+import Typography from "@material-ui/core/Typography";
+import Switch from "@material-ui/core/Switch";
 import { Link, withRouter } from "react-router-dom";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+
+import { ThemeContext } from "context/themeContext";
 import { Wrapper } from "components/Common";
+import TextField from "components/TextField";
+
 import { login, loginSuccess } from "./actions";
 import useStyles from "./style";
 
@@ -15,44 +25,65 @@ const LoginPage = props => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState("");
+  const { darkMode, setDarkMode } = useContext(ThemeContext);
 
   const parsedQuery = queryString.parse(location.search);
   if (parsedQuery.token) {
     localStorage.setItem("token", parsedQuery.token);
     postLoginSuccess({ token: parsedQuery.token });
   }
-
   if (isAuthenticated) {
     history.push("/profile");
   }
-
   return (
     <Wrapper>
       <div className={classes.content}>
         <div className={classes.loginScreen}>
-          <h1>Login</h1>
+          <Typography variant="h1" className={classes.title}>
+            Login
+          </Typography>
+          <Typography variant="h1" color="secondary">
+            Test
+          </Typography>
           <form
             onSubmit={e => {
               e.preventDefault();
               postLogin({ username, password });
             }}
+            autocomplete="off"
           >
-            <input
-              type="text"
-              placeholder="username"
+            <TextField
               id="username"
-              name="username"
+              label="Username"
               value={username}
-              onChange={({ target }) => setUsername(target.value)}
+              handleChange={val => setUsername(val)}
+              defaultValue
               autoFocus
+              required
+              fullWidth
+              customClasses={classes.loginTextField}
             />
-            <input
-              type="text"
-              placeholder="password"
+            <TextField
               id="password"
-              name="password"
+              label="Password"
               value={password}
-              onChange={({ target }) => setPassword(target.value)}
+              handleChange={val => setPassword(val)}
+              type={showPassword? 'text': 'password'}
+              required
+              fullWidth
+              customClasses={classes.loginTextField}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(prevState => !prevState)}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
             <button type="submit">Login</button>
           </form>
@@ -66,6 +97,18 @@ const LoginPage = props => {
             Login with Google
           </h3>
         </div>
+        <Typography variant="h1" color="primary">
+          hello
+        </Typography>
+        <Switch
+          checked={darkMode}
+          onChange={() => {
+            localStorage.setItem("darkMode", !darkMode);
+            setDarkMode(prev => !prev);
+          }}
+          name="checkedA"
+          inputProps={{ "aria-label": "primary checkbox" }}
+        />
       </div>
     </Wrapper>
   );

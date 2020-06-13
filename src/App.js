@@ -1,13 +1,18 @@
 import React from "react";
 import { Provider } from "react-redux";
+import ThemeContextProvider from "context/themeContext";
 
 import store from "./configureStore";
 import Main from "./Main";
 
 import "assets/App.css";
 
-export default () => (
-  <Provider store={store}>
-    <Main />
-  </Provider>
-);
+export default () => {
+  return (
+    <Provider store={store}>
+      <ThemeContextProvider>
+        <Main />
+      </ThemeContextProvider>
+    </Provider>
+  );
+};
