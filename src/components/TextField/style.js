@@ -10,8 +10,8 @@ const useStyles = makeStyles(theme => ({
   },
   input: {
     "&:-webkit-autofill": {
-      transitionDelay: "999999s",
-      transitionProperty: "background-color, color"
+      WebkitBoxShadow: `0 0 0 1000px ${theme.palette.common.textFieldShadow} inset`,
+      WebkitTextFillColor: theme.palette.text.primary
     }
   }
 }));
