@@ -5,7 +5,7 @@ const getTheme = darkMode => {
   return createMuiTheme({
     palette: {
       common: {
-        headerColor: darkMode ? "#212121" : "#2196f3",
+        headerColor: darkMode ? "#333333" : "#2196f3",
         textFieldShadow: darkMode ? "#424242" : "#ffffff"
       },
       primary: blue,

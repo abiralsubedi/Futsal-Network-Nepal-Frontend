@@ -7,15 +7,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     height: "100vh"
   },
-  // loginScreen: {
-  //   padding: "2rem",
-  //   "& input": {
-  //     display: "block",
-  //     margin: "1rem 0",
-  //     padding: "0.5rem"
-  //   },
-  //   background: theme.palette.common.grey2
-  // },
   loginTextField: {
     margin: "1rem 0"
   },
@@ -24,6 +15,27 @@ const useStyles = makeStyles(theme => ({
   },
   cursorPointer: {
     cursor: "pointer"
+  },
+  buttonLabel: {
+    fontSize: "1.125rem",
+    fontWeight: 600,
+    lineHeight: "22px",
+    "& img": {
+      marginRight: "0.5rem",
+      width: "1.625rem"
+    }
+  },
+  buttonRoot: {
+    margin: "0.8rem 0",
+    padding: "0.8125rem"
+  },
+  buttonIcon: {
+    marginRight: "0.5rem"
+  },
+  textLink: {
+    textDecoration: "none",
+    fontWeight: 700,
+    color: theme.palette.primary.main
   }
 }));
 

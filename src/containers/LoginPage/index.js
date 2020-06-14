@@ -10,6 +10,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Button from "@material-ui/core/Button";
 
 import { ThemeContext } from "context/themeContext";
 import { Wrapper } from "components/Common";
@@ -69,7 +70,7 @@ const LoginPage = props => {
               label="Password"
               value={password}
               handleChange={val => setPassword(val)}
-              type={showPassword? 'text': 'password'}
+              type={showPassword ? "text" : "password"}
               required
               fullWidth
               customClasses={classes.loginTextField}
@@ -85,17 +86,41 @@ const LoginPage = props => {
                 </InputAdornment>
               }
             />
-            <button type="submit">Login</button>
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              type="submit"
+              fullWidth
+              classes={{
+                root: classes.buttonRoot,
+                label: classes.buttonLabel
+              }}
+            >
+              SIGN IN NOW
+            </Button>
+            <Button
+              variant="contained"
+              size="large"
+              fullWidth
+              classes={{
+                root: classes.buttonRoot,
+                label: classes.buttonLabel
+              }}
+              onClick={() =>
+                (window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/google`)
+              }
+            >
+              <img src="https://img.icons8.com/color/48/000000/google-logo.png" />
+              LOGIN WITH GOOGLE
+            </Button>
           </form>
-          <Link to="/register">Register account</Link>
-          <h3
-            onClick={() =>
-              (window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/google`)
-            }
-            className={classes.cursorPointer}
-          >
-            Login with Google
-          </h3>
+          <Typography variant="body1" color="textSecondary">
+            Don't have an account?{" "}
+            <Link to="/register" className={classes.textLink}>
+              Sign up
+            </Link>
+          </Typography>
         </div>
         <Typography variant="h1" color="primary">
           hello
