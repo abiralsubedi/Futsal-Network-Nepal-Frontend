@@ -20,8 +20,9 @@ function* register({ payload }) {
       yield put(loginSuccess(response));
       yield put(registerSuccess(response));
     }
-  } catch (e) {
-    yield put(registerError(e));
+  } catch (error) {
+    const errorObj = yield error.response.json();
+    yield put(registerError(errorObj.message));
   }
 }
 

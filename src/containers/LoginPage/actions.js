@@ -3,7 +3,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   LOGOUT,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  CLEAR_LOGIN_MESSAGE
 } from "./constants";
 
 export const login = payload => {
@@ -22,3 +23,5 @@ export const logout = () => {
 export const logoutSuccess = payload => {
   return { type: LOGOUT_SUCCESS, payload };
 };
+
+export const clearLoginMessage = () => ({ type: CLEAR_LOGIN_MESSAGE });

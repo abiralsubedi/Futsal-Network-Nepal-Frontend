@@ -36,6 +36,9 @@ const useStyles = makeStyles(theme => ({
     textDecoration: "none",
     fontWeight: 700,
     color: theme.palette.primary.main
+  },
+  circularRoot: {
+    marginRight: "0.8rem"
   }
 }));
 

@@ -18,8 +18,9 @@ function* login({ payload }) {
       localStorage.setItem("token", response.token);
       yield put(loginSuccess(response));
     }
-  } catch (e) {
-    yield put(loginError(e));
+  } catch (error) {
+    const errorObj = yield error.response.json();
+    yield put(loginError(errorObj.message));
   }
 }
 

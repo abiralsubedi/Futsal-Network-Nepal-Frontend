@@ -1,4 +1,9 @@
-import { REGISTER, REGISTER_ERROR, REGISTER_SUCCESS } from "./constants";
+import {
+  REGISTER,
+  REGISTER_ERROR,
+  REGISTER_SUCCESS,
+  CLEAR_REGISTER_MESSAGE
+} from "./constants";
 
 export const initialState = {
   registerLoading: false,
@@ -13,7 +18,7 @@ export default (state = initialState, action) => {
         ...state,
         registerLoading: true,
         registerSuccess: false,
-        registerError: false
+        registerError: ""
       };
 
     case REGISTER_SUCCESS:
@@ -28,6 +33,13 @@ export default (state = initialState, action) => {
         ...state,
         registerLoading: false,
         registerError: action.error
+      };
+
+    case CLEAR_REGISTER_MESSAGE:
+      return {
+        ...state,
+        registerLoading: false,
+        registerError: ""
       };
 
     default:

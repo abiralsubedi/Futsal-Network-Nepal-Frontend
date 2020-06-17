@@ -4,3 +4,5 @@ export const LOGIN_ERROR = "LOGIN_ERROR";
 
 export const LOGOUT = "LOGOUT";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+
+export const CLEAR_LOGIN_MESSAGE = "CLEAR_LOGIN_MESSAGE";

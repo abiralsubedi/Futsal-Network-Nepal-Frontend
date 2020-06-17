@@ -3,14 +3,15 @@ import {
   LOGIN_ERROR,
   LOGIN_SUCCESS,
   LOGOUT,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  CLEAR_LOGIN_MESSAGE
 } from "./constants";
 
 export const initialState = {
   isLoading: false,
   isAuthenticated: localStorage.getItem("token") ? true : false,
   token: localStorage.getItem("token"),
-  loginError: false
+  loginError: ""
 };
 
 export default (state = initialState, action) => {
@@ -20,7 +21,7 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: true,
         isAuthenticated: false,
-        loginError: false
+        loginError: ""
       };
 
     case LOGIN_SUCCESS:
@@ -44,6 +45,10 @@ export default (state = initialState, action) => {
 
     case LOGOUT_SUCCESS:
       return { ...state, isLoading: false, isAuthenticated: false, token: "" };
+
+    case CLEAR_LOGIN_MESSAGE:
+      return { ...state, isLoading: false, loginError: "" };
+
     default:
       return state;
   }

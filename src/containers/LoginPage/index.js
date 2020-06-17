@@ -1,9 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import PropTypes from "prop-types";
 import queryString from "query-string";
+
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Switch from "@material-ui/core/Switch";
 import { Link, withRouter } from "react-router-dom";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -11,23 +13,41 @@ import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Button from "@material-ui/core/Button";
+import { useSnackbar } from "notistack";
 
 import { ThemeContext } from "context/themeContext";
 import { Wrapper } from "components/Common";
 import TextField from "components/TextField";
 
-import { login, loginSuccess } from "./actions";
+import { login, loginSuccess, clearLoginMessage } from "./actions";
 import useStyles from "./style";
 
 const LoginPage = props => {
-  const { isAuthenticated } = props.data;
-  const { history, location, postLogin, postLoginSuccess } = props;
+  const { isAuthenticated, isLoading, loginError } = props.data;
+  const {
+    history,
+    location,
+    postLogin,
+    postLoginSuccess,
+    onClearLoginMessage
+  } = props;
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState("");
+
   const { darkMode, setDarkMode } = useContext(ThemeContext);
+
+  useEffect(() => {
+    if (loginError) {
+      enqueueSnackbar(loginError, {
+        variant: "error",
+        onClose: () => onClearLoginMessage()
+      });
+    }
+  }, [loginError]);
 
   const parsedQuery = queryString.parse(location.search);
   if (parsedQuery.token) {
@@ -37,103 +57,108 @@ const LoginPage = props => {
   if (isAuthenticated) {
     history.push("/profile");
   }
+
   return (
     <Wrapper>
       <div className={classes.content}>
-        <div className={classes.loginScreen}>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            postLogin({ username, password });
+          }}
+        >
           <Typography variant="h1" className={classes.title}>
             Login
           </Typography>
           <Typography variant="h1" color="secondary">
             Test
           </Typography>
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              postLogin({ username, password });
+          <TextField
+            id="username"
+            label="Username"
+            value={username}
+            handleChange={val => setUsername(val)}
+            autoFocus
+            required
+            fullWidth
+            customClasses={classes.loginTextField}
+          />
+          <TextField
+            id="password"
+            label="Password"
+            value={password}
+            handleChange={val => setPassword(val)}
+            type={showPassword ? "text" : "password"}
+            required
+            fullWidth
+            customClasses={classes.loginTextField}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword(prevState => !prevState)}
+                  edge="end"
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+          <Button
+            variant="contained"
+            size="large"
+            color="primary"
+            type="submit"
+            fullWidth
+            classes={{
+              root: classes.buttonRoot,
+              label: classes.buttonLabel
             }}
-            autocomplete="off"
+            disabled={isLoading}
           >
-            <TextField
-              id="username"
-              label="Username"
-              value={username}
-              handleChange={val => setUsername(val)}
-              defaultValue
-              autoFocus
-              required
-              fullWidth
-              customClasses={classes.loginTextField}
-            />
-            <TextField
-              id="password"
-              label="Password"
-              value={password}
-              handleChange={val => setPassword(val)}
-              type={showPassword ? "text" : "password"}
-              required
-              fullWidth
-              customClasses={classes.loginTextField}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(prevState => !prevState)}
-                    edge="end"
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-            <Button
-              variant="contained"
-              size="large"
-              color="primary"
-              type="submit"
-              fullWidth
-              classes={{
-                root: classes.buttonRoot,
-                label: classes.buttonLabel
-              }}
-            >
-              SIGN IN NOW
-            </Button>
-            <Button
-              variant="contained"
-              size="large"
-              fullWidth
-              classes={{
-                root: classes.buttonRoot,
-                label: classes.buttonLabel
-              }}
-              onClick={() =>
-                (window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/google`)
-              }
-            >
-              <img src="https://img.icons8.com/color/48/000000/google-logo.png" />
-              LOGIN WITH GOOGLE
-            </Button>
-          </form>
+            {isLoading && (
+              <CircularProgress
+                color="inherit"
+                size="1.5rem"
+                classes={{ root: classes.circularRoot }}
+              />
+            )}
+            SIGN IN NOW
+          </Button>
+          <Button
+            variant="contained"
+            size="large"
+            fullWidth
+            classes={{
+              root: classes.buttonRoot,
+              label: classes.buttonLabel
+            }}
+            onClick={() =>
+              (window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/google`)
+            }
+          >
+            <img src="https://img.icons8.com/color/48/000000/google-logo.png" />
+            LOGIN WITH GOOGLE
+          </Button>
           <Typography variant="body1" color="textSecondary">
             Don't have an account?{" "}
             <Link to="/register" className={classes.textLink}>
               Sign up
             </Link>
           </Typography>
-        </div>
-        <Typography variant="h1" color="primary">
-          hello
-        </Typography>
-        <Switch
-          checked={darkMode}
-          onChange={() => {
-            localStorage.setItem("darkMode", !darkMode);
-            setDarkMode(prev => !prev);
-          }}
-          name="checkedA"
-          inputProps={{ "aria-label": "primary checkbox" }}
-        />
+          <Switch
+            checked={darkMode}
+            onChange={() => {
+              localStorage.setItem("darkMode", !darkMode);
+              setDarkMode(prev => !prev);
+            }}
+            name="checkedA"
+            color="primary"
+          />
+          <Typography variant="h1" color="primary">
+            hello
+          </Typography>
+        </form>
       </div>
     </Wrapper>
   );
@@ -142,14 +167,16 @@ const LoginPage = props => {
 LoginPage.propTypes = {
   data: PropTypes.object,
   postLogin: PropTypes.func,
-  postLoginSuccess: PropTypes.func
+  postLoginSuccess: PropTypes.func,
+  onClearLoginMessage: PropTypes.func
 };
 
 const mapStateToProps = state => ({ data: state.LoginReducer });
 
 const mapDispatchToProps = dispatch => ({
   postLogin: credential => dispatch(login(credential)),
-  postLoginSuccess: data => dispatch(loginSuccess(data))
+  postLoginSuccess: data => dispatch(loginSuccess(data)),
+  onClearLoginMessage: () => dispatch(clearLoginMessage())
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

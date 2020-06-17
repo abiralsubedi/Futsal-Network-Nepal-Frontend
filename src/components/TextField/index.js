@@ -1,7 +1,9 @@
-import useStyles from "./style";
 import React from "react";
 import PropTypes from "prop-types";
+
 import TextField from "@material-ui/core/TextField";
+
+import useStyles from "./style";
 
 const CustomTextField = ({
   customClasses,
