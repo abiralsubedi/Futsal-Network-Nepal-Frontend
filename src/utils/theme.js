@@ -6,6 +6,7 @@ const getTheme = darkMode => {
     palette: {
       common: {
         headerColor: darkMode ? "#333333" : "#2196f3",
+        headerNavLinkShadow: darkMode? '#272727': '#1580d6',
         textFieldShadow: darkMode ? "#424242" : "#ffffff"
       },
       primary: blue,

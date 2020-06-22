@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import PropTypes from "prop-types";
 import queryString from "query-string";
+import { Link, withRouter } from "react-router-dom";
 
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Switch from "@material-ui/core/Switch";
-import { Link, withRouter } from "react-router-dom";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
@@ -33,12 +33,11 @@ const LoginPage = props => {
   } = props;
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const { darkMode, setDarkMode } = useContext(ThemeContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState("");
-
-  const { darkMode, setDarkMode } = useContext(ThemeContext);
 
   useEffect(() => {
     if (loginError) {
@@ -60,7 +59,7 @@ const LoginPage = props => {
 
   return (
     <Wrapper>
-      <div className={classes.content}>
+      <div className={classes.profileContent}>
         <form
           onSubmit={e => {
             e.preventDefault();
