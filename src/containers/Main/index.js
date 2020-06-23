@@ -19,7 +19,7 @@ const Main = () => {
   const { darkMode, setIsMobile } = useContext(ThemeContext);
   const classes = useStyles();
 
-  const handleResize = () => setIsMobile(window.innerWidth < 576);
+  const handleResize = () => setIsMobile(window.innerWidth < 600);
 
   useEffect(() => {
     handleResize();

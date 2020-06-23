@@ -11,12 +11,15 @@ import IconButton from "@material-ui/core/IconButton";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import Button from "@material-ui/core/Button";
 
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
+import MenuIcon from "@material-ui/icons/Menu";
 
 import { IOSSwitch } from "components/Common";
 import { logoutSuccess } from "containers/LoginPage/actions";
@@ -37,16 +40,37 @@ const userLinks = [
 const Header = props => {
   const classes = useStyles();
 
-  const { darkMode, setDarkMode } = useContext(ThemeContext);
+  const { darkMode, setDarkMode, isMobile } = useContext(ThemeContext);
 
   const [profileMenuAnchorEl, setProfileMenuAnchorEl] = useState(null);
+  const [navBarDrawerShow, setNavBarDrawerShow] = useState(false);
 
-  const handleProfileMenuClick = event => {
-    setProfileMenuAnchorEl(event.currentTarget);
+  const toggleNavBarDrawer = event => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setNavBarDrawerShow(true);
   };
 
-  const handleClose = () => {
-    setProfileMenuAnchorEl(null);
+  const renderNavBar = () => {
+    return userLinks.map((link, index) => (
+      <li>
+        <NavLink
+          to={link.url}
+          activeClassName="active"
+          exact={link.value === "Home"}
+          id={`navbar-item-${index}`}
+        >
+          {link.icon}
+          <span>{link.value}</span>
+        </NavLink>
+      </li>
+    ));
   };
 
   return (
@@ -54,35 +78,39 @@ const Header = props => {
       <AppBar position="static" classes={{ root: classes.appBarRoot }}>
         <Toolbar>
           <div className={classes.primaryHeaderBar}>
-            <div className={classes.primaryNavBar}>
-              <img
-                src="https://image.flaticon.com/icons/svg/2965/2965279.svg"
-                alt="logo"
-                style={{ width: "3rem" }}
-              />
-              <ul className={classes.navLinkList}>
-                {userLinks.map((link, index) => (
-                  <li>
-                    <NavLink
-                      to={link.url}
-                      activeClassName="active"
-                      exact={link.value === "Home"}
-                      id={`navbar-item-${index}`}
-                    >
-                      {link.icon}
-                      <span>{link.value}</span>
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
+            <div className={classes.logoBar}>
+              {isMobile ? (
+                <IconButton
+                  aria-label="menu-side-bar"
+                  aria-controls="menu-side-bar"
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={toggleNavBarDrawer}
+                >
+                  <MenuIcon />
+                </IconButton>
+              ) : (
+                <img
+                  src="https://image.flaticon.com/icons/svg/2965/2965279.svg"
+                  alt="logo"
+                  style={{ width: "3rem" }}
+                />
+              )}
             </div>
+            {!isMobile && (
+              <div className={classes.primaryNavBar}>
+                <ul className={classes.navLinkList}>{renderNavBar()}</ul>
+              </div>
+            )}
             <div className={classes.profileMenuBar}>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={handleProfileMenuClick}
                 color="inherit"
+                onClick={evt => setProfileMenuAnchorEl(evt.currentTarget)}
+                classes={{ root: classes.iconButtonRoot }}
+                className={profileMenuAnchorEl ? "active" : ""}
               >
                 <AccountCircle />
               </IconButton>
@@ -91,7 +119,7 @@ const Header = props => {
                 anchorEl={profileMenuAnchorEl}
                 keepMounted
                 open={Boolean(profileMenuAnchorEl)}
-                onClose={handleClose}
+                onClose={() => setProfileMenuAnchorEl(null)}
                 classes={{ paper: classes.profileMenuPaper }}
               >
                 <MenuItem
@@ -136,6 +164,24 @@ const Header = props => {
             </div>
           </div>
         </Toolbar>
+        <SwipeableDrawer
+          open={navBarDrawerShow}
+          onClose={() => setNavBarDrawerShow(false)}
+          onOpen={() => setNavBarDrawerShow(true)}
+          disableSwipeToOpen={!isMobile}
+          classes={{
+            paper: classes.drawerPaper
+          }}
+        >
+          <div className={classes.drawerLogo}>
+            <img
+              src="https://image.flaticon.com/icons/svg/2965/2965279.svg"
+              alt="logo"
+              style={{ width: "3rem" }}
+            />
+          </div>
+          <ul className={classes.navLinkList}>{renderNavBar()}</ul>
+        </SwipeableDrawer>
       </AppBar>
     </div>
   );

@@ -21,11 +21,19 @@ const useStyles = makeStyles(theme => ({
     display: "-webkit-box,",
     display: "-ms-flexbox",
     listStyle: "none",
+    paddingLeft: "0.8rem",
     color: "#ffffffe6",
+    [theme.breakpoints.down("xs")]: {
+      borderTop: `1.5px solid ${theme.palette.common.headerNavLinkShadow}`
+    },
     "& li": {
       display: "inline",
       margin: "0 0.5rem",
       position: "relative",
+      [theme.breakpoints.down("xs")]: {
+        display: "block",
+        marginTop: "0.8rem"
+      },
       "& a": {
         fontWeight: 600,
         fontSize: "1.25rem",
@@ -37,9 +45,16 @@ const useStyles = makeStyles(theme => ({
         "&:hover, &.active": {
           background: theme.palette.common.headerNavLinkShadow
         },
+        [theme.breakpoints.down("xs")]: {
+          width: "12rem !important",
+          display: "inline-block"
+        },
         "& svg": {
           position: "absolute",
-          top: "-0.3rem"
+          top: "-0.3rem",
+          [theme.breakpoints.down("xs")]: {
+            top: "0.5rem"
+          }
         },
         "& span": {
           paddingLeft: "2rem"
@@ -47,9 +62,29 @@ const useStyles = makeStyles(theme => ({
       }
     }
   },
+  drawerPaper: {
+    background: theme.palette.common.headerColor,
+    width: "16rem"
+  },
+  drawerLogo: {
+    display: "flex",
+    alignItems: "center",
+    padding: "1.5rem 0 0 1.5rem"
+  },
+  logoBar: {
+    "& svg": {
+      fontSize: "1.9rem"
+    }
+  },
   profileMenuPaper: {
     top: "64px !important",
     minWidth: "18rem"
+  },
+  iconButtonRoot: {
+    "&.active": {
+      background: theme.palette.common.headerNavLinkShadow,
+      transition: "0.5s ease"
+    }
   },
   menuItemRoot: {
     width: "100%",
