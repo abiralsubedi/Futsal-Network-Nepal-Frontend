@@ -12,7 +12,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import Button from "@material-ui/core/Button";
 
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
@@ -29,11 +28,7 @@ import { ThemeContext } from "context/themeContext";
 import useStyles from "./style";
 
 const userLinks = [
-  {
-    value: "Home",
-    url: "/",
-    icon: <HomeIcon />
-  },
+  { value: "Home", url: "/", icon: <HomeIcon /> },
   { value: "Profile", url: "/profile", icon: <PersonIcon /> }
 ];
 

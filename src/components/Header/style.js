@@ -19,7 +19,6 @@ const useStyles = makeStyles(theme => ({
   },
   navLinkList: {
     display: "-webkit-box,",
-    display: "-ms-flexbox",
     listStyle: "none",
     paddingLeft: "0.8rem",
     color: "#ffffffe6",

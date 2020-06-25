@@ -1,8 +1,9 @@
-import useStyles from "./style";
 import React from "react";
 import { Paper } from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/core/styles";
+
+import useStyles from "./style";
 
 export const Wrapper = ({ className, style, children, ...props }) => {
   const classes = useStyles();
@@ -11,6 +12,9 @@ export const Wrapper = ({ className, style, children, ...props }) => {
       elevation={0}
       square
       {...props}
+      classes={{
+        root: classes.paperRoot
+      }}
       className={["container", classes.random, className || ""].join(" ")}
       style={{
         flex: 1,

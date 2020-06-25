@@ -1,26 +1,62 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
 import { Link } from "react-router-dom";
 
+import Typography from "@material-ui/core/Typography";
+
+import HomeIcon from "@material-ui/icons/Home";
+import PersonIcon from "@material-ui/icons/Person";
+
 import { Wrapper } from "components/Common";
 import TextField from "components/TextField";
+import { VerticalTabs } from "components/CustomTabs";
 
-import Typography from "@material-ui/core/Typography";
+import { ThemeContext } from "context/themeContext";
 
 import { getTestData } from "./actions";
 import useStyles from "./style";
+import { HorizontalTabs } from "../../components/CustomTabs";
 
 const ProfilePage = ({ profileData, fetchTestData }) => {
   const { testData } = profileData;
   const classes = useStyles();
+  const { isMobile } = useContext(ThemeContext);
 
   const [username, setUsername] = useState("");
+  const [tabIndexValue, setTabIndexValue] = React.useState(3);
 
   useEffect(() => {
     fetchTestData();
   }, []);
+
+  const profileTabContent = {
+    value: tabIndexValue,
+    handleChange: (event, newValue) => setTabIndexValue(newValue),
+    items: [
+      {
+        labelText: "Item one",
+        labelIcon: <HomeIcon />,
+        content: <div>Content of Item 1</div>
+      },
+      {
+        labelText: "Item two",
+        labelIcon: <PersonIcon />,
+        content: <div>Content of Item 2</div>
+      },
+      {
+        labelText: "Item three",
+        labelIcon: <HomeIcon />,
+        content: <div>Content of Item 1</div>
+      },
+      {
+        labelText: "Item four",
+        labelIcon: <PersonIcon />,
+        content: <div>Content of Item 2</div>
+      }
+    ]
+  };
 
   return (
     <Wrapper>
@@ -28,11 +64,18 @@ const ProfilePage = ({ profileData, fetchTestData }) => {
         <Typography variant="h5" color="textSecondary">
           Profile Page
         </Typography>
+        {isMobile ? (
+          <HorizontalTabs {...profileTabContent} />
+        ) : (
+          <VerticalTabs {...profileTabContent} />
+        )}
+
         <form
           onSubmit={e => {
             e.preventDefault();
             console.log("submitted");
           }}
+          style={{ marginTop: "5rem" }}
         >
           <TextField
             id="username"

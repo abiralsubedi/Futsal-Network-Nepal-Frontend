@@ -63,7 +63,7 @@ const Main = () => {
           <Switch key="routes">
             <Route path="/login" component={LoginPage} exact />
             <Route path="/register" component={RegisterPage} exact />
-            <PrivateRoute path="/profile" component={ProfilePage} exact />
+            <PrivateRoute path="/profile" component={ProfilePage} />
             <Route path="" component={NotFound} />
           </Switch>
         </BrowserRouter>

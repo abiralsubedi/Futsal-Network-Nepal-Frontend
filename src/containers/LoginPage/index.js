@@ -136,7 +136,10 @@ const LoginPage = props => {
               (window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/google`)
             }
           >
-            <img src="https://img.icons8.com/color/48/000000/google-logo.png" />
+            <img
+              src="https://img.icons8.com/color/48/000000/google-logo.png"
+              alt="Logo"
+            />
             LOGIN WITH GOOGLE
           </Button>
           <Typography variant="body1" color="textSecondary">

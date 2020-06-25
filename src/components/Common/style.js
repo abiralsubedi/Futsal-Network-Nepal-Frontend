@@ -23,6 +23,10 @@ const useStyles = makeStyles(theme => ({
       width: 1366
     }
   },
+  paperRoot: {
+    background: theme.palette.common.paperBackgroundColor
+  },
+
   contentBlock: {
     padding: 20,
     "& h3": {
