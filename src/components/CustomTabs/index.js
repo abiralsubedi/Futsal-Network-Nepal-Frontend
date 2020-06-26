@@ -73,10 +73,11 @@ export const VerticalTabs = ({ items, value, handleChange }) => {
         value={value}
         onChange={handleChange}
         aria-label="Vertical tabs example"
-        indicatorColor="primary"
-        textColor="primary"
         className={classes.verticalTabs}
-        classes={{ scroller: classes.verticalScroller }}
+        classes={{
+          scroller: classes.verticalScroller,
+          indicator: classes.indicator
+        }}
       >
         {(items || []).map((item, index) => (
           <Tab
@@ -108,12 +109,12 @@ export const HorizontalTabs = ({ items, value, handleChange }) => {
       <Tabs
         value={value}
         onChange={handleChange}
-        indicatorColor="primary"
-        textColor="primary"
         variant="scrollable"
         scrollButtons="auto"
         aria-label="scrollable auto tabs example"
-        classes={{ scroller: classes.verticalScroller }}
+        classes={{
+          indicator: classes.indicator
+        }}
       >
         {(items || []).map((item, index) => (
           <Tab

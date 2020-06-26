@@ -25,7 +25,7 @@ const ProfilePage = ({ profileData, fetchTestData }) => {
   const { isMobile } = useContext(ThemeContext);
 
   const [username, setUsername] = useState("");
-  const [tabIndexValue, setTabIndexValue] = React.useState(3);
+  const [tabIndexValue, setTabIndexValue] = React.useState(1);
 
   useEffect(() => {
     fetchTestData();
@@ -36,22 +36,12 @@ const ProfilePage = ({ profileData, fetchTestData }) => {
     handleChange: (event, newValue) => setTabIndexValue(newValue),
     items: [
       {
-        labelText: "Item one",
+        labelText: "Basic Information",
         labelIcon: <HomeIcon />,
         content: <div>Content of Item 1</div>
       },
       {
-        labelText: "Item two",
-        labelIcon: <PersonIcon />,
-        content: <div>Content of Item 2</div>
-      },
-      {
-        labelText: "Item three",
-        labelIcon: <HomeIcon />,
-        content: <div>Content of Item 1</div>
-      },
-      {
-        labelText: "Item four",
+        labelText: "Change Password",
         labelIcon: <PersonIcon />,
         content: <div>Content of Item 2</div>
       }
@@ -61,7 +51,7 @@ const ProfilePage = ({ profileData, fetchTestData }) => {
   return (
     <Wrapper>
       <div className={classes.profileContainer}>
-        <Typography variant="h5" color="textSecondary">
+        <Typography variant="h6" color="textSecondary">
           Profile Page
         </Typography>
         {isMobile ? (
@@ -89,9 +79,6 @@ const ProfilePage = ({ profileData, fetchTestData }) => {
           />
         </form>
       </div>
-      {/* <h1 className={classes.title}>
-        <Link to="/">{(testData[0] && testData[0].title) || <>Loading</>}</Link>
-      </h1> */}
     </Wrapper>
   );
 };

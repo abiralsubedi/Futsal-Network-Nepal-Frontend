@@ -10,7 +10,8 @@ const getTheme = darkMode => {
         headerNavLinkShadow: darkMode
           ? "rgba(255, 255, 255, 0.06)"
           : "rgba(0, 0, 0, 0.08)",
-        textFieldShadow: darkMode ? "#424242" : "#ffffff"
+        textFieldShadow: darkMode ? "#424242" : "#ffffff",
+        primaryWhiteColor: darkMode ? "#ffffff" : "#2196f3"
       },
       primary: blue,
       secondary: deepPurple,

@@ -8,13 +8,14 @@ const useStyles = makeStyles(theme => ({
     height: "15rem",
     borderRadius: "6px",
     "& .Mui-selected": {
+      color: theme.palette.common.primaryWhiteColor,
       "& svg": {
-        color: theme.palette.primary.main
+        color: theme.palette.common.primaryWhiteColor
       }
     }
   },
   verticalScroller: {
-    width: "13rem"
+    width: "16rem"
   },
   verticalTabs: {
     borderRight: `1px solid ${theme.palette.divider}`
@@ -25,26 +26,30 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     borderRadius: "6px",
     "& .Mui-selected": {
+      color: theme.palette.common.primaryWhiteColor,
       "& svg": {
-        color: theme.palette.primary.main
+        color: theme.palette.common.primaryWhiteColor
       }
     }
   },
   tabLabel: {
     textTransform: "none",
-    fontSize: "1.25rem",
+    fontSize: "1.125rem",
     display: "flex",
     textAlign: "left",
     width: "100%",
-    width: "10rem",
+    width: "12rem",
     "&.vertical": {
-      width: "11rem"
+      width: "15rem"
     },
     "& svg": {
       marginRight: "0.5rem",
-      fontSize: "1.8rem",
+      fontSize: "1.75rem",
       color: theme.palette.text.secondary
     }
+  },
+  indicator: {
+    background: theme.palette.common.primaryWhiteColor
   }
 }));
 
