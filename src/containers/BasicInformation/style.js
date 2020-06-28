@@ -1,8 +1,8 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
-  pageTitle: {
-    marginBottom: "0.8rem"
+  informationButtonRoot: {
+    marginTop: "3rem"
   }
 }));
 

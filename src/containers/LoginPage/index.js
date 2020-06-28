@@ -12,10 +12,11 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import Button from "@material-ui/core/Button";
 import { useSnackbar } from "notistack";
 
 import { ThemeContext } from "context/themeContext";
+
+import Button from "components/Button";
 import { Wrapper } from "components/Common";
 import TextField from "components/TextField";
 
@@ -109,10 +110,6 @@ const LoginPage = props => {
             color="primary"
             type="submit"
             fullWidth
-            classes={{
-              root: classes.buttonRoot,
-              label: classes.buttonLabel
-            }}
             disabled={isLoading}
           >
             {isLoading && (
@@ -128,10 +125,6 @@ const LoginPage = props => {
             variant="contained"
             size="large"
             fullWidth
-            classes={{
-              root: classes.buttonRoot,
-              label: classes.buttonLabel
-            }}
             onClick={() =>
               (window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/google`)
             }

@@ -5,7 +5,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: "flex",
-    height: "15rem",
     borderRadius: "6px",
     "& .Mui-selected": {
       color: theme.palette.common.primaryWhiteColor,
@@ -19,6 +18,9 @@ const useStyles = makeStyles(theme => ({
   },
   verticalTabs: {
     borderRight: `1px solid ${theme.palette.divider}`
+  },
+  verticalTabPanel: {
+    width: "calc(100% - 16rem)"
   },
   horizontalRoot: {
     flexGrow: 1,
@@ -37,7 +39,6 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1.125rem",
     display: "flex",
     textAlign: "left",
-    width: "100%",
     width: "12rem",
     "&.vertical": {
       width: "15rem"

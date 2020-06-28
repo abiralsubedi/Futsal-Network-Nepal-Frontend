@@ -54,7 +54,7 @@ const Header = props => {
 
   const renderNavBar = () => {
     return userLinks.map((link, index) => (
-      <li>
+      <li key={link.value}>
         <NavLink
           to={link.url}
           activeClassName="active"

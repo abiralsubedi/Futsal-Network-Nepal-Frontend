@@ -1,31 +1,29 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
-import { Link } from "react-router-dom";
 
 import Typography from "@material-ui/core/Typography";
 
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
 
+import BasicInformation from "containers/BasicInformation";
+
 import { Wrapper } from "components/Common";
-import TextField from "components/TextField";
-import { VerticalTabs } from "components/CustomTabs";
+import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
 
 import { ThemeContext } from "context/themeContext";
 
 import { getTestData } from "./actions";
 import useStyles from "./style";
-import { HorizontalTabs } from "../../components/CustomTabs";
 
 const ProfilePage = ({ profileData, fetchTestData }) => {
   const { testData } = profileData;
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
 
-  const [username, setUsername] = useState("");
-  const [tabIndexValue, setTabIndexValue] = React.useState(1);
+  const [tabIndexValue, setTabIndexValue] = React.useState(0);
 
   useEffect(() => {
     fetchTestData();
@@ -38,7 +36,7 @@ const ProfilePage = ({ profileData, fetchTestData }) => {
       {
         labelText: "Basic Information",
         labelIcon: <HomeIcon />,
-        content: <div>Content of Item 1</div>
+        content: <BasicInformation />
       },
       {
         labelText: "Change Password",
@@ -51,33 +49,18 @@ const ProfilePage = ({ profileData, fetchTestData }) => {
   return (
     <Wrapper>
       <div className={classes.profileContainer}>
-        <Typography variant="h6" color="textSecondary">
+        <Typography
+          variant="h6"
+          color="textSecondary"
+          className={classes.pageTitle}
+        >
           Profile Page
         </Typography>
         {isMobile ? (
-          <HorizontalTabs {...profileTabContent} />
+          <HorizontalTabs {...profileTabContent} height="30rem" />
         ) : (
-          <VerticalTabs {...profileTabContent} />
+          <VerticalTabs {...profileTabContent} height="30rem" />
         )}
-
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            console.log("submitted");
-          }}
-          style={{ marginTop: "5rem" }}
-        >
-          <TextField
-            id="username"
-            label="Username"
-            value={username}
-            handleChange={val => setUsername(val)}
-            autoFocus
-            required
-            fullWidth
-            customClasses={classes.loginTextField}
-          />
-        </form>
       </div>
     </Wrapper>
   );

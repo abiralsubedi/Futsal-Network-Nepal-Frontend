@@ -9,7 +9,6 @@ import {
   Typography,
   InputAdornment,
   IconButton,
-  Button,
   CircularProgress
 } from "@material-ui/core";
 import { useSnackbar } from "notistack";
@@ -17,6 +16,7 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 import { Wrapper } from "components/Common";
 import TextField from "components/TextField";
+import Button from "components/Button";
 import { ThemeContext } from "context/themeContext";
 
 import { register, clearRegisterMessage } from "./actions";
@@ -100,10 +100,6 @@ const Home = props => {
             color="primary"
             type="submit"
             fullWidth
-            classes={{
-              root: classes.buttonRoot,
-              label: classes.buttonLabel
-            }}
             disabled={registerLoading}
           >
             {registerLoading && (

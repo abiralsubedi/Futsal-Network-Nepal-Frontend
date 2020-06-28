@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
 
 import useStyles from "./style";
 
 const TabPanel = props => {
+  const classes = useStyles();
+
   const { children, value, index, type, ...other } = props;
   const isVertical = type === "vertical";
 
@@ -24,13 +25,12 @@ const TabPanel = props => {
       aria-labelledby={
         isVertical ? `vertical-tab-${index}` : `scrollable-auto-tab-${index}`
       }
+      className={
+        isVertical ? classes.verticalTabPanel : classes.horizontalTabPanel
+      }
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box p={3}>{children}</Box>}
     </div>
   );
 };
@@ -56,17 +56,22 @@ const a11yProps = (index, type) => {
 
 const getTabContent = (items, value, type) => {
   return (items || []).map((item, index) => (
-    <TabPanel value={value} index={index} type={type}>
+    <TabPanel
+      value={value}
+      index={index}
+      type={type}
+      key={`panel-item-${index + 1}`}
+    >
       {item.content}
     </TabPanel>
   ));
 };
 
-export const VerticalTabs = ({ items, value, handleChange }) => {
+export const VerticalTabs = ({ items, value, handleChange, height }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.verticalRoot}>
+    <div className={classes.verticalRoot} style={{ height: height }}>
       <Tabs
         orientation="vertical"
         variant="scrollable"
@@ -87,6 +92,7 @@ export const VerticalTabs = ({ items, value, handleChange }) => {
               </div>
             }
             {...a11yProps(index, "vertical")}
+            key={item.labelText}
           />
         ))}
       </Tabs>
@@ -98,14 +104,15 @@ export const VerticalTabs = ({ items, value, handleChange }) => {
 VerticalTabs.propTypes = {
   items: PropTypes.instanceOf(Array),
   value: PropTypes.number,
-  handleChange: PropTypes.func
+  handleChange: PropTypes.func,
+  height: PropTypes.string
 };
 
-export const HorizontalTabs = ({ items, value, handleChange }) => {
+export const HorizontalTabs = ({ items, value, handleChange, height }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.horizontalRoot}>
+    <div className={classes.horizontalRoot} style={{ height: height }}>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -124,6 +131,7 @@ export const HorizontalTabs = ({ items, value, handleChange }) => {
               </div>
             }
             {...a11yProps(index, "horizontal")}
+            key={item.labelText}
           />
         ))}
       </Tabs>
@@ -135,5 +143,6 @@ export const HorizontalTabs = ({ items, value, handleChange }) => {
 HorizontalTabs.propTypes = {
   items: PropTypes.instanceOf(Array),
   value: PropTypes.number,
-  handleChange: PropTypes.func
+  handleChange: PropTypes.func,
+  height: PropTypes.string
 };
