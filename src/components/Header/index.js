@@ -71,7 +71,7 @@ const Header = props => {
   return (
     <div>
       <AppBar position="static" classes={{ root: classes.appBarRoot }}>
-        <Toolbar>
+        <Toolbar classes={{ root: classes.toolBarRoot }}>
           <div className={classes.primaryHeaderBar}>
             <div className={classes.logoBar}>
               {isMobile ? (

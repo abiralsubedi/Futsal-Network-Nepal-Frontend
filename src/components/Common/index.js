@@ -18,7 +18,7 @@ export const Wrapper = ({ className, style, children, ...props }) => {
       className={["container", classes.random, className || ""].join(" ")}
       style={{
         flex: 1,
-        minHeight: "calc(100vh - 19rem)",
+        minHeight: "calc(100vh - 64px)",
         padding: "20px 24px",
         ...(style || {})
       }}

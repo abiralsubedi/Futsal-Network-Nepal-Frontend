@@ -7,6 +7,9 @@ const useStyles = makeStyles(theme => ({
   appBarRoot: {
     background: theme.palette.common.headerColor
   },
+  toolBarRoot: {
+    minHeight: "64px"
+  },
   primaryHeaderBar: {
     width: "100%",
     display: "flex",
