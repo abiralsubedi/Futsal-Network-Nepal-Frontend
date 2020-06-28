@@ -26,9 +26,9 @@ const ProfilePage = ({ profileData, fetchTestData }) => {
   const [tabIndexValue, setTabIndexValue] = React.useState(0);
 
   useEffect(() => {
-    fetchTestData();
+    // fetchTestData();
   }, []);
-
+  console.log(profileData, "data");
   const profileTabContent = {
     value: tabIndexValue,
     handleChange: (event, newValue) => setTabIndexValue(newValue),
@@ -71,7 +71,7 @@ ProfilePage.propTypes = {
   fetchTestData: PropTypes.func
 };
 
-const mapStateToProps = state => ({ profileData: state.ProfileReducer });
+const mapStateToProps = state => ({ profileData: state.LoginReducer });
 
 const mapDispatchToProps = dispatch => ({
   fetchTestData: () => dispatch(getTestData())

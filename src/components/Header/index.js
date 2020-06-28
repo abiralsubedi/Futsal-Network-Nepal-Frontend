@@ -144,6 +144,7 @@ const Header = props => {
                 <MenuItem
                   onClick={() => {
                     localStorage.removeItem("token");
+                    localStorage.removeItem("profile");
                     props.postLogout();
                   }}
                   classes={{

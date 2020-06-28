@@ -23,7 +23,7 @@ import { register, clearRegisterMessage } from "./actions";
 import useStyles from "./style";
 
 const Home = props => {
-  const { isAuthenticated } = props.data;
+  const { isAuthenticated, profile } = props.data;
   const {
     history,
     registerData: { registerError, registerLoading },
@@ -48,7 +48,7 @@ const Home = props => {
     }
   }, [registerError]);
 
-  if (isAuthenticated) {
+  if (isAuthenticated && profile) {
     history.push("/profile");
   }
 

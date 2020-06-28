@@ -20,17 +20,17 @@ import Button from "components/Button";
 import { Wrapper } from "components/Common";
 import TextField from "components/TextField";
 
-import { login, loginSuccess, clearLoginMessage } from "./actions";
+import { login, clearLoginMessage, getProfileInfo } from "./actions";
 import useStyles from "./style";
 
 const LoginPage = props => {
-  const { isAuthenticated, isLoading, loginError } = props.data;
+  const { isAuthenticated, isLoading, loginError, profile } = props.data;
   const {
     history,
     location,
     postLogin,
-    postLoginSuccess,
-    onClearLoginMessage
+    onClearLoginMessage,
+    fetchProfileInfo
   } = props;
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -49,12 +49,16 @@ const LoginPage = props => {
     }
   }, [loginError]);
 
-  const parsedQuery = queryString.parse(location.search);
-  if (parsedQuery.token) {
-    localStorage.setItem("token", parsedQuery.token);
-    postLoginSuccess({ token: parsedQuery.token });
-  }
-  if (isAuthenticated) {
+  useEffect(() => {
+    const parsedQuery = queryString.parse(location.search);
+    if (parsedQuery.token) {
+      localStorage.setItem("token", parsedQuery.token);
+      history.replace("/login");
+      fetchProfileInfo();
+    }
+  }, []);
+
+  if (isAuthenticated && profile) {
     history.push("/profile");
   }
 
@@ -162,16 +166,16 @@ const LoginPage = props => {
 LoginPage.propTypes = {
   data: PropTypes.object,
   postLogin: PropTypes.func,
-  postLoginSuccess: PropTypes.func,
-  onClearLoginMessage: PropTypes.func
+  onClearLoginMessage: PropTypes.func,
+  fetchProfileInfo: PropTypes.func
 };
 
 const mapStateToProps = state => ({ data: state.LoginReducer });
 
 const mapDispatchToProps = dispatch => ({
   postLogin: credential => dispatch(login(credential)),
-  postLoginSuccess: data => dispatch(loginSuccess(data)),
-  onClearLoginMessage: () => dispatch(clearLoginMessage())
+  onClearLoginMessage: () => dispatch(clearLoginMessage()),
+  fetchProfileInfo: () => dispatch(getProfileInfo())
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

@@ -4,14 +4,18 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   LOGOUT_SUCCESS,
-  CLEAR_LOGIN_MESSAGE
+  GET_PROFILE_INFO,
+  GET_PROFILE_INFO_SUCCESS,
+  CLEAR_LOGIN_MESSAGE,
+  GET_PROFILE_INFO_ERROR
 } from "./constants";
 
 export const initialState = {
   isLoading: false,
   isAuthenticated: localStorage.getItem("token") ? true : false,
   token: localStorage.getItem("token"),
-  loginError: ""
+  loginError: "",
+  profile: JSON.parse(localStorage.getItem("profile"))
 };
 
 export default (state = initialState, action) => {
@@ -23,7 +27,6 @@ export default (state = initialState, action) => {
         isAuthenticated: false,
         loginError: ""
       };
-
     case LOGIN_SUCCESS:
       return {
         ...state,
@@ -31,7 +34,6 @@ export default (state = initialState, action) => {
         isAuthenticated: true,
         token: action.payload.token
       };
-
     case LOGIN_ERROR:
       return {
         ...state,
@@ -42,9 +44,15 @@ export default (state = initialState, action) => {
 
     case LOGOUT:
       return { ...state, isLoading: true, isAuthenticated: true };
-
     case LOGOUT_SUCCESS:
       return { ...state, isLoading: false, isAuthenticated: false, token: "" };
+
+    case GET_PROFILE_INFO:
+      return { ...state, isLoading: true };
+    case GET_PROFILE_INFO_SUCCESS:
+      return { ...state, profile: action.payload, isLoading: false };
+    case GET_PROFILE_INFO_ERROR:
+      return { ...state, isLoading: false };
 
     case CLEAR_LOGIN_MESSAGE:
       return { ...state, isLoading: false, loginError: "" };

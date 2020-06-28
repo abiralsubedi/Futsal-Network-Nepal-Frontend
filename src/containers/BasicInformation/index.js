@@ -20,7 +20,7 @@ const ProfilePage = ({ profileData, fetchTestData }) => {
   const [fullName, setFullName] = useState("");
 
   useEffect(() => {
-    fetchTestData();
+    // fetchTestData();
   }, []);
 
   return (

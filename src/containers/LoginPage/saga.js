@@ -1,10 +1,31 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import request from "utils/request";
 
-import { LOGIN } from "./constants";
-import { loginSuccess, loginError } from "./actions";
+import { LOGIN, GET_PROFILE_INFO } from "./constants";
+import {
+  loginSuccess,
+  loginError,
+  getProfileInfoSuccess,
+  getProfileInfoError
+} from "./actions";
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
+export function* getProfileData() {
+  try {
+    const token = localStorage.getItem("token");
+    const [response] = yield call(request, "/posts", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    localStorage.setItem("profile", JSON.stringify(response));
+    yield put(getProfileInfoSuccess(response));
+    yield put(loginSuccess({ token: token }));
+  } catch (error) {
+    yield put(getProfileInfoError(error));
+  }
+}
+
 function* login({ payload }) {
   try {
     const response = yield call(request, "/login", {
@@ -16,6 +37,7 @@ function* login({ payload }) {
     });
     if (response.success) {
       localStorage.setItem("token", response.token);
+      yield* getProfileData();
       yield put(loginSuccess(response));
     }
   } catch (error) {
@@ -26,4 +48,5 @@ function* login({ payload }) {
 
 export default function* mySaga() {
   yield takeLatest(LOGIN, login);
+  yield takeLatest(GET_PROFILE_INFO, getProfileData);
 }

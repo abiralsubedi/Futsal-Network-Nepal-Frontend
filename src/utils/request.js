@@ -26,6 +26,7 @@ async function checkStatus(response) {
   if (response.status === 401) {
     if (window.location.pathname !== "/login") {
       localStorage.removeItem("token");
+      localStorage.removeItem("profile");
       window.location.href = "/login";
     }
   }
