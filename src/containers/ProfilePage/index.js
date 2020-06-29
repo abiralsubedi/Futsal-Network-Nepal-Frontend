@@ -15,20 +15,19 @@ import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
 
 import { ThemeContext } from "context/themeContext";
 
-import { getTestData } from "./actions";
+import { getProfileInfo } from "containers/LoginPage/actions";
 import useStyles from "./style";
 
-const ProfilePage = ({ profileData, fetchTestData }) => {
-  const { testData } = profileData;
+const ProfilePage = ({ fetchProfileInfo }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
 
   const [tabIndexValue, setTabIndexValue] = React.useState(0);
 
   useEffect(() => {
-    // fetchTestData();
+    fetchProfileInfo();
   }, []);
-  console.log(profileData, "data");
+
   const profileTabContent = {
     value: tabIndexValue,
     handleChange: (event, newValue) => setTabIndexValue(newValue),
@@ -67,14 +66,13 @@ const ProfilePage = ({ profileData, fetchTestData }) => {
 };
 
 ProfilePage.propTypes = {
-  profileData: PropTypes.object,
-  fetchTestData: PropTypes.func
+  fetchProfileInfo: PropTypes.func
 };
 
-const mapStateToProps = state => ({ profileData: state.LoginReducer });
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
-  fetchTestData: () => dispatch(getTestData())
+  fetchProfileInfo: () => dispatch(getProfileInfo())
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

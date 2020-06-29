@@ -5,30 +5,53 @@ import { compose } from "redux";
 
 import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { useSnackbar } from "notistack";
 
 import TextField from "components/TextField";
 import Button from "components/Button";
 
-import { getTestData } from "./actions";
+import { postProfileInfo, clearMessage } from "./actions";
 import useStyles from "./style";
 
-const ProfilePage = ({ profileData, fetchTestData }) => {
-  const { testData } = profileData;
+const ProfilePage = ({
+  globalData,
+  saveProfileInfo,
+  basicInformationData,
+  onClearInformationMessage
+}) => {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const {
+    postProfileLoading,
+    postProfileSuccess,
+    postProfileError
+  } = basicInformationData;
 
   const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");
 
   useEffect(() => {
-    // fetchTestData();
-  }, []);
+    if (postProfileError) {
+      enqueueSnackbar(postProfileError, {
+        variant: "error",
+        onClose: () => onClearInformationMessage()
+      });
+    }
+    if (postProfileSuccess) {
+      enqueueSnackbar(postProfileSuccess, {
+        variant: "success",
+        onClose: () => onClearInformationMessage()
+      });
+    }
+  }, [postProfileError, postProfileSuccess]);
 
   return (
     <div className={classes.basicInformationContent}>
       <form
         onSubmit={e => {
           e.preventDefault();
-          console.log("submitted");
+          saveProfileInfo({ username, fullName });
         }}
       >
         <Grid container spacing={3}>
@@ -54,38 +77,48 @@ const ProfilePage = ({ profileData, fetchTestData }) => {
             />
           </Grid>
         </Grid>
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-          type="submit"
-          fullWidth
-          disabled={profileData.isLoading}
-          buttonRootClass={classes.informationButtonRoot}
-        >
-          {profileData.isLoading && (
-            <CircularProgress
-              color="inherit"
-              size="1.5rem"
-              classes={{ root: classes.circularRoot }}
-            />
-          )}
-          SIGN IN NOW
-        </Button>
+        <Grid container spacing={3}>
+          <Grid item xs={4}>
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              type="submit"
+              fullWidth
+              disabled={postProfileLoading}
+              buttonRootClass={classes.informationButtonRoot}
+            >
+              {postProfileLoading && (
+                <CircularProgress
+                  color="inherit"
+                  size="1.25rem"
+                  classes={{ root: classes.circularRoot }}
+                />
+              )}
+              Save Changes
+            </Button>
+          </Grid>
+        </Grid>
       </form>
     </div>
   );
 };
 
 ProfilePage.propTypes = {
-  profileData: PropTypes.object,
-  fetchTestData: PropTypes.func
+  globalData: PropTypes.object,
+  basicInformationData: PropTypes.object,
+  saveProfileInfo: PropTypes.func,
+  onClearInformationMessage: PropTypes.func
 };
 
-const mapStateToProps = state => ({ profileData: state.ProfileReducer });
+const mapStateToProps = state => ({
+  globalData: state.ProfileReducer,
+  basicInformationData: state.BasicInformationReducer
+});
 
 const mapDispatchToProps = dispatch => ({
-  fetchTestData: () => dispatch(getTestData())
+  saveProfileInfo: data => dispatch(postProfileInfo(data)),
+  onClearInformationMessage: () => dispatch(clearMessage())
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

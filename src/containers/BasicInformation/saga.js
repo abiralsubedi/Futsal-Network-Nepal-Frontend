@@ -1,11 +1,13 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import request from "utils/request";
 
-import { GET_TEST_DATA } from "./constants";
-import { getTestDataSuccess } from "./actions";
+import { getProfileData } from "containers/LoginPage/saga";
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
-function* getApiData(action) {
+import { POST_PROFILE_INFO } from "./constants";
+import { postProfileInfoSuccess, postProfileInfoError } from "./actions";
+
+function* postProfileInfo({ payload }) {
+  console.log(payload, "basic saga payload");
   try {
     const token = localStorage.getItem("token");
     const response = yield call(request, "/posts", {
@@ -14,12 +16,13 @@ function* getApiData(action) {
         Authorization: `Bearer ${token}`
       }
     });
-    yield put(getTestDataSuccess(response));
-  } catch (e) {
-    console.error(e);
+    yield call(getProfileData);
+    yield put(postProfileInfoSuccess("Profile Updated successfully!"));
+  } catch (error) {
+    yield put(postProfileInfoError("Profile Update Failed!"));
   }
 }
 
 export default function* mySaga() {
-  yield takeLatest(GET_TEST_DATA, getApiData);
+  yield takeLatest(POST_PROFILE_INFO, postProfileInfo);
 }

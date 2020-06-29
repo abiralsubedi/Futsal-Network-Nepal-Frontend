@@ -119,7 +119,7 @@ const LoginPage = props => {
             {isLoading && (
               <CircularProgress
                 color="inherit"
-                size="1.5rem"
+                size="1.25rem"
                 classes={{ root: classes.circularRoot }}
               />
             )}
