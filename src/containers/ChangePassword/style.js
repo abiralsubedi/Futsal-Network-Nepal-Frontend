@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
-  informationButtonRoot: {
+  passwordButtonRoot: {
     marginTop: "3rem",
     maxWidth: "12rem"
   },

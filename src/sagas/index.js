@@ -1,17 +1,19 @@
 import { all, fork } from "redux-saga/effects";
 
-import loginSagas from "containers/LoginPage/saga.js";
-import * as registerSagas from "containers/RegisterPage/saga.js";
-import * as profileSagas from "containers/ProfilePage/saga.js";
-import basicInformation from "containers/BasicInformation/saga.js";
+import LoginSagas from "containers/LoginPage/saga.js";
+import * as RegisterSagas from "containers/RegisterPage/saga.js";
+import * as ProfileSagas from "containers/ProfilePage/saga.js";
+import BasicInformationSagas from "containers/BasicInformation/saga.js";
+import ChangePasswordSagas from "containers/ChangePassword/saga.js";
 
 export default function* rootSaga() {
   yield all(
     [
-      loginSagas,
-      ...Object.values(registerSagas),
-      ...Object.values(profileSagas),
-      basicInformation
+      LoginSagas,
+      ...Object.values(RegisterSagas),
+      ...Object.values(ProfileSagas),
+      BasicInformationSagas,
+      ChangePasswordSagas
     ].map(fork)
   );
 }

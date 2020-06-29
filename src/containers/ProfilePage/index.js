@@ -5,10 +5,11 @@ import { compose } from "redux";
 
 import Typography from "@material-ui/core/Typography";
 
-import HomeIcon from "@material-ui/icons/Home";
-import PersonIcon from "@material-ui/icons/Person";
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
 
 import BasicInformation from "containers/BasicInformation";
+import ChangePassword from "containers/ChangePassword";
 
 import { Wrapper } from "components/Common";
 import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
@@ -18,7 +19,7 @@ import { ThemeContext } from "context/themeContext";
 import { getProfileInfo } from "containers/LoginPage/actions";
 import useStyles from "./style";
 
-const ProfilePage = ({ fetchProfileInfo }) => {
+const ProfilePage = ({ fetchProfileInfo, location }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
 
@@ -26,6 +27,9 @@ const ProfilePage = ({ fetchProfileInfo }) => {
 
   useEffect(() => {
     fetchProfileInfo();
+    if (location.pathname.includes("change-password")) {
+      setTabIndexValue(1);
+    }
   }, []);
 
   const profileTabContent = {
@@ -34,13 +38,13 @@ const ProfilePage = ({ fetchProfileInfo }) => {
     items: [
       {
         labelText: "Basic Information",
-        labelIcon: <HomeIcon />,
+        labelIcon: <PersonOutlineIcon />,
         content: <BasicInformation />
       },
       {
         labelText: "Change Password",
-        labelIcon: <PersonIcon />,
-        content: <div>Content of Item 2</div>
+        labelIcon: <LockOpenIcon />,
+        content: <ChangePassword />
       }
     ]
   };
@@ -66,7 +70,8 @@ const ProfilePage = ({ fetchProfileInfo }) => {
 };
 
 ProfilePage.propTypes = {
-  fetchProfileInfo: PropTypes.func
+  fetchProfileInfo: PropTypes.func,
+  location: PropTypes.object
 };
 
 const mapStateToProps = () => ({});

@@ -55,7 +55,7 @@ const ProfilePage = ({
         }}
       >
         <Grid container spacing={3}>
-          <Grid item md={6} xs={12}>
+          <Grid item lg={4} md={6} xs={12}>
             <TextField
               id="username"
               label="Username"
@@ -66,7 +66,7 @@ const ProfilePage = ({
               fullWidth
             />
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid item lg={4} md={6} xs={12}>
             <TextField
               id="fullName"
               label="Full Name"
@@ -77,28 +77,24 @@ const ProfilePage = ({
             />
           </Grid>
         </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              size="large"
-              color="primary"
-              type="submit"
-              fullWidth
-              disabled={postProfileLoading}
-              buttonRootClass={classes.informationButtonRoot}
-            >
-              {postProfileLoading && (
-                <CircularProgress
-                  color="inherit"
-                  size="1.25rem"
-                  classes={{ root: classes.circularRoot }}
-                />
-              )}
-              Save Changes
-            </Button>
-          </Grid>
-        </Grid>
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          type="submit"
+          fullWidth
+          disabled={postProfileLoading}
+          buttonRootClass={classes.informationButtonRoot}
+        >
+          {postProfileLoading && (
+            <CircularProgress
+              color="inherit"
+              size="1.25rem"
+              classes={{ root: classes.circularRoot }}
+            />
+          )}
+          Save Changes
+        </Button>
       </form>
     </div>
   );

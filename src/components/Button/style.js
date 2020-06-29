@@ -5,6 +5,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1rem",
     fontWeight: 600,
     lineHeight: "22px",
+    textTransform: "capitalize",
     "& img": {
       marginRight: "0.5rem",
       width: "1.625rem"
@@ -13,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   buttonRoot: {
     margin: "0.8rem 0",
     padding: "0.8125rem",
-    borderRadius: "6px"
+    borderRadius: "50px"
   },
   buttonIcon: {
     marginRight: "0.5rem"
