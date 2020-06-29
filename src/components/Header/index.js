@@ -71,7 +71,12 @@ const Header = props => {
   return (
     <div>
       <AppBar position="static" classes={{ root: classes.appBarRoot }}>
-        <Toolbar classes={{ root: classes.toolBarRoot }}>
+        <Toolbar
+          classes={{
+            root: classes.toolBarRoot,
+            gutters: classes.toolBarGutters
+          }}
+        >
           <div className={classes.primaryHeaderBar}>
             <div className={classes.logoBar}>
               {isMobile ? (
@@ -106,6 +111,8 @@ const Header = props => {
                 onClick={evt => setProfileMenuAnchorEl(evt.currentTarget)}
                 classes={{ root: classes.iconButtonRoot }}
                 className={profileMenuAnchorEl ? "active" : ""}
+                disableFocusRipple
+                disableRipple
               >
                 <AccountCircle />
               </IconButton>
@@ -119,12 +126,14 @@ const Header = props => {
               >
                 <MenuItem
                   onClick={() => {
-                    localStorage.setItem("darkMode", !darkMode);
                     setDarkMode(prev => !prev);
+                    localStorage.setItem("darkMode", !darkMode);
                   }}
                   classes={{
                     root: classes.menuItemRoot
                   }}
+                  disableFocusRipple
+                  disableRipple
                 >
                   <div className={classes.menuItemLeft}>
                     <Brightness4Icon />
@@ -150,6 +159,8 @@ const Header = props => {
                   classes={{
                     root: classes.menuItemRoot
                   }}
+                  disableFocusRipple
+                  disableRipple
                 >
                   <div className={classes.menuItemLeft}>
                     <ExitToAppIcon />

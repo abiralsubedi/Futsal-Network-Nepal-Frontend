@@ -10,6 +10,11 @@ const useStyles = makeStyles(theme => ({
   toolBarRoot: {
     minHeight: "64px"
   },
+  toolBarGutters: {
+    [theme.breakpoints.up("lg")]: {
+      padding: "0 7rem"
+    }
+  },
   primaryHeaderBar: {
     width: "100%",
     display: "flex",
@@ -79,8 +84,9 @@ const useStyles = makeStyles(theme => ({
     }
   },
   profileMenuPaper: {
-    top: "64px !important",
-    minWidth: "18rem"
+    top: "58px !important",
+    minWidth: "18rem",
+    borderRadius: "6px"
   },
   iconButtonRoot: {
     "&.active": {

@@ -148,8 +148,8 @@ const LoginPage = props => {
           <Switch
             checked={darkMode}
             onChange={() => {
-              localStorage.setItem("darkMode", !darkMode);
               setDarkMode(prev => !prev);
+              localStorage.setItem("darkMode", !darkMode);
             }}
             name="checkedA"
             color="primary"

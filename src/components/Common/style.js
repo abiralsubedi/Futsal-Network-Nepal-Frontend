@@ -24,7 +24,11 @@ const useStyles = makeStyles(theme => ({
     }
   },
   paperRoot: {
-    background: theme.palette.common.paperBackgroundColor
+    background: theme.palette.common.paperBackgroundColor,
+    padding: "20px 24px",
+    [theme.breakpoints.up("lg")]: {
+      padding: "20px 7rem"
+    }
   },
 
   contentBlock: {

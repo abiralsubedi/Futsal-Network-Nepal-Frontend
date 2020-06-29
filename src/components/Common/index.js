@@ -19,7 +19,6 @@ export const Wrapper = ({ className, style, children, ...props }) => {
       style={{
         flex: 1,
         minHeight: "calc(100vh - 64px)",
-        padding: "20px 24px",
         ...(style || {})
       }}
     >

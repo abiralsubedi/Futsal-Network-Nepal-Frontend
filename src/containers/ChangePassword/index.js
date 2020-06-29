@@ -59,7 +59,7 @@ const ChangePassword = ({
         }}
       >
         <Grid container spacing={3}>
-          <Grid item md={6} xs={12}>
+          <Grid item lg={4} md={6} xs={12}>
             <TextField
               id="old-password"
               label="Old Password"
@@ -82,7 +82,7 @@ const ChangePassword = ({
               }
             />
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid item lg={4} md={6} xs={12}>
             <TextField
               id="new-password"
               label="New Password"
