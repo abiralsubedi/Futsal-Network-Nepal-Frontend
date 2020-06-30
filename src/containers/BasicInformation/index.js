@@ -55,7 +55,7 @@ const ProfilePage = ({
         }}
       >
         <Grid container spacing={3}>
-          <Grid item lg={4} md={6} xs={12}>
+          <Grid item lg={5} md={6} xs={12}>
             <TextField
               id="username"
               label="Username"
@@ -66,7 +66,7 @@ const ProfilePage = ({
               fullWidth
             />
           </Grid>
-          <Grid item lg={4} md={6} xs={12}>
+          <Grid item lg={5} md={6} xs={12}>
             <TextField
               id="fullName"
               label="Full Name"

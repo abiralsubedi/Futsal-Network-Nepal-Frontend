@@ -16,8 +16,9 @@ import { useSnackbar } from "notistack";
 
 import { ThemeContext } from "context/themeContext";
 
+import { OuterLogo } from "components/Common";
 import Button from "components/Button";
-import { Wrapper } from "components/Common";
+import AuthenticationWrapper from "components/AuthenticationWrapper";
 import TextField from "components/TextField";
 
 import { login, clearLoginMessage, getProfileInfo } from "./actions";
@@ -34,7 +35,7 @@ const LoginPage = props => {
   } = props;
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const { darkMode, setDarkMode } = useContext(ThemeContext);
+  const { darkMode, setDarkMode, isMobile } = useContext(ThemeContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -63,7 +64,7 @@ const LoginPage = props => {
   }
 
   return (
-    <Wrapper>
+    <AuthenticationWrapper>
       <div className={classes.profileContent}>
         <form
           onSubmit={e => {
@@ -71,12 +72,8 @@ const LoginPage = props => {
             postLogin({ username, password });
           }}
         >
-          <Typography variant="h1" className={classes.title}>
-            Login
-          </Typography>
-          <Typography variant="h1" color="secondary">
-            Test
-          </Typography>
+          {isMobile && <OuterLogo />}
+          <Typography variant="h6">Sign in to your account</Typography>
           <TextField
             id="username"
             label="Username"
@@ -115,6 +112,7 @@ const LoginPage = props => {
             type="submit"
             fullWidth
             disabled={isLoading}
+            buttonRootClass={classes.loginButtonRoot}
           >
             {isLoading && (
               <CircularProgress
@@ -132,6 +130,7 @@ const LoginPage = props => {
             onClick={() =>
               (window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/google`)
             }
+            buttonRootClass={classes.loginButtonRoot}
           >
             <img
               src="https://img.icons8.com/color/48/000000/google-logo.png"
@@ -139,7 +138,11 @@ const LoginPage = props => {
             />
             LOGIN WITH GOOGLE
           </Button>
-          <Typography variant="body1" color="textSecondary">
+          <Typography
+            variant="body1"
+            color="textSecondary"
+            style={{ marginTop: "1rem" }}
+          >
             Don't have an account?{" "}
             <Link to="/register" className={classes.textLink}>
               Sign up
@@ -154,12 +157,9 @@ const LoginPage = props => {
             name="checkedA"
             color="primary"
           />
-          <Typography variant="h1" color="primary">
-            hello
-          </Typography>
         </form>
       </div>
-    </Wrapper>
+    </AuthenticationWrapper>
   );
 };
 

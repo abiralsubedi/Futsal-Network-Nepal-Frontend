@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import { Paper } from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/core/styles";
@@ -24,6 +26,18 @@ export const Wrapper = ({ className, style, children, ...props }) => {
     >
       {children}
     </Paper>
+  );
+};
+
+export const OuterLogo = () => {
+  return (
+    <Link to="/login">
+      <img
+        src="https://image.flaticon.com/icons/svg/2965/2965279.svg"
+        alt="logo"
+        style={{ width: "5rem", paddingBottom: "2rem" }}
+      />
+    </Link>
   );
 };
 

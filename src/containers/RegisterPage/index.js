@@ -14,9 +14,10 @@ import {
 import { useSnackbar } from "notistack";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
-import { Wrapper } from "components/Common";
+import AuthenticationWrapper from "components/AuthenticationWrapper";
 import TextField from "components/TextField";
 import Button from "components/Button";
+import { OuterLogo } from "components/Common";
 import { ThemeContext } from "context/themeContext";
 
 import { register, clearRegisterMessage } from "./actions";
@@ -37,7 +38,7 @@ const Home = props => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const { darkMode, setDarkMode } = useContext(ThemeContext);
+  const { darkMode, setDarkMode, isMobile } = useContext(ThemeContext);
 
   useEffect(() => {
     if (registerError) {
@@ -53,7 +54,7 @@ const Home = props => {
   }
 
   return (
-    <Wrapper>
+    <AuthenticationWrapper>
       <div className={classes.content}>
         <form
           onSubmit={e => {
@@ -61,7 +62,8 @@ const Home = props => {
             props.postRegister({ username, password });
           }}
         >
-          <Typography variant="h3">Register</Typography>
+          {isMobile && <OuterLogo />}
+          <Typography variant="h6">Create your account</Typography>
           <TextField
             id="username"
             label="Username"
@@ -111,7 +113,11 @@ const Home = props => {
             )}{" "}
             SIGN UP NOW
           </Button>
-          <Typography variant="body1" color="textSecondary">
+          <Typography
+            variant="body1"
+            color="textSecondary"
+            style={{ marginTop: "1rem" }}
+          >
             Already have an account?{" "}
             <Link to="/login" className={classes.textLink}>
               Sign in
@@ -128,7 +134,7 @@ const Home = props => {
           />
         </form>
       </div>
-    </Wrapper>
+    </AuthenticationWrapper>
   );
 };
 
