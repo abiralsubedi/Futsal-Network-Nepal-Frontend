@@ -20,6 +20,9 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     "& p": {
       fontSize: "1.125rem"
+    },
+    "& h5": {
+      margin: "1.125rem 0"
     }
   },
   loginScreen: {
@@ -30,6 +33,30 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up("lg")]: {
       padding: "0 7rem"
     }
+  },
+  authenticationSetting: {
+    padding: "0.5rem 0",
+    position: "fixed",
+    top: "10%",
+    right: "0",
+    transform: "translate(calc(100% - 3rem), -50%)",
+    transition: "all .3s ease-in",
+
+    "&:hover": {
+      transform: "translate(3rem, -50%)"
+    }
+  },
+  settingButtonLabel: {
+    padding: "0 0.25rem",
+    width: "10rem",
+    display: "flex",
+    justifyContent: "space-between",
+    "& svg": {
+      color: theme.palette.text.secondary
+    }
+  },
+  formControlRoot: {
+    paddingRight: "1rem"
   }
 }));
 

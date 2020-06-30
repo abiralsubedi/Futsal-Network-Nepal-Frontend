@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 
 import {
-  Switch,
   Typography,
   InputAdornment,
   IconButton,
@@ -123,15 +122,6 @@ const Home = props => {
               Sign in
             </Link>
           </Typography>
-          <Switch
-            checked={darkMode}
-            onChange={() => {
-              setDarkMode(prev => !prev);
-              localStorage.setItem("darkMode", !darkMode);
-            }}
-            name="checkedA"
-            color="primary"
-          />
         </form>
       </div>
     </AuthenticationWrapper>

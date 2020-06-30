@@ -7,7 +7,6 @@ import { Link, withRouter } from "react-router-dom";
 
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Switch from "@material-ui/core/Switch";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
@@ -35,7 +34,7 @@ const LoginPage = props => {
   } = props;
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const { darkMode, setDarkMode, isMobile } = useContext(ThemeContext);
+  const { isMobile } = useContext(ThemeContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -148,15 +147,6 @@ const LoginPage = props => {
               Sign up
             </Link>
           </Typography>
-          <Switch
-            checked={darkMode}
-            onChange={() => {
-              setDarkMode(prev => !prev);
-              localStorage.setItem("darkMode", !darkMode);
-            }}
-            name="checkedA"
-            color="primary"
-          />
         </form>
       </div>
     </AuthenticationWrapper>
