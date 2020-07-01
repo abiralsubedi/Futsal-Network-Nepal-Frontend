@@ -12,6 +12,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import Avatar from "@material-ui/core/Avatar";
 
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
@@ -123,7 +124,35 @@ const Header = props => {
                 open={Boolean(profileMenuAnchorEl)}
                 onClose={() => setProfileMenuAnchorEl(null)}
                 classes={{ paper: classes.profileMenuPaper }}
+                anchorOrigin={{
+                  horizontal: "right"
+                }}
+                transformOrigin={{
+                  horizontal: "right"
+                }}
               >
+                <MenuItem
+                  onClick={() => {
+                    setProfileMenuAnchorEl(null);
+                  }}
+                  classes={{
+                    root: classes.menuItemRoot
+                  }}
+                  className="first-menu-item"
+                  disableRipple
+                >
+                  <div>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src="https://assets-devap.innovatetech.io/images/flower_52caf9a8-3aaa-467e-b0e0-1453638cc78c_980.jpg"
+                      className={classes.largeAvatar}
+                    />
+                  </div>
+                  <div className={classes.menuDetailItem}>
+                    <div>Hello There</div>
+                    <div>See your profile</div>
+                  </div>
+                </MenuItem>
                 <MenuItem
                   onClick={() => {
                     setDarkMode(prev => !prev);
@@ -132,7 +161,6 @@ const Header = props => {
                   classes={{
                     root: classes.menuItemRoot
                   }}
-                  disableFocusRipple
                   disableRipple
                 >
                   <div className={classes.menuItemLeft}>
@@ -159,7 +187,6 @@ const Header = props => {
                   classes={{
                     root: classes.menuItemRoot
                   }}
-                  disableFocusRipple
                   disableRipple
                 >
                   <div className={classes.menuItemLeft}>
