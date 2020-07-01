@@ -125,9 +125,11 @@ const Header = props => {
                 onClose={() => setProfileMenuAnchorEl(null)}
                 classes={{ paper: classes.profileMenuPaper }}
                 anchorOrigin={{
+                  vertical: "bottom",
                   horizontal: "right"
                 }}
                 transformOrigin={{
+                  vertical: "bottom",
                   horizontal: "right"
                 }}
               >

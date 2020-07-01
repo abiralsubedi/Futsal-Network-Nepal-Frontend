@@ -85,8 +85,7 @@ const useStyles = makeStyles(theme => ({
   },
   profileMenuPaper: {
     top: "58px !important",
-    minWidth: "18rem",
-    maxWidth: "22rem",
+    width: "18rem",
     borderRadius: "6px"
   },
   iconButtonRoot: {

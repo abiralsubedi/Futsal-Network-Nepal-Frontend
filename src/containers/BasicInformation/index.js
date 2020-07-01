@@ -7,6 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSnackbar } from "notistack";
 
+import ImageField from "components/ImageField";
 import TextField from "components/TextField";
 import Button from "components/Button";
 
@@ -54,6 +55,11 @@ const ProfilePage = ({
           saveProfileInfo({ username, fullName });
         }}
       >
+        <ImageField
+          images={[
+            "https://assets-devap.innovatetech.io/images/landscape_c15d7d0a-400e-45b8-ad99-63ad0d8a9832_3754.jpeg"
+          ]}
+        />
         <Grid container spacing={3}>
           <Grid item lg={5} md={6} xs={12}>
             <TextField

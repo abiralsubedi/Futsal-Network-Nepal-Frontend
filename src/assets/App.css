@@ -37,6 +37,10 @@ body {
   font-family: "Proxima Nova";
 }
 
+html {
+  scroll-behavior: "smooth";
+}
+
 html ::-webkit-scrollbar {
   width: 6px !important;
   scroll-behavior: smooth !important;
@@ -52,4 +56,16 @@ html ::-webkit-scrollbar-thumb {
 }
 html ::-webkit-scrollbar-corner {
   background-color: transparent;
+}
+
+.custom-image-viewer.single #ReactSimpleImageViewer span:not(:first-child) {
+  display: none;
+}
+
+.react-simple-image-viewer__modal {
+  z-index: 999;
+}
+
+.react-simple-image-viewer__close {
+  opacity: 0.5;
 }

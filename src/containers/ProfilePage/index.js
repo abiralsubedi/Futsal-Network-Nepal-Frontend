@@ -60,9 +60,9 @@ const ProfilePage = ({ fetchProfileInfo, location }) => {
           Profile Page
         </Typography>
         {isMobile ? (
-          <HorizontalTabs {...profileTabContent} height="30rem" />
+          <HorizontalTabs {...profileTabContent} height="40rem" />
         ) : (
-          <VerticalTabs {...profileTabContent} height="30rem" />
+          <VerticalTabs {...profileTabContent} height="35rem" />
         )}
       </div>
     </Wrapper>
