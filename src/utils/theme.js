@@ -1,16 +1,21 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import { deepPurple, blue } from "@material-ui/core/colors";
+import { dark } from "@material-ui/core/styles/createPalette";
 
 const getTheme = darkMode => {
   return createMuiTheme({
     palette: {
       common: {
         paperBackgroundColor: darkMode ? "#212121" : "#F5F7F9",
+        textFieldShadow: darkMode ? "#424242" : "#ffffff",
         headerColor: darkMode ? "#333333" : "#2196f3",
-        headerNavLinkShadow: darkMode
+
+        blackWhiteShadow: darkMode
           ? "rgba(255, 255, 255, 0.06)"
           : "rgba(0, 0, 0, 0.08)",
-        textFieldShadow: darkMode ? "#424242" : "#ffffff",
+        whiteBlackShadow: darkMode
+          ? "rgba(0,0,0,0.5)"
+          : "rgba(255,255,255,0.5)",
         primaryWhiteColor: darkMode ? "#ffffff" : "#2196f3"
       },
       primary: blue,

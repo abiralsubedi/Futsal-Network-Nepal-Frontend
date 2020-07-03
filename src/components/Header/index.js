@@ -145,7 +145,7 @@ const Header = props => {
                 >
                   <div>
                     <Avatar
-                      alt="Remy Sharp"
+                      alt="header-profile-picture"
                       src="https://assets-devap.innovatetech.io/images/flower_52caf9a8-3aaa-467e-b0e0-1453638cc78c_980.jpg"
                       className={classes.largeAvatar}
                     />

@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: "0.8rem",
     color: "#ffffffe6",
     [theme.breakpoints.down("xs")]: {
-      borderTop: `1.5px solid ${theme.palette.common.headerNavLinkShadow}`
+      borderTop: `1.5px solid ${theme.palette.common.blackWhiteShadow}`
     },
     "& li": {
       display: "inline",
@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
         padding: "0.35rem 0.5rem",
         borderRadius: "5px",
         "&:hover, &.active": {
-          background: theme.palette.common.headerNavLinkShadow
+          background: theme.palette.common.blackWhiteShadow
         },
         [theme.breakpoints.down("xs")]: {
           width: "12rem !important",
@@ -90,7 +90,7 @@ const useStyles = makeStyles(theme => ({
   },
   iconButtonRoot: {
     "&.active": {
-      background: theme.palette.common.headerNavLinkShadow,
+      background: theme.palette.common.blackWhiteShadow,
       transition: "0.5s ease"
     }
   },
