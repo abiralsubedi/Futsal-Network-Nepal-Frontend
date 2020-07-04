@@ -125,11 +125,11 @@ const Header = props => {
                 onClose={() => setProfileMenuAnchorEl(null)}
                 classes={{ paper: classes.profileMenuPaper }}
                 anchorOrigin={{
-                  vertical: "bottom",
+                  vertical: "top",
                   horizontal: "right"
                 }}
                 transformOrigin={{
-                  vertical: "bottom",
+                  vertical: "top",
                   horizontal: "right"
                 }}
               >
@@ -146,7 +146,7 @@ const Header = props => {
                   <div>
                     <Avatar
                       alt="header-profile-picture"
-                      src="https://assets-devap.innovatetech.io/images/flower_52caf9a8-3aaa-467e-b0e0-1453638cc78c_980.jpg"
+                      src="https://style.anu.edu.au/_anu/4/images/placeholders/person.png"
                       className={classes.largeAvatar}
                     />
                   </div>

@@ -9,7 +9,10 @@ import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import PublishIcon from "@material-ui/icons/Publish";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 
+import ConfirmationModal from "components/ConfirmationModal";
+
 import useStyles from "./style";
+import { Typography } from "@material-ui/core";
 
 const ImageField = ({ images }) => {
   const classes = useStyles();
@@ -17,6 +20,8 @@ const ImageField = ({ images }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [profileMenuAnchor, setProfileMenuAnchor] = React.useState(null);
+
+  const [confirmModalActive, setConfirmModalActive] = useState(false);
 
   const handleProfileMenuClick = event => {
     event.stopPropagation();
@@ -41,12 +46,12 @@ const ImageField = ({ images }) => {
     {
       label: "Upload Photo",
       icon: <PublishIcon />,
-      handleItemClick: () => console.log("updated")
+      handleItemClick: () => console.log("uploaded")
     },
     {
       label: "Remove",
       icon: <DeleteOutlineIcon />,
-      handleItemClick: () => console.log("deleted")
+      handleItemClick: () => setConfirmModalActive(true)
     }
   ];
 
@@ -54,6 +59,12 @@ const ImageField = ({ images }) => {
     <div
       className={`custom-image-viewer ${images.length === 1 ? "single" : ""}`}
     >
+      <ConfirmationModal
+        open={confirmModalActive}
+        handleClose={() => setConfirmModalActive(false)}
+        title="Remove Profile Picture"
+        confirmationText="Are you sure you want to remove the profile picture?"
+      />
       <div className={classes.imageContainer}>
         {(images || []).map((image, index) => (
           <div className={classes.imageField} key={index}>

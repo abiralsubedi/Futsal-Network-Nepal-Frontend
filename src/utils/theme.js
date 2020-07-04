@@ -1,6 +1,5 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import { deepPurple, blue } from "@material-ui/core/colors";
-import { dark } from "@material-ui/core/styles/createPalette";
 
 const getTheme = darkMode => {
   return createMuiTheme({

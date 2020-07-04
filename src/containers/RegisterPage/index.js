@@ -37,7 +37,7 @@ const Home = props => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const { darkMode, setDarkMode, isMobile } = useContext(ThemeContext);
+  const { isMobile } = useContext(ThemeContext);
 
   useEffect(() => {
     if (registerError) {
