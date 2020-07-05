@@ -4,12 +4,7 @@ import { compose } from "redux";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 
-import {
-  Typography,
-  InputAdornment,
-  IconButton,
-  CircularProgress
-} from "@material-ui/core";
+import { Typography, InputAdornment, IconButton } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
@@ -102,16 +97,9 @@ const Home = props => {
             type="submit"
             fullWidth
             disabled={registerLoading}
-          >
-            {registerLoading && (
-              <CircularProgress
-                color="inherit"
-                size="1.25rem"
-                classes={{ root: classes.circularRoot }}
-              />
-            )}{" "}
-            SIGN UP NOW
-          </Button>
+            actionLoading={registerLoading}
+            buttonText="SIGN UP NOW"
+          />
           <Typography
             variant="body1"
             color="textSecondary"

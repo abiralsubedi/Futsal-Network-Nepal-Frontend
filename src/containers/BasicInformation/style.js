@@ -4,9 +4,6 @@ const useStyles = makeStyles(theme => ({
   informationButtonRoot: {
     marginTop: "3rem",
     maxWidth: "12rem"
-  },
-  circularInformationRoot: {
-    marginRight: "0.8rem"
   }
 }));
 

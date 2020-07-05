@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 
 import Grid from "@material-ui/core/Grid";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSnackbar } from "notistack";
 
 import ImageField from "containers/ImageField";
@@ -91,16 +90,9 @@ const ProfilePage = ({
           fullWidth
           disabled={postProfileLoading}
           buttonRootClass={classes.informationButtonRoot}
-        >
-          {postProfileLoading && (
-            <CircularProgress
-              color="inherit"
-              size="1.25rem"
-              classes={{ root: classes.circularInformationRoot }}
-            />
-          )}
-          Save Changes
-        </Button>
+          actionLoading={postProfileLoading}
+          buttonText="Save Changes"
+        />
       </form>
     </div>
   );

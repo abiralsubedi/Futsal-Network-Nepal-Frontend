@@ -9,9 +9,6 @@ const useStyles = makeStyles(theme => ({
   confirmationButtonRoot: {
     maxWidth: "8rem",
     padding: "8px 16px"
-  },
-  circularConfirmationRoot: {
-    marginRight: "0.8rem"
   }
 }));
 

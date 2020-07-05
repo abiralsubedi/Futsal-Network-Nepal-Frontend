@@ -6,7 +6,6 @@ import queryString from "query-string";
 import { Link, withRouter } from "react-router-dom";
 
 import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
@@ -39,6 +38,7 @@ const LoginPage = props => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState("");
+  const [loginGoogleActive, setLoginGoogleActive] = useState(false);
 
   useEffect(() => {
     if (loginError) {
@@ -112,24 +112,20 @@ const LoginPage = props => {
             fullWidth
             disabled={isLoading}
             buttonRootClass={classes.loginButtonRoot}
-          >
-            {isLoading && (
-              <CircularProgress
-                color="inherit"
-                size="1.25rem"
-                classes={{ root: classes.circularRoot }}
-              />
-            )}
-            SIGN IN NOW
-          </Button>
+            actionLoading={isLoading}
+            buttonText="SIGN IN NOW"
+          />
           <Button
             variant="contained"
             size="large"
             fullWidth
-            onClick={() =>
-              (window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/google`)
-            }
+            onClick={() => {
+              setLoginGoogleActive(true);
+              window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/google`;
+            }}
             buttonRootClass={classes.loginButtonRoot}
+            disabled={loginGoogleActive}
+            actionLoading={loginGoogleActive}
           >
             <img
               src="https://img.icons8.com/color/48/000000/google-logo.png"

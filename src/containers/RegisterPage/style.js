@@ -5,7 +5,11 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "100vh"
+    height: "100vh",
+    width: "100%",
+    "& form": {
+      width: "100%"
+    }
   },
   loginTextField: {
     margin: "1rem 0"

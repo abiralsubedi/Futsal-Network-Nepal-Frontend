@@ -11,7 +11,6 @@ import { useSnackbar } from "notistack";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import PublishIcon from "@material-ui/icons/Publish";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Modal from "components/Modal";
 import Button from "components/Button";
@@ -127,16 +126,9 @@ const ImageField = ({
           disabled={postProfilePictureLoading}
           buttonRootClass={classes.imageButtonRoot}
           onClick={() => saveProfilePicture(editImageData)}
-        >
-          {postProfilePictureLoading && (
-            <CircularProgress
-              color="inherit"
-              size="1.25rem"
-              classes={{ root: classes.circularImageRoot }}
-            />
-          )}
-          Update
-        </Button>
+          actionLoading={postProfilePictureLoading}
+          buttonText="Update"
+        />
       </Modal>
       <input
         accept="image/*"

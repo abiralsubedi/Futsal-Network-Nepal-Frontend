@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 
 import Grid from "@material-ui/core/Grid";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
@@ -113,16 +112,9 @@ const ChangePassword = ({
           fullWidth
           disabled={postPasswordLoading}
           buttonRootClass={classes.passwordButtonRoot}
-        >
-          {postPasswordLoading && (
-            <CircularProgress
-              color="inherit"
-              size="1.25rem"
-              classes={{ root: classes.circularRoot }}
-            />
-          )}
-          Save Changes
-        </Button>
+          actionLoading={postPasswordLoading}
+          buttonText="Save Changes"
+        />
       </form>
     </div>
   );

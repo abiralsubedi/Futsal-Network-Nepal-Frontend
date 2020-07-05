@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Modal from "components/Modal";
 import Button from "components/Button";
@@ -30,9 +29,8 @@ const ConfirmationModal = ({
           buttonRootClass={classes.confirmationButtonRoot}
           style={{ marginRight: "1rem" }}
           onClick={handleClose}
-        >
-          Cancel
-        </Button>
+          buttonText="Cancel"
+        />
         <Button
           variant="contained"
           size="large"
@@ -41,16 +39,9 @@ const ConfirmationModal = ({
           disabled={loading}
           buttonRootClass={classes.confirmationButtonRoot}
           onClick={handleConfirm}
-        >
-          {loading && (
-            <CircularProgress
-              color="inherit"
-              size="1.25rem"
-              classes={{ root: classes.circularConfirmationRoot }}
-            />
-          )}
-          Confirm
-        </Button>
+          actionLoading={loading}
+          buttonText="Confirm"
+        />
       </div>
     </Modal>
   );
