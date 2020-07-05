@@ -5,7 +5,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: "3rem",
     maxWidth: "12rem"
   },
-  circularRoot: {
+  circularInformationRoot: {
     marginRight: "0.8rem"
   }
 }));

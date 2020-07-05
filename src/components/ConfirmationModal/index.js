@@ -14,7 +14,8 @@ const ConfirmationModal = ({
   handleClose,
   title,
   loading,
-  confirmationText
+  confirmationText,
+  handleConfirm
 }) => {
   const classes = useStyles();
 
@@ -39,12 +40,13 @@ const ConfirmationModal = ({
           fullWidth
           disabled={loading}
           buttonRootClass={classes.confirmationButtonRoot}
+          onClick={handleConfirm}
         >
           {loading && (
             <CircularProgress
               color="inherit"
               size="1.25rem"
-              classes={{ root: classes.circularRoot }}
+              classes={{ root: classes.circularConfirmationRoot }}
             />
           )}
           Confirm
@@ -59,7 +61,8 @@ ConfirmationModal.propTypes = {
   handleClose: PropTypes.func,
   title: PropTypes.string,
   loading: PropTypes.bool,
-  confirmationText: PropTypes.string
+  confirmationText: PropTypes.string,
+  handleConfirm: PropTypes.func
 };
 
 export default ConfirmationModal;

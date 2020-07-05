@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSnackbar } from "notistack";
 
-import ImageField from "components/ImageField";
+import ImageField from "containers/ImageField";
 import TextField from "components/TextField";
 import Button from "components/Button";
 
@@ -96,7 +96,7 @@ const ProfilePage = ({
             <CircularProgress
               color="inherit"
               size="1.25rem"
-              classes={{ root: classes.circularRoot }}
+              classes={{ root: classes.circularInformationRoot }}
             />
           )}
           Save Changes

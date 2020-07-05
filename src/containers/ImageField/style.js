@@ -9,6 +9,9 @@ const useStyles = makeStyles(theme => ({
       width: "12rem"
     }
   },
+  imageMenuPaper: {
+    borderRadius: "6px"
+  },
   imageField: {},
   roundedImage: {
     position: "relative",
@@ -26,8 +29,8 @@ const useStyles = makeStyles(theme => ({
     bottom: "0.2rem",
     background: theme.palette.common.whiteBlackShadow,
     boxSizing: "border-box",
-    height: "3rem",
-    width: "3rem",
+    height: "2.5rem",
+    width: "2.5rem",
     borderRadius: "50%",
     display: "flex",
     justifyContent: "center",
@@ -44,6 +47,28 @@ const useStyles = makeStyles(theme => ({
       fontSize: "1.5rem",
       color: theme.palette.text.secondary
     }
+  },
+  attachmentThumbnail: {
+    padding: "10px",
+    WebkitBoxAlign: "center",
+    alignItems: "center",
+    border: "1px solid #dddddd",
+    display: "flex",
+    justifyContent: "center",
+    borderRadius: "4px",
+    background: "#f8f8f8",
+    minHeight: "8rem",
+    "& img": {
+      maxWidth: "14rem",
+      borderRadius: "5px"
+    }
+  },
+  imageButtonRoot: {
+    maxWidth: "8rem",
+    marginTop: "1.5rem"
+  },
+  circularImageRoot: {
+    marginRight: "0.8rem"
   }
 }));
 

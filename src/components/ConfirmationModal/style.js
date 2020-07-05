@@ -7,10 +7,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center"
   },
   confirmationButtonRoot: {
-    maxWidth: "7rem",
-    padding: "8px 22px"
+    maxWidth: "8rem",
+    padding: "8px 16px"
   },
-  circularRoot: {
+  circularConfirmationRoot: {
     marginRight: "0.8rem"
   }
 }));
