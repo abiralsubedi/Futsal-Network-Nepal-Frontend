@@ -12,7 +12,7 @@ import {
 export function* getProfileData() {
   try {
     const token = localStorage.getItem("token");
-    const [response] = yield call(request, "/posts", {
+    const response = yield call(request, "/profile", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`

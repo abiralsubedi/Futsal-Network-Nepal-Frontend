@@ -28,8 +28,12 @@ const ProfilePage = ({
     postProfileError
   } = basicInformationData;
 
-  const [username, setUsername] = useState("");
-  const [fullName, setFullName] = useState("");
+  const { profile } = globalData;
+
+  const [fullName, setFullName] = useState(profile.fullName);
+  const [username, setUsername] = useState(profile.username);
+  const [location, setLocation] = useState(profile.location);
+  const [emailAddress, setEmailAddress] = useState(profile.emailAddress);
 
   useEffect(() => {
     if (postProfileError) {
@@ -51,21 +55,17 @@ const ProfilePage = ({
       <form
         onSubmit={e => {
           e.preventDefault();
-          saveProfileInfo({ username, fullName });
+          saveProfileInfo({ username, fullName, location });
         }}
       >
-        <ImageField
-          images={[
-            "https://assets-devap.innovatetech.io/images/landscape_c15d7d0a-400e-45b8-ad99-63ad0d8a9832_3754.jpeg"
-          ]}
-        />
+        <ImageField images={[profile.photoUri]} />
         <Grid container spacing={3}>
           <Grid item lg={5} md={6} xs={12}>
             <TextField
-              id="username"
-              label="Username"
-              value={username}
-              handleChange={val => setUsername(val)}
+              id="fullName"
+              label="Full Name"
+              value={fullName}
+              handleChange={val => setFullName(val)}
               autoFocus
               required
               fullWidth
@@ -73,11 +73,32 @@ const ProfilePage = ({
           </Grid>
           <Grid item lg={5} md={6} xs={12}>
             <TextField
-              id="fullName"
-              label="Full Name"
-              value={fullName}
-              handleChange={val => setFullName(val)}
+              id="username"
+              label="Username"
+              value={username}
+              handleChange={val => setUsername(val)}
               required
+              fullWidth
+            />
+          </Grid>
+          <Grid item lg={5} md={6} xs={12}>
+            <TextField
+              id="location"
+              label="Location"
+              value={location}
+              handleChange={val => setLocation(val)}
+              required
+              fullWidth
+            />
+          </Grid>
+          <Grid item lg={5} md={6} xs={12}>
+            <TextField
+              id="email"
+              label="Email"
+              value={emailAddress}
+              handleChange={val => setEmailAddress(val)}
+              required
+              disabled
               fullWidth
             />
           </Grid>
@@ -106,7 +127,7 @@ ProfilePage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  globalData: state.ProfileReducer,
+  globalData: state.LoginReducer,
   basicInformationData: state.BasicInformationReducer
 });
 

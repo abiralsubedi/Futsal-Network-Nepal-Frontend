@@ -22,14 +22,17 @@ const Home = props => {
   const {
     history,
     registerData: { registerError, registerLoading },
-    onClearRegisterMessage
+    onClearRegisterMessage,
+    postRegister
   } = props;
 
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [username, setUsername] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [location, setLocation] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const { isMobile } = useContext(ThemeContext);
@@ -47,24 +50,43 @@ const Home = props => {
     history.push("/profile");
   }
 
+  const onSubmitRegister = () => {
+    if (!/^\w+([\.\+-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailAddress)) {
+      return enqueueSnackbar("Email is invalid", {
+        variant: "error",
+        onClose: () => onClearRegisterMessage()
+      });
+    }
+    postRegister({ fullName, emailAddress, password, location });
+  };
+
   return (
     <AuthenticationWrapper>
       <div className={classes.content}>
         <form
           onSubmit={e => {
             e.preventDefault();
-            props.postRegister({ username, password });
+            onSubmitRegister();
           }}
         >
           {isMobile && <OuterLogo />}
           <Typography variant="h6">Create your account</Typography>
           <TextField
-            id="username"
-            label="Username"
-            value={username}
-            handleChange={val => setUsername(val)}
-            defaultValue
+            id="full-name"
+            label="Full Name"
+            value={fullName}
+            handleChange={val => setFullName(val)}
             autoFocus
+            required
+            fullWidth
+            customClasses={classes.loginTextField}
+          />
+          <TextField
+            id="email-address"
+            label="Email"
+            type="email"
+            value={emailAddress}
+            handleChange={val => setEmailAddress(val)}
             required
             fullWidth
             customClasses={classes.loginTextField}
@@ -89,6 +111,15 @@ const Home = props => {
                 </IconButton>
               </InputAdornment>
             }
+          />
+          <TextField
+            id="location"
+            label="Location"
+            value={location}
+            handleChange={val => setLocation(val)}
+            required
+            fullWidth
+            customClasses={classes.loginTextField}
           />
           <Button
             variant="contained"

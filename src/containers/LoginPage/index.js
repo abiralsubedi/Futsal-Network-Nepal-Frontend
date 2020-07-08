@@ -75,7 +75,7 @@ const LoginPage = props => {
           <Typography variant="h6">Sign in to your account</Typography>
           <TextField
             id="username"
-            label="Username"
+            label="Email or Username"
             value={username}
             handleChange={val => setUsername(val)}
             autoFocus

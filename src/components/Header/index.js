@@ -33,8 +33,9 @@ const userLinks = [
   { value: "Profile", url: "/profile", icon: <PersonIcon /> }
 ];
 
-const Header = props => {
+const Header = ({ globalData, postLogout, history }) => {
   const classes = useStyles();
+  const { profile } = globalData;
 
   const { darkMode, setDarkMode, isMobile } = useContext(ThemeContext);
 
@@ -136,6 +137,7 @@ const Header = props => {
                 <MenuItem
                   onClick={() => {
                     setProfileMenuAnchorEl(null);
+                    history.push("/profile/basic-info");
                   }}
                   classes={{
                     root: classes.menuItemRoot
@@ -146,12 +148,13 @@ const Header = props => {
                   <div>
                     <Avatar
                       alt="header-profile-picture"
-                      src="https://style.anu.edu.au/_anu/4/images/placeholders/person.png"
+                      // src="https://style.anu.edu.au/_anu/4/images/placeholders/person.png"
+                      src={profile.photoUri}
                       className={classes.largeAvatar}
                     />
                   </div>
                   <div className={classes.menuDetailItem}>
-                    <div>Hello There</div>
+                    <div>{profile.fullName}</div>
                     <div>See your profile</div>
                   </div>
                 </MenuItem>
@@ -184,7 +187,7 @@ const Header = props => {
                   onClick={() => {
                     localStorage.removeItem("token");
                     localStorage.removeItem("profile");
-                    props.postLogout();
+                    postLogout();
                   }}
                   classes={{
                     root: classes.menuItemRoot
@@ -224,10 +227,14 @@ const Header = props => {
 };
 
 Header.propTypes = {
-  postLogout: PropTypes.func
+  history: PropTypes.object,
+  postLogout: PropTypes.func,
+  globalData: PropTypes.object
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  globalData: state.LoginReducer
+});
 
 const mapDispatchToProps = dispatch => ({
   postLogout: () => dispatch(logoutSuccess())

@@ -10,16 +10,19 @@ function* postProfileInfo({ payload }) {
   console.log(payload, "basic saga payload");
   try {
     const token = localStorage.getItem("token");
-    const response = yield call(request, "/posts", {
-      method: "GET",
+    yield call(request, "/profile", {
+      method: "PUT",
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
     });
     yield call(getProfileData);
     yield put(postProfileInfoSuccess("Profile Updated successfully!"));
   } catch (error) {
-    yield put(postProfileInfoError("Profile Update Failed!"));
+    const errorObj = yield error.response.json();
+    yield put(postProfileInfoError(errorObj.message));
   }
 }
 

@@ -151,7 +151,7 @@ const ImageField = ({
             <div
               className={classes.roundedImage}
               style={{
-                backgroundImage: `url(https://assets-devap.innovatetech.io/images/landscape_c15d7d0a-400e-45b8-ad99-63ad0d8a9832_3754.jpeg)`
+                backgroundImage: `url(${image})`
               }}
               key={index}
               onClick={() => openImageViewer(index)}

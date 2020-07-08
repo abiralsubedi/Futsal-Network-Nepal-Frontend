@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   primaryField: {
-    "& .MuiOutlinedInput-root:not(.Mui-error)": {
+    "& .MuiOutlinedInput-root:not(.Mui-error):not(.Mui-disabled)": {
       "&:hover fieldset": {
         borderColor: theme.palette.primary.main
       }

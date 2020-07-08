@@ -19,7 +19,7 @@ import { ThemeContext } from "context/themeContext";
 import { getProfileInfo } from "containers/LoginPage/actions";
 import useStyles from "./style";
 
-const ProfilePage = ({ fetchProfileInfo, location }) => {
+const ProfilePage = ({ fetchProfileInfo, location, history }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
 
@@ -30,7 +30,18 @@ const ProfilePage = ({ fetchProfileInfo, location }) => {
     if (location.pathname.includes("change-password")) {
       setTabIndexValue(1);
     }
+    history.replace("/profile");
   }, []);
+
+  useEffect(() => {
+    if (location.pathname.includes("basic-info")) {
+      setTabIndexValue(0);
+    }
+    if (location.pathname.includes("change-password")) {
+      setTabIndexValue(1);
+    }
+    history.replace("/profile");
+  }, [location.pathname]);
 
   const profileTabContent = {
     value: tabIndexValue,
@@ -71,7 +82,8 @@ const ProfilePage = ({ fetchProfileInfo, location }) => {
 
 ProfilePage.propTypes = {
   fetchProfileInfo: PropTypes.func,
-  location: PropTypes.object
+  location: PropTypes.object,
+  history: PropTypes.object
 };
 
 const mapStateToProps = () => ({});
