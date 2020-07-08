@@ -5,18 +5,20 @@ import { POST_PASSWORD } from "./constants";
 import { postPasswordSuccess, postPasswordError } from "./actions";
 
 function* postPassword({ payload }) {
-  console.log(payload, "password saga payload");
   try {
     const token = localStorage.getItem("token");
-    const response = yield call(request, "/posts", {
-      method: "GET",
+    yield call(request, "/change-password", {
+      method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
     });
     yield put(postPasswordSuccess("Password Changed successfully!"));
   } catch (error) {
-    yield put(postPasswordError("Password Change Failed!"));
+    const errorObj = yield error.response.json();
+    yield put(postPasswordError(errorObj.message));
   }
 }
 

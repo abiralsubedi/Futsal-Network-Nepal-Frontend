@@ -139,7 +139,6 @@ const ImageField = ({
           const imageFormData = new FormData();
           imageFormData.append("file", file, file.name);
           setEditImageData(imageFormData);
-          // eslint-disable-next-line no-param-reassign
           target.value = "";
           setPictureModalActive(true);
         }}

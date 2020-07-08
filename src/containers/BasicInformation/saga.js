@@ -7,7 +7,6 @@ import { POST_PROFILE_INFO } from "./constants";
 import { postProfileInfoSuccess, postProfileInfoError } from "./actions";
 
 function* postProfileInfo({ payload }) {
-  console.log(payload, "basic saga payload");
   try {
     const token = localStorage.getItem("token");
     yield call(request, "/profile", {

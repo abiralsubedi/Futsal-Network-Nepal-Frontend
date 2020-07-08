@@ -14,15 +14,18 @@ import { useSnackbar } from "notistack";
 
 import { postPassword, clearMessage } from "./actions";
 import useStyles from "./style";
+import { Typography } from "@material-ui/core";
 
 const ChangePassword = ({
   savePassword,
   changePasswordData,
-  onClearInformationMessage
+  onClearInformationMessage,
+  globalData
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
+  const { profile } = globalData;
   const {
     postPasswordLoading,
     postPasswordSuccess,
@@ -46,17 +49,35 @@ const ChangePassword = ({
         variant: "success",
         onClose: () => onClearInformationMessage()
       });
+      setOldPassword("");
+      setNewPassword("");
     }
   }, [postPasswordError, postPasswordSuccess]);
 
+  const onPasswordSubmit = e => {
+    e.preventDefault();
+    if (oldPassword === newPassword) {
+      return enqueueSnackbar("Both password can not be same", {
+        variant: "error"
+      });
+    }
+    savePassword({ oldPassword, newPassword });
+  };
+
+  if (profile.googleId) {
+    return (
+      <div className={classes.changePasswordContent}>
+        <Typography variant="body1">
+          Sorry you are not able to change password as the account is linked to
+          your google id.
+        </Typography>
+      </div>
+    );
+  }
+
   return (
-    <div className={classes.basicInformationContent}>
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          savePassword({ oldPassword, newPassword });
-        }}
-      >
+    <div className={classes.changePasswordContent}>
+      <form onSubmit={onPasswordSubmit}>
         <Grid container spacing={3}>
           <Grid item lg={5} md={6} xs={12}>
             <TextField
@@ -121,13 +142,15 @@ const ChangePassword = ({
 };
 
 ChangePassword.propTypes = {
+  globalData: PropTypes.object,
   changePasswordData: PropTypes.object,
   savePassword: PropTypes.func,
   onClearInformationMessage: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  changePasswordData: state.ChangePasswordReducer
+  changePasswordData: state.ChangePasswordReducer,
+  globalData: state.LoginReducer
 });
 
 const mapDispatchToProps = dispatch => ({
