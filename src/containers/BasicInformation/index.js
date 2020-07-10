@@ -58,7 +58,7 @@ const ProfilePage = ({
           saveProfileInfo({ username, fullName, location });
         }}
       >
-        <ImageField images={[profile.photoUri]} />
+        <ImageField photoUri={profile.photoUri} />
         <Grid container spacing={3}>
           <Grid item lg={5} md={6} xs={12}>
             <TextField

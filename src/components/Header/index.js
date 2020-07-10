@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import PropTypes from "prop-types";
@@ -22,9 +22,10 @@ import PersonIcon from "@material-ui/icons/Person";
 import MenuIcon from "@material-ui/icons/Menu";
 
 import { IOSSwitch } from "components/Common";
-import { logoutSuccess } from "containers/LoginPage/actions";
+import { logoutSuccess, getProfileInfo } from "containers/LoginPage/actions";
 
 import { ThemeContext } from "context/themeContext";
+import getImageUrl from "utils/getImageUrl";
 
 import useStyles from "./style";
 
@@ -33,7 +34,9 @@ const userLinks = [
   { value: "Profile", url: "/profile", icon: <PersonIcon /> }
 ];
 
-const Header = ({ globalData, postLogout, history }) => {
+const assetsBaseUrl = process.env.REACT_APP_ASSETS_BASE_URL;
+
+const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
   const classes = useStyles();
   const { profile } = globalData;
 
@@ -41,6 +44,10 @@ const Header = ({ globalData, postLogout, history }) => {
 
   const [profileMenuAnchorEl, setProfileMenuAnchorEl] = useState(null);
   const [navBarDrawerShow, setNavBarDrawerShow] = useState(false);
+
+  useEffect(() => {
+    fetchProfileInfo();
+  }, []);
 
   const toggleNavBarDrawer = event => {
     if (
@@ -53,6 +60,8 @@ const Header = ({ globalData, postLogout, history }) => {
 
     setNavBarDrawerShow(true);
   };
+
+  const userPhoto = getImageUrl(profile.photoUri);
 
   const renderNavBar = () => {
     return userLinks.map((link, index) => (
@@ -148,8 +157,7 @@ const Header = ({ globalData, postLogout, history }) => {
                   <div>
                     <Avatar
                       alt="header-profile-picture"
-                      // src="https://style.anu.edu.au/_anu/4/images/placeholders/person.png"
-                      src={profile.photoUri}
+                      src={userPhoto}
                       className={classes.largeAvatar}
                     />
                   </div>
@@ -229,7 +237,8 @@ const Header = ({ globalData, postLogout, history }) => {
 Header.propTypes = {
   history: PropTypes.object,
   postLogout: PropTypes.func,
-  globalData: PropTypes.object
+  globalData: PropTypes.object,
+  fetchProfileInfo: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -237,7 +246,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  postLogout: () => dispatch(logoutSuccess())
+  postLogout: () => dispatch(logoutSuccess()),
+  fetchProfileInfo: () => dispatch(getProfileInfo())
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

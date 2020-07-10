@@ -16,12 +16,14 @@ import Modal from "components/Modal";
 import Button from "components/Button";
 import ConfirmationModal from "components/ConfirmationModal";
 
+import getImageUrl from "utils/getImageUrl";
+
 import { postProfilePicture, clearMessage } from "./actions";
 
 import useStyles from "./style";
 
 const ImageField = ({
-  images,
+  photoUri,
   saveProfilePicture,
   onClearImageMessage,
   imageFieldData
@@ -93,6 +95,8 @@ const ImageField = ({
     setIsViewerOpen(false);
   };
 
+  const images = [getImageUrl(photoUri)];
+
   return (
     <div
       className={`custom-image-viewer ${images.length === 1 ? "single" : ""}`}
@@ -150,10 +154,11 @@ const ImageField = ({
             <div
               className={classes.roundedImage}
               style={{
-                backgroundImage: `url(${image})`
+                backgroundImage: `url(${image}`,
+                cursor: !photoUri && "auto"
               }}
               key={index}
-              onClick={() => openImageViewer(index)}
+              onClick={() => (photoUri ? openImageViewer(index) : null)}
             >
               <div
                 className={classes.imageAction}
@@ -173,18 +178,23 @@ const ImageField = ({
         onClose={handleProfileMenuClose}
         classes={{ paper: classes.imageMenuPaper }}
       >
-        {profileMenuOptions.map(option => (
-          <MenuItem
-            onClick={() => {
-              handleProfileMenuClose();
-              option.handleItemClick();
-            }}
-            className={classes.menuItemLabel}
-            key={option.label}
-          >
-            {option.icon} {option.label}
-          </MenuItem>
-        ))}
+        {profileMenuOptions.map(option => {
+          if (option.label === "Remove" && !photoUri) {
+            return null;
+          }
+          return (
+            <MenuItem
+              onClick={() => {
+                handleProfileMenuClose();
+                option.handleItemClick();
+              }}
+              className={classes.menuItemLabel}
+              key={option.label}
+            >
+              {option.icon} {option.label}
+            </MenuItem>
+          );
+        })}
       </Menu>
       {isViewerOpen && (
         <ImageViewer
@@ -198,7 +208,7 @@ const ImageField = ({
 };
 
 ImageField.propTypes = {
-  images: PropTypes.array,
+  photoUri: PropTypes.string,
   imageFieldData: PropTypes.object,
   savePassword: PropTypes.func,
   onClearImageMessage: PropTypes.func

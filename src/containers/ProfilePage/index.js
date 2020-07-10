@@ -16,17 +16,15 @@ import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
 
 import { ThemeContext } from "context/themeContext";
 
-import { getProfileInfo } from "containers/LoginPage/actions";
 import useStyles from "./style";
 
-const ProfilePage = ({ fetchProfileInfo, location, history }) => {
+const ProfilePage = ({ location, history }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
 
   const [tabIndexValue, setTabIndexValue] = React.useState(0);
 
   useEffect(() => {
-    fetchProfileInfo();
     if (location.pathname.includes("change-password")) {
       setTabIndexValue(1);
     }
@@ -81,16 +79,13 @@ const ProfilePage = ({ fetchProfileInfo, location, history }) => {
 };
 
 ProfilePage.propTypes = {
-  fetchProfileInfo: PropTypes.func,
   location: PropTypes.object,
   history: PropTypes.object
 };
 
 const mapStateToProps = () => ({});
 
-const mapDispatchToProps = dispatch => ({
-  fetchProfileInfo: () => dispatch(getProfileInfo())
-});
+const mapDispatchToProps = dispatch => ({});
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

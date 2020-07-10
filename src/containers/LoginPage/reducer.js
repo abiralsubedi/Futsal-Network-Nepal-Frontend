@@ -7,7 +7,9 @@ import {
   GET_PROFILE_INFO,
   GET_PROFILE_INFO_SUCCESS,
   CLEAR_LOGIN_MESSAGE,
-  GET_PROFILE_INFO_ERROR
+  SET_FILE_UPLOAD_DATA,
+  GET_PROFILE_INFO_ERROR,
+  UPDATE_PROFILE_PICTURE
 } from "./constants";
 
 export const initialState = {
@@ -15,7 +17,8 @@ export const initialState = {
   isAuthenticated: localStorage.getItem("token") ? true : false,
   token: localStorage.getItem("token"),
   loginError: "",
-  profile: JSON.parse(localStorage.getItem("profile"))
+  profile: JSON.parse(localStorage.getItem("profile")),
+  fileUploadData: false
 };
 
 export default (state = initialState, action) => {
@@ -56,6 +59,12 @@ export default (state = initialState, action) => {
 
     case CLEAR_LOGIN_MESSAGE:
       return { ...state, isLoading: false, loginError: "" };
+
+    case SET_FILE_UPLOAD_DATA:
+      return { ...state, fileUploadData: action.payload };
+
+    case UPDATE_PROFILE_PICTURE:
+      return { ...state, profile: { ...state.profile, photoUri: action.url } };
 
     default:
       return state;

@@ -9,7 +9,6 @@ import { getProfileData } from "containers/LoginPage/saga";
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* register({ payload }) {
   try {
-    console.log("get profile");
     const response = yield call(request, "/register", {
       method: "POST",
       headers: {

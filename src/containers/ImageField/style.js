@@ -2,12 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   imageContainer: {
-    marginBottom: "1.5rem",
-    "& img": {
-      borderRadius: "5px",
-      cursor: "pointer",
-      width: "12rem"
-    }
+    marginBottom: "1.5rem"
   },
   imageMenuPaper: {
     borderRadius: "6px"
@@ -34,7 +29,8 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "50%",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    cursor: "pointer"
   },
   menuItemLabel: {
     textTransform: "none",

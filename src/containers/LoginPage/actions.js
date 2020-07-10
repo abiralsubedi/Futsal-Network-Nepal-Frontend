@@ -7,7 +7,9 @@ import {
   GET_PROFILE_INFO,
   GET_PROFILE_INFO_SUCCESS,
   GET_PROFILE_INFO_ERROR,
-  CLEAR_LOGIN_MESSAGE
+  CLEAR_LOGIN_MESSAGE,
+  SET_FILE_UPLOAD_DATA,
+  UPDATE_PROFILE_PICTURE
 } from "./constants";
 
 export const login = payload => {
@@ -37,6 +39,14 @@ export const getProfileInfoSuccess = payload => {
 
 export const getProfileInfoError = error => {
   return { type: GET_PROFILE_INFO_ERROR, error };
+};
+
+export const setFileUploadData = payload => {
+  return { type: SET_FILE_UPLOAD_DATA, payload };
+};
+
+export const updateProfilePicture = url => {
+  return { type: UPDATE_PROFILE_PICTURE, url };
 };
 
 export const clearLoginMessage = () => ({ type: CLEAR_LOGIN_MESSAGE });

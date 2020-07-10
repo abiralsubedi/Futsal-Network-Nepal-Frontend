@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest, select } from "redux-saga/effects";
 import request from "utils/request";
 
 import { LOGIN, GET_PROFILE_INFO } from "./constants";
@@ -8,6 +8,8 @@ import {
   getProfileInfoSuccess,
   getProfileInfoError
 } from "./actions";
+
+import { getGlobalData } from "./selectors";
 
 export function* getProfileData() {
   try {
@@ -43,6 +45,26 @@ function* login({ payload }) {
   } catch (error) {
     const errorObj = yield error.response.json();
     yield put(loginError(errorObj.message));
+  }
+}
+
+export function* uploadFile() {
+  try {
+    const { fileUploadData } = yield select(getGlobalData);
+    const token = localStorage.getItem("token");
+    const response = yield call(request, "/upload-file", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        fileData: fileUploadData
+      })
+    });
+    return response.url;
+  } catch (error) {
+    return "failed";
   }
 }
 
