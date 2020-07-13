@@ -56,11 +56,8 @@ export function* uploadFile() {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        fileData: fileUploadData
-      })
+      body: fileUploadData
     });
     return response.url;
   } catch (error) {

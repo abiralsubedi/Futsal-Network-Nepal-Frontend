@@ -48,11 +48,11 @@ const useStyles = makeStyles(theme => ({
     padding: "10px",
     WebkitBoxAlign: "center",
     alignItems: "center",
-    border: "1px solid #dddddd",
+    border: `1px solid ${theme.palette.divider}`,
     display: "flex",
     justifyContent: "center",
     borderRadius: "4px",
-    background: "#f8f8f8",
+    background: theme.palette.grey[100],
     minHeight: "8rem",
     "& img": {
       maxWidth: "14rem",

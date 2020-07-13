@@ -34,8 +34,6 @@ const userLinks = [
   { value: "Profile", url: "/profile", icon: <PersonIcon /> }
 ];
 
-const assetsBaseUrl = process.env.REACT_APP_ASSETS_BASE_URL;
-
 const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
   const classes = useStyles();
   const { profile } = globalData;
