@@ -20,6 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "heroku-postbuild": "npm run build",
     "eject": "react-scripts eject",
     "test:clean": "rimraf ./coverage",
     "test": "NODE_ENV=test jest --verbose",
