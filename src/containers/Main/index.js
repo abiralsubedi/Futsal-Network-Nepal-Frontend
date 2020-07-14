@@ -11,6 +11,7 @@ import getTheme from "utils/theme";
 import LoginPage from "containers/LoginPage";
 import RegisterPage from "containers/RegisterPage";
 import ProfilePage from "containers/ProfilePage";
+import DashboardPage from "containers/DashboardPage";
 import PrivateRoute from "components/PrivateRoute";
 
 import useStyles from "./style";
@@ -63,6 +64,7 @@ const Main = () => {
           <Switch key="routes">
             <Route path="/login" component={LoginPage} exact />
             <Route path="/register" component={RegisterPage} exact />
+            <PrivateRoute exact path="/" component={DashboardPage} />
             <PrivateRoute path="/profile" component={ProfilePage} />
             <Route path="" component={NotFound} />
           </Switch>

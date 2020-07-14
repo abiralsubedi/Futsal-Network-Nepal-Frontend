@@ -67,11 +67,16 @@ const getTabContent = (items, value, type) => {
   ));
 };
 
-export const VerticalTabs = ({ items, value, handleChange, height }) => {
+export const VerticalTabs = ({
+  items,
+  value,
+  handleChange,
+  customRootClass
+}) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.verticalRoot} style={{ height: height }}>
+    <div className={`${classes.verticalRoot} ${customRootClass}`}>
       <Tabs
         orientation="vertical"
         variant="scrollable"
@@ -105,14 +110,19 @@ VerticalTabs.propTypes = {
   items: PropTypes.instanceOf(Array),
   value: PropTypes.number,
   handleChange: PropTypes.func,
-  height: PropTypes.string
+  customRootClass: PropTypes.string
 };
 
-export const HorizontalTabs = ({ items, value, handleChange, height }) => {
+export const HorizontalTabs = ({
+  items,
+  value,
+  handleChange,
+  customRootClass
+}) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.horizontalRoot} style={{ height: height }}>
+    <div className={`${classes.horizontalRoot} ${customRootClass}`}>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -144,5 +154,5 @@ HorizontalTabs.propTypes = {
   items: PropTypes.instanceOf(Array),
   value: PropTypes.number,
   handleChange: PropTypes.func,
-  height: PropTypes.string
+  customRootClass: PropTypes.string
 };

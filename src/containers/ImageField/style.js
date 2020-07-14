@@ -57,10 +57,11 @@ const useStyles = makeStyles(theme => ({
     "& img": {
       maxWidth: "14rem",
       borderRadius: "5px"
-    }
+    },
+    color: theme.palette.common.black
   },
   imageButtonRoot: {
-    maxWidth: "8rem",
+    maxWidth: "9rem",
     marginTop: "1.5rem"
   },
   circularImageRoot: {

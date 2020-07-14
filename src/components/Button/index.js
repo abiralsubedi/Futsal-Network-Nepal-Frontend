@@ -22,6 +22,8 @@ const CustomButton = ({
         root: `${classes.buttonRoot} ${buttonRootClass}`,
         label: `${classes.buttonLabel} ${buttonLabelClass}`
       }}
+      disableFocusRipple
+      disableRipple
       {...rest}
     >
       {actionLoading && (

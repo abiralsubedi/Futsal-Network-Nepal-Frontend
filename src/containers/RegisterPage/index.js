@@ -47,7 +47,7 @@ const Home = props => {
   }, [registerError]);
 
   if (isAuthenticated && profile) {
-    history.push("/profile");
+    history.push("/");
   }
 
   const onSubmitRegister = () => {

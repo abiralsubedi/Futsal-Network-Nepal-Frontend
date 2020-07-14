@@ -25,25 +25,20 @@ const ProfilePage = ({ location, history }) => {
   const [tabIndexValue, setTabIndexValue] = React.useState(0);
 
   useEffect(() => {
-    if (location.pathname.includes("change-password")) {
-      setTabIndexValue(1);
-    }
-    history.replace("/profile");
-  }, []);
-
-  useEffect(() => {
     if (location.pathname.includes("basic-info")) {
       setTabIndexValue(0);
     }
     if (location.pathname.includes("change-password")) {
       setTabIndexValue(1);
     }
-    history.replace("/profile");
   }, [location.pathname]);
 
   const profileTabContent = {
     value: tabIndexValue,
-    handleChange: (event, newValue) => setTabIndexValue(newValue),
+    handleChange: (event, newValue) => {
+      setTabIndexValue(newValue);
+      history.replace("/profile");
+    },
     items: [
       {
         labelText: "Basic Information",
@@ -69,9 +64,15 @@ const ProfilePage = ({ location, history }) => {
           Profile Page
         </Typography>
         {isMobile ? (
-          <HorizontalTabs {...profileTabContent} height="40rem" />
+          <HorizontalTabs
+            {...profileTabContent}
+            customRootClass={classes.customHorizontalTabHeight}
+          />
         ) : (
-          <VerticalTabs {...profileTabContent} height="35rem" />
+          <VerticalTabs
+            {...profileTabContent}
+            customRootClass={classes.customVerticalTabHeight}
+          />
         )}
       </div>
     </Wrapper>

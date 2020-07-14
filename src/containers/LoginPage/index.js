@@ -59,7 +59,7 @@ const LoginPage = props => {
   }, []);
 
   if (isAuthenticated && profile) {
-    history.push("/profile");
+    history.push("/");
   }
 
   return (

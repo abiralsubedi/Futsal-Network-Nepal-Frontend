@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import PropTypes from "prop-types";
-import { withRouter, NavLink } from "react-router-dom";
+import { withRouter, NavLink, Link } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -69,6 +69,7 @@ const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
           activeClassName="active"
           exact={link.value === "Home"}
           id={`navbar-item-${index}`}
+          onClick={() => setNavBarDrawerShow(false)}
         >
           {link.icon}
           <span>{link.value}</span>
@@ -99,11 +100,13 @@ const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
                   <MenuIcon />
                 </IconButton>
               ) : (
-                <img
-                  src="https://image.flaticon.com/icons/svg/2965/2965279.svg"
-                  alt="logo"
-                  style={{ width: "3rem" }}
-                />
+                <Link to="/">
+                  <img
+                    src="https://image.flaticon.com/icons/svg/2965/2965279.svg"
+                    alt="logo"
+                    style={{ width: "3rem" }}
+                  />
+                </Link>
               )}
             </div>
             {!isMobile && (

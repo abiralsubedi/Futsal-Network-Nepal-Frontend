@@ -21,6 +21,7 @@ import getImageUrl from "utils/getImageUrl";
 import { postProfilePicture, clearMessage } from "./actions";
 
 import useStyles from "./style";
+import { Typography } from "@material-ui/core";
 
 const ImageField = ({
   photoUri,
@@ -115,11 +116,13 @@ const ImageField = ({
         title="Update Profile Picture"
       >
         <div className={classes.attachmentThumbnail}>
-          {editImageData && (
+          {typeof editImageData === "object" ? (
             <img
               src={window.URL.createObjectURL(editImageData.get("file"))}
               alt="Not found"
             />
+          ) : (
+            <Typography>{editImageData}</Typography>
           )}
         </div>
         <Button
@@ -127,11 +130,24 @@ const ImageField = ({
           size="large"
           color="primary"
           fullWidth
-          disabled={postProfilePictureLoading}
+          disabled={
+            postProfilePictureLoading || typeof editImageData !== "object"
+          }
           buttonRootClass={classes.imageButtonRoot}
           onClick={() => saveProfilePicture(editImageData)}
           actionLoading={postProfilePictureLoading}
           buttonText="Update"
+          style={{ marginRight: "1rem" }}
+        />
+        <Button
+          size="large"
+          color="primary"
+          fullWidth
+          buttonRootClass={classes.imageButtonRoot}
+          onClick={() =>
+            document.querySelector("#uploadProfilePicture").click()
+          }
+          buttonText="Choose another"
         />
       </Modal>
       <input
@@ -140,9 +156,13 @@ const ImageField = ({
         type="file"
         onChange={({ target }) => {
           const file = target.files[0];
-          const imageFormData = new FormData();
-          imageFormData.append("file", file, file.name);
-          setEditImageData(imageFormData);
+          if (file.size <= 1024 ** 2) {
+            const imageFormData = new FormData();
+            imageFormData.append("file", file, file.name);
+            setEditImageData(imageFormData);
+          } else {
+            setEditImageData("Sorry, the image needs to be less than 1 MB.");
+          }
           target.value = "";
           setPictureModalActive(true);
         }}
