@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import getTheme from "utils/theme";
 import LoginPage from "containers/LoginPage";
 import RegisterPage from "containers/RegisterPage";
+import SetPasswordPage from "containers/SetPasswordPage";
 import ProfilePage from "containers/ProfilePage";
 import DashboardPage from "containers/DashboardPage";
 import PrivateRoute from "components/PrivateRoute";
@@ -64,6 +65,7 @@ const Main = () => {
           <Switch key="routes">
             <Route path="/login" component={LoginPage} exact />
             <Route path="/register" component={RegisterPage} exact />
+            <Route path="/set-password" component={SetPasswordPage} exact />
             <PrivateRoute exact path="/" component={DashboardPage} />
             <PrivateRoute path="/profile" component={ProfilePage} />
             <Route path="" component={NotFound} />

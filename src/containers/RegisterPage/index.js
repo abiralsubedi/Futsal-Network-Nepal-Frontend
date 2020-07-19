@@ -17,11 +17,11 @@ import { ThemeContext } from "context/themeContext";
 import { register, clearRegisterMessage } from "./actions";
 import useStyles from "./style";
 
-const Home = props => {
+const RegisterPage = props => {
   const { isAuthenticated, profile } = props.data;
   const {
     history,
-    registerData: { registerError, registerLoading },
+    registerData: { registerError, registerSuccess, registerLoading },
     onClearRegisterMessage,
     postRegister
   } = props;
@@ -31,9 +31,7 @@ const Home = props => {
 
   const [fullName, setFullName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
   const [location, setLocation] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
   const { isMobile } = useContext(ThemeContext);
 
@@ -44,7 +42,17 @@ const Home = props => {
         onClose: () => onClearRegisterMessage()
       });
     }
-  }, [registerError]);
+
+    if (registerSuccess) {
+      enqueueSnackbar("You will shortly receive email to set password.", {
+        variant: "success",
+        onClose: () => onClearRegisterMessage()
+      });
+      setFullName("");
+      setEmailAddress("");
+      setLocation("");
+    }
+  }, [registerError, registerSuccess]);
 
   if (isAuthenticated && profile) {
     history.push("/");
@@ -57,7 +65,7 @@ const Home = props => {
         onClose: () => onClearRegisterMessage()
       });
     }
-    postRegister({ fullName, emailAddress, password, location });
+    postRegister({ fullName, emailAddress, location });
   };
 
   return (
@@ -90,27 +98,6 @@ const Home = props => {
             required
             fullWidth
             customClasses={classes.loginTextField}
-          />
-          <TextField
-            id="password"
-            label="Password"
-            value={password}
-            handleChange={val => setPassword(val)}
-            type={showPassword ? "text" : "password"}
-            required
-            fullWidth
-            customClasses={classes.loginTextField}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={() => setShowPassword(prevState => !prevState)}
-                  edge="end"
-                >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
           />
           <TextField
             id="location"
@@ -147,7 +134,7 @@ const Home = props => {
   );
 };
 
-Home.propTypes = {
+RegisterPage.propTypes = {
   data: PropTypes.object,
   registerData: PropTypes.object,
   postRegister: PropTypes.func,
@@ -166,4 +153,4 @@ const mapDispatchToProps = dispatch => ({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withRouter, withConnect)(Home);
+export default compose(withRouter, withConnect)(RegisterPage);

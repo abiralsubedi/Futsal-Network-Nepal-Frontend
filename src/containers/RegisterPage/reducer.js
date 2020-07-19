@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         registerLoading: true,
-        registerSuccess: false,
+        registerSuccess: "",
         registerError: ""
       };
 
@@ -39,7 +39,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         registerLoading: false,
-        registerError: ""
+        registerError: "",
+        registerSuccess: ""
       };
 
     default:

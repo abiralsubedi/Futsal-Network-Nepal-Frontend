@@ -6,6 +6,7 @@ import ProfileReducer from "containers/ProfilePage/reducer.js";
 import BasicInformationReducer from "containers/BasicInformation/reducer.js";
 import ChangePasswordReducer from "containers/ChangePassword/reducer.js";
 import ImageFieldReducer from "containers/ImageField/reducer.js";
+import SetPasswordPageReducer from "containers/SetPasswordPage/reducer.js";
 
 export default combineReducers({
   LoginReducer,
@@ -13,5 +14,6 @@ export default combineReducers({
   ProfileReducer,
   BasicInformationReducer,
   ChangePasswordReducer,
-  ImageFieldReducer
+  ImageFieldReducer,
+  SetPasswordPageReducer
 });
