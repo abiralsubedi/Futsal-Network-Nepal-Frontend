@@ -39,7 +39,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         setPasswordLoading: false,
-        setPasswordError: ""
+        setPasswordError: "",
+        setPasswordSuccess: ""
       };
 
     default:

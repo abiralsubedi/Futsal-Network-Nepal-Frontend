@@ -4,11 +4,13 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 
 import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 import { useSnackbar } from "notistack";
 
 import ImageField from "containers/ImageField";
 import TextField from "components/TextField";
 import Button from "components/Button";
+import Modal from "components/Modal";
 
 import { postProfileInfo, clearMessage } from "./actions";
 import useStyles from "./style";
@@ -34,6 +36,7 @@ const ProfilePage = ({
   const [username, setUsername] = useState(profile.username);
   const [location, setLocation] = useState(profile.location);
   const [emailAddress, setEmailAddress] = useState(profile.emailAddress);
+  const [changeEmailActive, setChangeEmailActive] = useState(false);
 
   useEffect(() => {
     if (postProfileError) {
@@ -103,18 +106,66 @@ const ProfilePage = ({
             />
           </Grid>
         </Grid>
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-          type="submit"
-          fullWidth
-          disabled={postProfileLoading}
-          buttonRootClass={classes.informationButtonRoot}
-          actionLoading={postProfileLoading}
-          buttonText="Save Changes"
-        />
+        <div className={classes.buttonWrapper}>
+          <Button
+            variant="contained"
+            size="large"
+            color="primary"
+            type="submit"
+            fullWidth
+            disabled={postProfileLoading}
+            buttonRootClass={classes.informationButtonRoot}
+            actionLoading={postProfileLoading}
+            buttonText="Save Changes"
+          />
+          <Typography
+            color="primary"
+            className={classes.actionText}
+            onClick={() => setChangeEmailActive(true)}
+          >
+            Change Email Address?
+          </Typography>
+        </div>
       </form>
+      <Modal
+        open={changeEmailActive}
+        handleClose={() => setChangeEmailActive(false)}
+        title="Change your Email Address"
+      >
+        <Typography>
+          Please fill your new email address and you will shortly receive reset
+          link to confirm.
+        </Typography>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            // onSubmitForgotPassword();
+          }}
+        >
+          {/* <TextField
+            id="forgot-email"
+            label="Email"
+            type="email"
+            value={forgotEmail}
+            handleChange={val => setForgotEmail(val)}
+            autoFocus
+            required
+            fullWidth
+            customClasses={classes.forgotPasswordField}
+          />
+          <Button
+            variant="contained"
+            size="large"
+            color="primary"
+            type="submit"
+            fullWidth
+            disabled={postForgotPasswordLoading}
+            buttonRootClass={classes.loginButtonRoot}
+            actionLoading={postForgotPasswordLoading}
+            buttonText="Confirm"
+          /> */}
+        </form>
+      </Modal>
     </div>
   );
 };

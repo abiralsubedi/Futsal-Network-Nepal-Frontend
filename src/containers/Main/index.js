@@ -14,6 +14,7 @@ import SetPasswordPage from "containers/SetPasswordPage";
 import ProfilePage from "containers/ProfilePage";
 import DashboardPage from "containers/DashboardPage";
 import PrivateRoute from "components/PrivateRoute";
+import PublicRoute from "components/PublicRoute";
 
 import useStyles from "./style";
 
@@ -63,9 +64,13 @@ const Main = () => {
         <BrowserRouter>
           <CssBaseline />
           <Switch key="routes">
-            <Route path="/login" component={LoginPage} exact />
-            <Route path="/register" component={RegisterPage} exact />
-            <Route path="/set-password" component={SetPasswordPage} exact />
+            <PublicRoute path="/login" component={LoginPage} exact />
+            <PublicRoute path="/register" component={RegisterPage} exact />
+            <PublicRoute
+              path="/set-password"
+              component={SetPasswordPage}
+              exact
+            />
             <PrivateRoute exact path="/" component={DashboardPage} />
             <PrivateRoute path="/profile" component={ProfilePage} />
             <Route path="" component={NotFound} />

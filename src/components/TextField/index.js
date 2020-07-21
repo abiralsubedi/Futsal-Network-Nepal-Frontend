@@ -21,7 +21,6 @@ const CustomTextField = ({
         },
         endAdornment: endAdornment ? endAdornment : ""
       }}
-      autoComplete="new-password"
       variant="outlined"
       type={type || "text"}
       onChange={({ target: { value } }) => handleChange(value)}

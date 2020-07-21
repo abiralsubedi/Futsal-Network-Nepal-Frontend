@@ -21,13 +21,10 @@ import useStyles from "./style";
 const SetPasswordPage = ({
   history,
   location,
-  globalData,
-  setPasswordData: { setPasswordError, setPasswordLoading },
+  setPasswordData: { setPasswordError, setPasswordSuccess, setPasswordLoading },
   onClearPasswordMessage,
   onPostPassword
 }) => {
-  const { isAuthenticated, profile } = globalData;
-
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -43,7 +40,15 @@ const SetPasswordPage = ({
         onClose: () => onClearPasswordMessage()
       });
     }
-  }, [setPasswordError]);
+
+    if (setPasswordSuccess) {
+      enqueueSnackbar("Your password has been successfully updated.", {
+        variant: "success",
+        onClose: () => onClearPasswordMessage()
+      });
+      history.push("/login");
+    }
+  }, [setPasswordError, setPasswordSuccess]);
 
   useEffect(() => {
     const parsedQuery = queryString.parse(location.search);
@@ -51,11 +56,11 @@ const SetPasswordPage = ({
       localStorage.setItem("token", parsedQuery.token);
       history.replace("/set-password");
     }
-  }, []);
 
-  if (isAuthenticated && profile) {
-    history.push("/");
-  }
+    return () => {
+      localStorage.removeItem("token");
+    };
+  }, []);
 
   return (
     <AuthenticationWrapper>
@@ -106,7 +111,6 @@ const SetPasswordPage = ({
 };
 
 SetPasswordPage.propTypes = {
-  globalData: PropTypes.object,
   setPasswordData: PropTypes.object,
   onPostPassword: PropTypes.func,
   onClearPasswordMessage: PropTypes.func,
@@ -115,7 +119,6 @@ SetPasswordPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  globalData: state.LoginReducer,
   setPasswordData: state.SetPasswordPageReducer
 });
 

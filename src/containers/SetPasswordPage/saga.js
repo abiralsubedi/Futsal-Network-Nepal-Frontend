@@ -18,11 +18,7 @@ function* setPassword({ payload }) {
       },
       body: JSON.stringify(payload)
     });
-    if (response.success) {
-      yield call(getProfileData);
-      yield put(setPasswordSuccess(response));
-      yield put(loginSuccess({ token }));
-    }
+    yield put(setPasswordSuccess(response));
   } catch (error) {
     const errorObj = yield error.response.json();
     yield put(setPasswordError(errorObj.message));

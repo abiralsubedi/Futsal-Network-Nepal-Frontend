@@ -18,15 +18,11 @@ import checkValidEmail from "utils/checkValidEmail";
 import { register, clearRegisterMessage } from "./actions";
 import useStyles from "./style";
 
-const RegisterPage = props => {
-  const { isAuthenticated, profile } = props.data;
-  const {
-    history,
-    registerData: { registerError, registerSuccess, registerLoading },
-    onClearRegisterMessage,
-    postRegister
-  } = props;
-
+const RegisterPage = ({
+  registerData: { registerError, registerSuccess, registerLoading },
+  onClearRegisterMessage,
+  postRegister
+}) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -54,10 +50,6 @@ const RegisterPage = props => {
       setLocation("");
     }
   }, [registerError, registerSuccess]);
-
-  if (isAuthenticated && profile) {
-    history.push("/");
-  }
 
   const onSubmitRegister = () => {
     if (!checkValidEmail(emailAddress)) {
@@ -136,14 +128,12 @@ const RegisterPage = props => {
 };
 
 RegisterPage.propTypes = {
-  data: PropTypes.object,
   registerData: PropTypes.object,
   postRegister: PropTypes.func,
   onClearRegisterMessage: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  data: state.LoginReducer,
   registerData: state.RegisterReducer
 });
 
