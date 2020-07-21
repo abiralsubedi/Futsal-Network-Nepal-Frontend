@@ -4,15 +4,16 @@ import { compose } from "redux";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 
-import { Typography, InputAdornment, IconButton } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { useSnackbar } from "notistack";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 import AuthenticationWrapper from "components/AuthenticationWrapper";
 import TextField from "components/TextField";
 import Button from "components/Button";
 import { OuterLogo } from "components/Common";
 import { ThemeContext } from "context/themeContext";
+
+import checkValidEmail from "utils/checkValidEmail";
 
 import { register, clearRegisterMessage } from "./actions";
 import useStyles from "./style";
@@ -59,7 +60,7 @@ const RegisterPage = props => {
   }
 
   const onSubmitRegister = () => {
-    if (!/^\w+([\.\+-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailAddress)) {
+    if (!checkValidEmail(emailAddress)) {
       return enqueueSnackbar("Email is invalid", {
         variant: "error",
         onClose: () => onClearRegisterMessage()

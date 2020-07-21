@@ -18,27 +18,46 @@ import { OuterLogo } from "components/Common";
 import Button from "components/Button";
 import AuthenticationWrapper from "components/AuthenticationWrapper";
 import TextField from "components/TextField";
+import Modal from "components/Modal";
 
-import { login, clearLoginMessage, getProfileInfo } from "./actions";
+import checkValidEmail from "utils/checkValidEmail";
+
+import {
+  login,
+  clearLoginMessage,
+  getProfileInfo,
+  postForgotPassword
+} from "./actions";
 import useStyles from "./style";
 
-const LoginPage = props => {
-  const { isAuthenticated, isLoading, loginError, profile } = props.data;
+const LoginPage = ({
+  history,
+  data,
+  location,
+  postLogin,
+  onClearLoginMessage,
+  fetchProfileInfo,
+  saveForgotPassword
+}) => {
   const {
-    history,
-    location,
-    postLogin,
-    onClearLoginMessage,
-    fetchProfileInfo
-  } = props;
+    isAuthenticated,
+    isLoading,
+    loginError,
+    profile,
+    postForgotPasswordLoading,
+    postForgotPasswordSuccess,
+    postForgotPasswordError
+  } = data;
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const { isMobile } = useContext(ThemeContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [forgotEmail, setForgotEmail] = useState("");
   const [showPassword, setShowPassword] = useState("");
   const [loginGoogleActive, setLoginGoogleActive] = useState(false);
+  const [forgotPasswordActive, setForgotPasswordActive] = useState(false);
 
   useEffect(() => {
     if (loginError) {
@@ -47,7 +66,21 @@ const LoginPage = props => {
         onClose: () => onClearLoginMessage()
       });
     }
-  }, [loginError]);
+    if (postForgotPasswordError) {
+      enqueueSnackbar(postForgotPasswordError, {
+        variant: "error",
+        onClose: () => onClearLoginMessage()
+      });
+    }
+    if (postForgotPasswordSuccess) {
+      enqueueSnackbar("You will shortly receive email to set password.", {
+        variant: "success",
+        onClose: () => onClearLoginMessage()
+      });
+      setForgotEmail("");
+      setForgotPasswordActive(false);
+    }
+  }, [loginError, postForgotPasswordError, postForgotPasswordSuccess]);
 
   useEffect(() => {
     const parsedQuery = queryString.parse(location.search);
@@ -61,6 +94,16 @@ const LoginPage = props => {
   if (isAuthenticated && profile) {
     history.push("/");
   }
+
+  const onSubmitForgotPassword = () => {
+    if (!checkValidEmail(forgotEmail)) {
+      return enqueueSnackbar("Email is invalid", {
+        variant: "error",
+        onClose: () => onClearLoginMessage()
+      });
+    }
+    saveForgotPassword({ forgotEmail });
+  };
 
   return (
     <AuthenticationWrapper>
@@ -134,16 +177,58 @@ const LoginPage = props => {
             LOGIN WITH GOOGLE
           </Button>
           <Typography
-            variant="body1"
-            color="textSecondary"
-            style={{ marginTop: "1rem" }}
+            color="primary"
+            className={classes.actionText}
+            onClick={() => setForgotPasswordActive(true)}
           >
+            Forgot your password?
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
             Don't have an account?{" "}
             <Link to="/register" className={classes.textLink}>
               Sign up
             </Link>
           </Typography>
         </form>
+        <Modal
+          open={forgotPasswordActive}
+          handleClose={() => setForgotPasswordActive(false)}
+          title="Reset your Password"
+        >
+          <Typography>
+            Please fill your email address and you will shortly receive reset
+            link.
+          </Typography>
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              onSubmitForgotPassword();
+            }}
+          >
+            <TextField
+              id="forgot-email"
+              label="Email"
+              type="email"
+              value={forgotEmail}
+              handleChange={val => setForgotEmail(val)}
+              autoFocus
+              required
+              fullWidth
+              customClasses={classes.forgotPasswordField}
+            />
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              type="submit"
+              fullWidth
+              disabled={postForgotPasswordLoading}
+              buttonRootClass={classes.loginButtonRoot}
+              actionLoading={postForgotPasswordLoading}
+              buttonText="Confirm"
+            />
+          </form>
+        </Modal>
       </div>
     </AuthenticationWrapper>
   );
@@ -153,13 +238,17 @@ LoginPage.propTypes = {
   data: PropTypes.object,
   postLogin: PropTypes.func,
   onClearLoginMessage: PropTypes.func,
-  fetchProfileInfo: PropTypes.func
+  fetchProfileInfo: PropTypes.func,
+  history: PropTypes.object,
+  location: PropTypes.object,
+  saveForgotPassword: PropTypes.func
 };
 
 const mapStateToProps = state => ({ data: state.LoginReducer });
 
 const mapDispatchToProps = dispatch => ({
   postLogin: credential => dispatch(login(credential)),
+  saveForgotPassword: email => dispatch(postForgotPassword(email)),
   onClearLoginMessage: () => dispatch(clearLoginMessage()),
   fetchProfileInfo: () => dispatch(getProfileInfo())
 });

@@ -9,7 +9,10 @@ import {
   GET_PROFILE_INFO_ERROR,
   CLEAR_LOGIN_MESSAGE,
   SET_FILE_UPLOAD_DATA,
-  UPDATE_PROFILE_PICTURE
+  UPDATE_PROFILE_PICTURE,
+  POST_FORGOT_PASSWORD,
+  POST_FORGOT_PASSWORD_SUCCESS,
+  POST_FORGOT_PASSWORD_ERROR
 } from "./constants";
 
 export const login = payload => {
@@ -47,6 +50,16 @@ export const setFileUploadData = payload => {
 
 export const updateProfilePicture = url => {
   return { type: UPDATE_PROFILE_PICTURE, url };
+};
+
+export const postForgotPassword = payload => {
+  return { type: POST_FORGOT_PASSWORD, payload };
+};
+export const postForgotPasswordSuccess = message => {
+  return { type: POST_FORGOT_PASSWORD_SUCCESS, message };
+};
+export const postForgotPasswordError = error => {
+  return { type: POST_FORGOT_PASSWORD_ERROR, error };
 };
 
 export const clearLoginMessage = () => ({ type: CLEAR_LOGIN_MESSAGE });

@@ -16,6 +16,12 @@ const useStyles = makeStyles(theme => ({
   cursorPointer: {
     cursor: "pointer"
   },
+  actionText: {
+    margin: "1rem 0 0.6rem 0",
+    fontWeight: 600,
+    display: "inline-block",
+    cursor: "pointer"
+  },
   textLink: {
     textDecoration: "none",
     fontWeight: 700,
@@ -23,6 +29,9 @@ const useStyles = makeStyles(theme => ({
   },
   circularRoot: {
     marginRight: "0.8rem"
+  },
+  forgotPasswordField: {
+    margin: "2rem 0 1rem 0"
   }
 }));
 

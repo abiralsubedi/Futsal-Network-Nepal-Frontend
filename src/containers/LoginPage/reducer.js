@@ -9,7 +9,10 @@ import {
   CLEAR_LOGIN_MESSAGE,
   SET_FILE_UPLOAD_DATA,
   GET_PROFILE_INFO_ERROR,
-  UPDATE_PROFILE_PICTURE
+  UPDATE_PROFILE_PICTURE,
+  POST_FORGOT_PASSWORD,
+  POST_FORGOT_PASSWORD_SUCCESS,
+  POST_FORGOT_PASSWORD_ERROR
 } from "./constants";
 
 export const initialState = {
@@ -18,7 +21,10 @@ export const initialState = {
   token: localStorage.getItem("token"),
   loginError: "",
   profile: JSON.parse(localStorage.getItem("profile")),
-  fileUploadData: false
+  fileUploadData: false,
+  postForgotPasswordLoading: false,
+  postForgotPasswordSuccess: "",
+  postForgotPasswordError: ""
 };
 
 export default (state = initialState, action) => {
@@ -57,14 +63,42 @@ export default (state = initialState, action) => {
     case GET_PROFILE_INFO_ERROR:
       return { ...state, isLoading: false };
 
-    case CLEAR_LOGIN_MESSAGE:
-      return { ...state, isLoading: false, loginError: "" };
-
     case SET_FILE_UPLOAD_DATA:
       return { ...state, fileUploadData: action.payload };
 
     case UPDATE_PROFILE_PICTURE:
       return { ...state, profile: { ...state.profile, photoUri: action.url } };
+
+    case POST_FORGOT_PASSWORD:
+      return {
+        ...state,
+        postForgotPasswordLoading: true,
+        postForgotPasswordError: "",
+        postForgotPasswordSuccess: ""
+      };
+
+    case POST_FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        postForgotPasswordLoading: false,
+        postForgotPasswordSuccess: action.message
+      };
+
+    case POST_FORGOT_PASSWORD_ERROR:
+      return {
+        ...state,
+        postForgotPasswordLoading: false,
+        postForgotPasswordError: action.error
+      };
+
+    case CLEAR_LOGIN_MESSAGE:
+      return {
+        ...state,
+        isLoading: false,
+        loginError: "",
+        postForgotPasswordSuccess: "",
+        postForgotPasswordError: ""
+      };
 
     default:
       return state;

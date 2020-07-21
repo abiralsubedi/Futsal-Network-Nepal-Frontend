@@ -1,12 +1,14 @@
 import { call, put, takeLatest, select } from "redux-saga/effects";
 import request from "utils/request";
 
-import { LOGIN, GET_PROFILE_INFO } from "./constants";
+import { LOGIN, GET_PROFILE_INFO, POST_FORGOT_PASSWORD } from "./constants";
 import {
   loginSuccess,
   loginError,
   getProfileInfoSuccess,
-  getProfileInfoError
+  getProfileInfoError,
+  postForgotPasswordSuccess,
+  postForgotPasswordError
 } from "./actions";
 
 import { getGlobalData } from "./selectors";
@@ -48,6 +50,22 @@ function* login({ payload }) {
   }
 }
 
+function* postForgotPassword({ payload }) {
+  try {
+    const response = yield call(request, "/forgot-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+    yield put(postForgotPasswordSuccess(response));
+  } catch (error) {
+    const errorObj = yield error.response.json();
+    yield put(postForgotPasswordError(errorObj.message));
+  }
+}
+
 export function* uploadFile() {
   try {
     const { fileUploadData } = yield select(getGlobalData);
@@ -55,7 +73,7 @@ export function* uploadFile() {
     const response = yield call(request, "/upload-file", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       body: fileUploadData
     });
@@ -68,4 +86,5 @@ export function* uploadFile() {
 export default function* mySaga() {
   yield takeLatest(LOGIN, login);
   yield takeLatest(GET_PROFILE_INFO, getProfileData);
+  yield takeLatest(POST_FORGOT_PASSWORD, postForgotPassword);
 }
