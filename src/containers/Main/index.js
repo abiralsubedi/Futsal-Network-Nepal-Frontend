@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeContext } from "context/themeContext";
 import { ThemeProvider } from "@material-ui/core/styles";
@@ -15,6 +14,7 @@ import ProfilePage from "containers/ProfilePage";
 import DashboardPage from "containers/DashboardPage";
 import PrivateRoute from "components/PrivateRoute";
 import PublicRoute from "components/PublicRoute";
+import NotFoundPage from "components/NotFoundPage";
 
 import useStyles from "./style";
 
@@ -31,12 +31,6 @@ const Main = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const NotFound = () => (
-    <h1>
-      <Link to="/login">Not found</Link>
-    </h1>
-  );
 
   const notistackRef = React.createRef();
   const onClickDismiss = key => () => {
@@ -69,7 +63,7 @@ const Main = () => {
             <Route path="/set-password" component={SetPasswordPage} exact />
             <PrivateRoute exact path="/" component={DashboardPage} />
             <PrivateRoute path="/profile" component={ProfilePage} />
-            <Route path="" component={NotFound} />
+            <Route path="" component={NotFoundPage} />
           </Switch>
         </BrowserRouter>
       </SnackbarProvider>
