@@ -66,11 +66,7 @@ const Main = () => {
           <Switch key="routes">
             <PublicRoute path="/login" component={LoginPage} exact />
             <PublicRoute path="/register" component={RegisterPage} exact />
-            <PublicRoute
-              path="/set-password"
-              component={SetPasswordPage}
-              exact
-            />
+            <Route path="/set-password" component={SetPasswordPage} exact />
             <PrivateRoute exact path="/" component={DashboardPage} />
             <PrivateRoute path="/profile" component={ProfilePage} />
             <Route path="" component={NotFound} />

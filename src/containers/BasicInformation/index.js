@@ -6,20 +6,26 @@ import { compose } from "redux";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useSnackbar } from "notistack";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
 
 import ImageField from "containers/ImageField";
 import TextField from "components/TextField";
 import Button from "components/Button";
 import Modal from "components/Modal";
 
-import { postProfileInfo, clearMessage } from "./actions";
+import checkValidEmail from "utils/checkValidEmail";
+
+import { postProfileInfo, clearMessage, postChangeEmail } from "./actions";
 import useStyles from "./style";
 
 const ProfilePage = ({
   globalData,
   saveProfileInfo,
   basicInformationData,
-  onClearInformationMessage
+  onClearInformationMessage,
+  saveChangeEmail
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -27,7 +33,10 @@ const ProfilePage = ({
   const {
     postProfileLoading,
     postProfileSuccess,
-    postProfileError
+    postProfileError,
+    postChangeEmailLoading,
+    postChangeEmailSuccess,
+    postChangeEmailError
   } = basicInformationData;
 
   const { profile } = globalData;
@@ -37,6 +46,7 @@ const ProfilePage = ({
   const [location, setLocation] = useState(profile.location);
   const [emailAddress, setEmailAddress] = useState(profile.emailAddress);
   const [changeEmailActive, setChangeEmailActive] = useState(false);
+  const [newEmail, setNewEmail] = useState("");
 
   useEffect(() => {
     if (postProfileError) {
@@ -51,7 +61,36 @@ const ProfilePage = ({
         onClose: () => onClearInformationMessage()
       });
     }
-  }, [postProfileError, postProfileSuccess]);
+    if (postChangeEmailError) {
+      enqueueSnackbar(postChangeEmailError, {
+        variant: "error",
+        onClose: () => onClearInformationMessage()
+      });
+    }
+    if (postChangeEmailSuccess) {
+      enqueueSnackbar("You will shortly receive confirmation email.", {
+        variant: "success",
+        onClose: () => onClearInformationMessage()
+      });
+      setChangeEmailActive(false);
+      setNewEmail("");
+    }
+  }, [
+    postProfileError,
+    postProfileSuccess,
+    postChangeEmailError,
+    postChangeEmailSuccess
+  ]);
+
+  const onSubmitChangeEmail = () => {
+    if (!checkValidEmail(newEmail)) {
+      return enqueueSnackbar("Email is invalid", {
+        variant: "error",
+        onClose: () => onClearInformationMessage()
+      });
+    }
+    saveChangeEmail({ newEmail });
+  };
 
   return (
     <div className={classes.basicInformationContent}>
@@ -103,29 +142,33 @@ const ProfilePage = ({
               required
               disabled
               fullWidth
+              endAdornment={
+                !profile.googleId && (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setChangeEmailActive(true)}
+                      edge="end"
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }
             />
           </Grid>
         </Grid>
-        <div className={classes.buttonWrapper}>
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            type="submit"
-            fullWidth
-            disabled={postProfileLoading}
-            buttonRootClass={classes.informationButtonRoot}
-            actionLoading={postProfileLoading}
-            buttonText="Save Changes"
-          />
-          <Typography
-            color="primary"
-            className={classes.actionText}
-            onClick={() => setChangeEmailActive(true)}
-          >
-            Change Email Address?
-          </Typography>
-        </div>
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          type="submit"
+          fullWidth
+          disabled={postProfileLoading}
+          buttonRootClass={classes.informationButtonRoot}
+          actionLoading={postProfileLoading}
+          buttonText="Save Changes"
+        />
       </form>
       <Modal
         open={changeEmailActive}
@@ -133,25 +176,25 @@ const ProfilePage = ({
         title="Change your Email Address"
       >
         <Typography>
-          Please fill your new email address and you will shortly receive reset
-          link to confirm.
+          Please fill your new email address and you will shortly receive
+          confirmation email.
         </Typography>
         <form
           onSubmit={e => {
             e.preventDefault();
-            // onSubmitForgotPassword();
+            onSubmitChangeEmail();
           }}
         >
-          {/* <TextField
+          <TextField
             id="forgot-email"
-            label="Email"
+            label="New Email"
             type="email"
-            value={forgotEmail}
-            handleChange={val => setForgotEmail(val)}
+            value={newEmail}
+            handleChange={val => setNewEmail(val)}
             autoFocus
             required
             fullWidth
-            customClasses={classes.forgotPasswordField}
+            customClasses={classes.changeEmailField}
           />
           <Button
             variant="contained"
@@ -159,11 +202,10 @@ const ProfilePage = ({
             color="primary"
             type="submit"
             fullWidth
-            disabled={postForgotPasswordLoading}
-            buttonRootClass={classes.loginButtonRoot}
-            actionLoading={postForgotPasswordLoading}
+            disabled={postChangeEmailLoading}
+            actionLoading={postChangeEmailLoading}
             buttonText="Confirm"
-          /> */}
+          />
         </form>
       </Modal>
     </div>
@@ -174,7 +216,8 @@ ProfilePage.propTypes = {
   globalData: PropTypes.object,
   basicInformationData: PropTypes.object,
   saveProfileInfo: PropTypes.func,
-  onClearInformationMessage: PropTypes.func
+  onClearInformationMessage: PropTypes.func,
+  saveChangeEmail: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -184,6 +227,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   saveProfileInfo: data => dispatch(postProfileInfo(data)),
+  saveChangeEmail: email => dispatch(postChangeEmail(email)),
   onClearInformationMessage: () => dispatch(clearMessage())
 });
 

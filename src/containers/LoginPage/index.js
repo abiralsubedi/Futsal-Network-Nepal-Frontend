@@ -223,7 +223,6 @@ const LoginPage = ({
               type="submit"
               fullWidth
               disabled={postForgotPasswordLoading}
-              buttonRootClass={classes.loginButtonRoot}
               actionLoading={postForgotPasswordLoading}
               buttonText="Confirm"
             />

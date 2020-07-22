@@ -15,15 +15,23 @@ import Button from "components/Button";
 import { OuterLogo } from "components/Common";
 import { ThemeContext } from "context/themeContext";
 
-import { setPassword, clearSetPasswordMessage } from "./actions";
+import { setPassword, clearSetPasswordMessage, updateEmail } from "./actions";
 import useStyles from "./style";
 
 const SetPasswordPage = ({
   history,
   location,
-  setPasswordData: { setPasswordError, setPasswordSuccess, setPasswordLoading },
+  setPasswordData: {
+    setPasswordError,
+    setPasswordSuccess,
+    setPasswordLoading,
+    updateEmailLoading,
+    updateEmailSuccess,
+    updateEmailError
+  },
   onClearPasswordMessage,
-  onPostPassword
+  onPostPassword,
+  onUpdateEmail
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -48,19 +56,38 @@ const SetPasswordPage = ({
       });
       history.push("/login");
     }
-  }, [setPasswordError, setPasswordSuccess]);
 
-  useEffect(() => {
-    const parsedQuery = queryString.parse(location.search);
-    if (parsedQuery.token) {
-      localStorage.setItem("token", parsedQuery.token);
-      history.replace("/set-password");
+    if (updateEmailError) {
+      enqueueSnackbar(updateEmailError, {
+        variant: "error",
+        onClose: () => onClearPasswordMessage()
+      });
     }
 
-    return () => {
-      localStorage.removeItem("token");
-    };
-  }, []);
+    if (updateEmailSuccess) {
+      enqueueSnackbar("Your email has been successfully updated.", {
+        variant: "success",
+        onClose: () => onClearPasswordMessage()
+      });
+      history.push("/login");
+    }
+  }, [
+    setPasswordError,
+    setPasswordSuccess,
+    updateEmailSuccess,
+    updateEmailError
+  ]);
+
+  const { token, confirm_email: confirmEmail } = queryString.parse(
+    location.search
+  );
+
+  const onFormSubmit = () => {
+    if (confirmEmail) {
+      return onUpdateEmail({ password, token });
+    }
+    onPostPassword({ newPassword: password, token });
+  };
 
   return (
     <AuthenticationWrapper>
@@ -68,11 +95,15 @@ const SetPasswordPage = ({
         <form
           onSubmit={e => {
             e.preventDefault();
-            onPostPassword({ newPassword: password });
+            onFormSubmit();
           }}
         >
           {isMobile && <OuterLogo />}
-          <Typography variant="h6">Set your password</Typography>
+          <Typography variant="h6">
+            {confirmEmail
+              ? "Please enter your password to confirm email"
+              : "Set your password"}{" "}
+          </Typography>
           <TextField
             id="set-new-password"
             label="Password"
@@ -100,8 +131,8 @@ const SetPasswordPage = ({
             color="primary"
             type="submit"
             fullWidth
-            disabled={setPasswordLoading}
-            actionLoading={setPasswordLoading}
+            disabled={setPasswordLoading || updateEmailLoading}
+            actionLoading={setPasswordLoading || updateEmailLoading}
             buttonText="Set Password"
           />
         </form>
@@ -115,7 +146,8 @@ SetPasswordPage.propTypes = {
   onPostPassword: PropTypes.func,
   onClearPasswordMessage: PropTypes.func,
   history: PropTypes.object,
-  location: PropTypes.object
+  location: PropTypes.object,
+  onUpdateEmail: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -124,6 +156,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onPostPassword: credential => dispatch(setPassword(credential)),
+  onUpdateEmail: credential => dispatch(updateEmail(credential)),
   onClearPasswordMessage: () => dispatch(clearSetPasswordMessage())
 });
 

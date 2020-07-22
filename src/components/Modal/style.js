@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
       border: "none",
       borderTop: `1.5px solid ${theme.palette.divider}`
     },
-    width: "45%",
+    width: "40%",
     [theme.breakpoints.down("md")]: {
       width: "55%"
     },

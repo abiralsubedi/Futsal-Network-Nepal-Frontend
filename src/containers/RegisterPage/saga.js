@@ -3,8 +3,6 @@ import request from "utils/request";
 
 import { REGISTER } from "./constants";
 import { registerSuccess, registerError } from "./actions";
-import { loginSuccess } from "containers/LoginPage/actions";
-import { getProfileData } from "containers/LoginPage/saga";
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* register({ payload }) {
