@@ -17,7 +17,9 @@ const PublicRoute = ({ component: Component, data, ...rest }) => (
   />
 );
 
-PublicRoute.propTypes = { component: PropTypes.object };
+PublicRoute.propTypes = {
+  component: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
+};
 
 const mapStateToProps = state => ({ data: state.LoginReducer });
 

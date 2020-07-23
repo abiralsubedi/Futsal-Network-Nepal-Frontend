@@ -11,6 +11,8 @@ import AuthenticationWrapper from "components/AuthenticationWrapper";
 import TextField from "components/TextField";
 import Button from "components/Button";
 import { OuterLogo } from "components/Common";
+import ReCaptcha from "components/ReCaptcha";
+
 import { ThemeContext } from "context/themeContext";
 
 import checkValidEmail from "utils/checkValidEmail";
@@ -29,8 +31,10 @@ const RegisterPage = ({
   const [fullName, setFullName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [location, setLocation] = useState("");
+  const [reCaptchaValue, setReCaptchaValue] = useState("");
 
   const { isMobile } = useContext(ThemeContext);
+  const reCaptchaRef = React.createRef();
 
   useEffect(() => {
     if (registerError) {
@@ -48,6 +52,8 @@ const RegisterPage = ({
       setFullName("");
       setEmailAddress("");
       setLocation("");
+      reCaptchaRef.current.reset();
+      setReCaptchaValue("");
     }
   }, [registerError, registerSuccess]);
 
@@ -58,7 +64,7 @@ const RegisterPage = ({
         onClose: () => onClearRegisterMessage()
       });
     }
-    postRegister({ fullName, emailAddress, location });
+    postRegister({ fullName, emailAddress, location, reCaptchaValue });
   };
 
   return (
@@ -101,13 +107,17 @@ const RegisterPage = ({
             fullWidth
             customClasses={classes.loginTextField}
           />
+          <ReCaptcha
+            onCaptchaChange={value => setReCaptchaValue(value)}
+            captchaRef={reCaptchaRef}
+          />
           <Button
             variant="contained"
             size="large"
             color="primary"
             type="submit"
             fullWidth
-            disabled={registerLoading}
+            disabled={registerLoading || !reCaptchaValue}
             actionLoading={registerLoading}
             buttonText="SIGN UP NOW"
           />
