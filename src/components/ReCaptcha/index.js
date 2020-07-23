@@ -14,7 +14,7 @@ const ReCaptcha = ({ onCaptchaChange, captchaRef }) => {
   return (
     <ReCAPTCHA
       ref={captchaRef}
-      sitekey={REACT_APP_CAPTCHA_SITE_KEY}
+      sitekey={REACT_APP_CAPTCHA_SITE_KEY || ""}
       onChange={onCaptchaChange}
     />
   );
