@@ -5,7 +5,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1rem",
     fontWeight: 600,
     lineHeight: "22px",
-    textTransform: "capitalize",
+    textTransform: "initial",
     "& img": {
       marginRight: "0.5rem",
       width: "1.625rem"

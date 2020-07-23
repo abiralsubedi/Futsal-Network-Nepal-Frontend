@@ -15,23 +15,22 @@ import Button from "components/Button";
 import { OuterLogo } from "components/Common";
 import { ThemeContext } from "context/themeContext";
 
-import { setPassword, clearSetPasswordMessage, updateEmail } from "./actions";
+import {
+  setPassword,
+  clearSetPasswordMessage,
+  updateEmail,
+  unlinkEmail
+} from "./actions";
 import useStyles from "./style";
 
 const SetPasswordPage = ({
   history,
   location,
-  setPasswordData: {
-    setPasswordError,
-    setPasswordSuccess,
-    setPasswordLoading,
-    updateEmailLoading,
-    updateEmailSuccess,
-    updateEmailError
-  },
+  setPasswordData: { setPasswordError, setPasswordSuccess, setPasswordLoading },
   onClearPasswordMessage,
   onPostPassword,
-  onUpdateEmail
+  onUpdateEmail,
+  onUnLinkEmail
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -50,41 +49,33 @@ const SetPasswordPage = ({
     }
 
     if (setPasswordSuccess) {
-      enqueueSnackbar("Your password has been successfully updated.", {
+      enqueueSnackbar(setPasswordSuccess, {
         variant: "success",
         onClose: () => onClearPasswordMessage()
       });
       history.push("/login");
     }
+  }, [setPasswordError, setPasswordSuccess]);
 
-    if (updateEmailError) {
-      enqueueSnackbar(updateEmailError, {
-        variant: "error",
-        onClose: () => onClearPasswordMessage()
-      });
+  const {
+    token,
+    confirm_email: confirmEmail,
+    unlink_email: unLinkEmail
+  } = queryString.parse(location.search);
+
+  const getPageLabel = () => {
+    if (confirmEmail) {
+      return "Enter your password to confirm email";
     }
-
-    if (updateEmailSuccess) {
-      enqueueSnackbar("Your email has been successfully updated.", {
-        variant: "success",
-        onClose: () => onClearPasswordMessage()
-      });
-      history.push("/login");
-    }
-  }, [
-    setPasswordError,
-    setPasswordSuccess,
-    updateEmailSuccess,
-    updateEmailError
-  ]);
-
-  const { token, confirm_email: confirmEmail } = queryString.parse(
-    location.search
-  );
+    return "Set new password";
+  };
 
   const onFormSubmit = () => {
     if (confirmEmail) {
       return onUpdateEmail({ password, token });
+    }
+    if (unLinkEmail) {
+      return onUnLinkEmail({ token, newPassword: password });
     }
     onPostPassword({ newPassword: password, token });
   };
@@ -99,11 +90,7 @@ const SetPasswordPage = ({
           }}
         >
           {isMobile && <OuterLogo />}
-          <Typography variant="h6">
-            {confirmEmail
-              ? "Please enter your password to confirm email"
-              : "Set your password"}{" "}
-          </Typography>
+          <Typography variant="h6">{getPageLabel()}</Typography>
           <TextField
             id="set-new-password"
             label="Password"
@@ -131,8 +118,8 @@ const SetPasswordPage = ({
             color="primary"
             type="submit"
             fullWidth
-            disabled={setPasswordLoading || updateEmailLoading}
-            actionLoading={setPasswordLoading || updateEmailLoading}
+            disabled={setPasswordLoading}
+            actionLoading={setPasswordLoading}
             buttonText="Set Password"
           />
         </form>
@@ -147,7 +134,8 @@ SetPasswordPage.propTypes = {
   onClearPasswordMessage: PropTypes.func,
   history: PropTypes.object,
   location: PropTypes.object,
-  onUpdateEmail: PropTypes.func
+  onUpdateEmail: PropTypes.func,
+  onUnLinkEmail: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -157,6 +145,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onPostPassword: credential => dispatch(setPassword(credential)),
   onUpdateEmail: credential => dispatch(updateEmail(credential)),
+  onUnLinkEmail: credential => dispatch(unlinkEmail(credential)),
   onClearPasswordMessage: () => dispatch(clearSetPasswordMessage())
 });
 

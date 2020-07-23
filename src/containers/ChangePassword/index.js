@@ -8,11 +8,13 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import TextField from "components/TextField";
-import Button from "components/Button";
 import { useSnackbar } from "notistack";
 
-import { postPassword, clearMessage } from "./actions";
+import TextField from "components/TextField";
+import Button from "components/Button";
+import ConfirmationModal from "components/ConfirmationModal";
+
+import { postPassword, clearMessage, unLinkEmail } from "./actions";
 import useStyles from "./style";
 import { Typography } from "@material-ui/core";
 
@@ -20,7 +22,8 @@ const ChangePassword = ({
   savePassword,
   changePasswordData,
   onClearInformationMessage,
-  globalData
+  globalData,
+  onUnLinkEmail
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -37,6 +40,8 @@ const ChangePassword = ({
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
 
+  const [linkAccountActive, setLinkAccountActive] = useState(false);
+
   useEffect(() => {
     if (postPasswordError) {
       enqueueSnackbar(postPasswordError, {
@@ -51,6 +56,7 @@ const ChangePassword = ({
       });
       setOldPassword("");
       setNewPassword("");
+      setLinkAccountActive(false);
     }
   }, [postPasswordError, postPasswordSuccess]);
 
@@ -68,9 +74,26 @@ const ChangePassword = ({
     return (
       <div className={classes.changePasswordContent}>
         <Typography variant="body1">
-          Sorry you are not able to change password as the account is linked to
-          your google id.
+          In order to change password, you need to unlink your account from
+          Google.
         </Typography>
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          onClick={() => setLinkAccountActive(true)}
+          fullWidth
+          buttonRootClass={classes.passwordButtonRoot}
+          buttonText="Unlink from Google"
+        />
+        <ConfirmationModal
+          open={linkAccountActive}
+          handleClose={() => setLinkAccountActive(false)}
+          title="Unlink your Google Account"
+          confirmationText="If you proceed, you will shortly receive a email to reset password for your account. Do you want to continue?"
+          handleConfirm={() => onUnLinkEmail()}
+          loading={postPasswordLoading}
+        />
       </div>
     );
   }
@@ -145,7 +168,8 @@ ChangePassword.propTypes = {
   globalData: PropTypes.object,
   changePasswordData: PropTypes.object,
   savePassword: PropTypes.func,
-  onClearInformationMessage: PropTypes.func
+  onClearInformationMessage: PropTypes.func,
+  onUnLinkEmail: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -155,6 +179,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   savePassword: data => dispatch(postPassword(data)),
+  onUnLinkEmail: () => dispatch(unLinkEmail()),
   onClearInformationMessage: () => dispatch(clearMessage())
 });
 

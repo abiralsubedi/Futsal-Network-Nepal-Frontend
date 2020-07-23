@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import request from "utils/request";
 
-import { POST_PASSWORD } from "./constants";
+import { POST_PASSWORD, UNLINK_EMAIL } from "./constants";
 import { postPasswordSuccess, postPasswordError } from "./actions";
 
 function* postPassword({ payload }) {
@@ -22,6 +22,25 @@ function* postPassword({ payload }) {
   }
 }
 
+function* unLinkEmail() {
+  try {
+    const token = localStorage.getItem("token");
+    yield call(request, "/unlink-email", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    yield put(
+      postPasswordSuccess("You will shortly receive email to set password.")
+    );
+  } catch (error) {
+    const errorObj = yield error.response.json();
+    yield put(postPasswordError(errorObj.message));
+  }
+}
+
 export default function* mySaga() {
   yield takeLatest(POST_PASSWORD, postPassword);
+  yield takeLatest(UNLINK_EMAIL, unLinkEmail);
 }

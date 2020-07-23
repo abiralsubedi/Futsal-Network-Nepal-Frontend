@@ -2,6 +2,7 @@ import {
   POST_PASSWORD,
   POST_PASSWORD_ERROR,
   POST_PASSWORD_SUCCESS,
+  UNLINK_EMAIL,
   CLEAR_MESSAGE
 } from "./constants";
 
@@ -32,6 +33,14 @@ export default (
         ...state,
         postPasswordLoading: false,
         postPasswordError: action.error
+      };
+
+    case UNLINK_EMAIL:
+      return {
+        ...state,
+        postPasswordLoading: true,
+        postPasswordSuccess: "",
+        postPasswordError: ""
       };
 
     case CLEAR_MESSAGE:

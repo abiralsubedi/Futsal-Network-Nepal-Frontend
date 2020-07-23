@@ -1,19 +1,13 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import request from "utils/request";
 
-import { SET_PASSWORD, UPDATE_EMAIL } from "./constants";
-import {
-  setPasswordSuccess,
-  setPasswordError,
-  updateEmailSuccess,
-  updateEmailError
-} from "./actions";
+import { SET_PASSWORD, UPDATE_EMAIL, UNLINK_EMAIL } from "./constants";
+import { setPasswordSuccess, setPasswordError } from "./actions";
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* setPassword({ payload }) {
   try {
     const { newPassword, token } = payload;
-    const response = yield call(request, "/set-password", {
+    yield call(request, "/set-password", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -21,7 +15,9 @@ function* setPassword({ payload }) {
       },
       body: JSON.stringify({ newPassword })
     });
-    yield put(setPasswordSuccess(response));
+    yield put(
+      setPasswordSuccess("Your password has been successfully updated.")
+    );
   } catch (error) {
     const errorObj = yield error.response.json();
     yield put(setPasswordError(errorObj.message));
@@ -31,7 +27,7 @@ function* setPassword({ payload }) {
 function* updateEmail({ payload }) {
   try {
     const { password, token } = payload;
-    const response = yield call(request, "/confirm-email", {
+    yield call(request, "/confirm-email", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -39,14 +35,35 @@ function* updateEmail({ payload }) {
       },
       body: JSON.stringify({ password })
     });
-    yield put(updateEmailSuccess(response));
+    yield put(setPasswordSuccess("Your email has been successfully updated."));
   } catch (error) {
     const errorObj = yield error.response.json();
-    yield put(updateEmailError(errorObj.message));
+    yield put(setPasswordError(errorObj.message));
+  }
+}
+
+function* unlinkEmail({ payload }) {
+  try {
+    const { newPassword, token } = payload;
+    yield call(request, "/unlink-email", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ newPassword })
+    });
+    yield put(
+      setPasswordSuccess("Your account has been unlinked from google.")
+    );
+  } catch (error) {
+    const errorObj = yield error.response.json();
+    yield put(setPasswordError(errorObj.message));
   }
 }
 
 export default function* mySaga() {
   yield takeLatest(SET_PASSWORD, setPassword);
   yield takeLatest(UPDATE_EMAIL, updateEmail);
+  yield takeLatest(UNLINK_EMAIL, unlinkEmail);
 }
