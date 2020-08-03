@@ -20,7 +20,7 @@ const NotFoundPage = () => {
         </div>
         <img
           src="https://image.flaticon.com/icons/svg/2292/2292952.svg"
-          alt="not-found-image"
+          alt="not-found"
         />
       </div>
     </Wrapper>

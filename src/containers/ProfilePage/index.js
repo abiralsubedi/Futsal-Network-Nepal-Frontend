@@ -7,9 +7,11 @@ import Typography from "@material-ui/core/Typography";
 
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
+import CreditCardIcon from "@material-ui/icons/CreditCard";
 
 import BasicInformation from "containers/BasicInformation";
 import ChangePassword from "containers/ChangePassword";
+import CreditPage from "containers/CreditPage";
 
 import { Wrapper } from "components/Common";
 import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
@@ -31,6 +33,9 @@ const ProfilePage = ({ location, history }) => {
     if (location.pathname.includes("change-password")) {
       setTabIndexValue(1);
     }
+    if (location.pathname.includes("credit")) {
+      setTabIndexValue(2);
+    }
   }, [location.pathname]);
 
   const profileTabContent = {
@@ -49,6 +54,11 @@ const ProfilePage = ({ location, history }) => {
         labelText: "Change Password",
         labelIcon: <LockOpenIcon />,
         content: <ChangePassword />
+      },
+      {
+        labelText: "Credit",
+        labelIcon: <CreditCardIcon />,
+        content: <CreditPage />
       }
     ]
   };

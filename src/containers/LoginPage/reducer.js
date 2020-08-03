@@ -12,7 +12,9 @@ import {
   UPDATE_PROFILE_PICTURE,
   POST_FORGOT_PASSWORD,
   POST_FORGOT_PASSWORD_SUCCESS,
-  POST_FORGOT_PASSWORD_ERROR
+  POST_FORGOT_PASSWORD_ERROR,
+  UPDATE_CREDIT_AMOUNT,
+  TOGGLE_ADD_CREDIT_MODAL
 } from "./constants";
 
 export const initialState = {
@@ -24,7 +26,8 @@ export const initialState = {
   fileUploadData: false,
   postForgotPasswordLoading: false,
   postForgotPasswordSuccess: "",
-  postForgotPasswordError: ""
+  postForgotPasswordError: "",
+  addCreditModalActive: false
 };
 
 export default (state = initialState, action) => {
@@ -68,6 +71,22 @@ export default (state = initialState, action) => {
 
     case UPDATE_PROFILE_PICTURE:
       return { ...state, profile: { ...state.profile, photoUri: action.url } };
+
+    case UPDATE_CREDIT_AMOUNT:
+      return {
+        ...state,
+        addCreditModalActive: false,
+        profile: {
+          ...state.profile,
+          credit: state.profile.credit + action.amount
+        }
+      };
+
+    case TOGGLE_ADD_CREDIT_MODAL:
+      return {
+        ...state,
+        addCreditModalActive: action.data
+      };
 
     case POST_FORGOT_PASSWORD:
       return {

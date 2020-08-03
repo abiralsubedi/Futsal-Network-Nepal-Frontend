@@ -12,7 +12,9 @@ import {
   UPDATE_PROFILE_PICTURE,
   POST_FORGOT_PASSWORD,
   POST_FORGOT_PASSWORD_SUCCESS,
-  POST_FORGOT_PASSWORD_ERROR
+  POST_FORGOT_PASSWORD_ERROR,
+  UPDATE_CREDIT_AMOUNT,
+  TOGGLE_ADD_CREDIT_MODAL
 } from "./constants";
 
 export const login = payload => {
@@ -52,6 +54,10 @@ export const updateProfilePicture = url => {
   return { type: UPDATE_PROFILE_PICTURE, url };
 };
 
+export const updateCreditAmount = amount => {
+  return { type: UPDATE_CREDIT_AMOUNT, amount };
+};
+
 export const postForgotPassword = payload => {
   return { type: POST_FORGOT_PASSWORD, payload };
 };
@@ -60,6 +66,10 @@ export const postForgotPasswordSuccess = message => {
 };
 export const postForgotPasswordError = error => {
   return { type: POST_FORGOT_PASSWORD_ERROR, error };
+};
+
+export const toggleAddCreditModal = data => {
+  return { type: TOGGLE_ADD_CREDIT_MODAL, data };
 };
 
 export const clearLoginMessage = () => ({ type: CLEAR_LOGIN_MESSAGE });
