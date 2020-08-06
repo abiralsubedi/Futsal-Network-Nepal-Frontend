@@ -1,12 +1,17 @@
+import "date-fns";
 import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { ThemeContext } from "context/themeContext";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { SnackbarProvider } from "notistack";
 import Button from "@material-ui/core/Button";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
+import { ThemeContext } from "context/themeContext";
 import getTheme from "utils/theme";
+
 import LoginPage from "containers/LoginPage";
 import RegisterPage from "containers/RegisterPage";
 import SetPasswordPage from "containers/SetPasswordPage";
@@ -55,17 +60,19 @@ const Main = () => {
           root: classes.snackBarRoot
         }}
       >
-        <BrowserRouter>
-          <CssBaseline />
-          <Switch key="routes">
-            <PublicRoute path="/login" component={LoginPage} exact />
-            <PublicRoute path="/register" component={RegisterPage} exact />
-            <Route path="/set-password" component={SetPasswordPage} exact />
-            <PrivateRoute exact path="/" component={DashboardPage} />
-            <PrivateRoute path="/profile" component={ProfilePage} />
-            <Route path="" component={NotFoundPage} />
-          </Switch>
-        </BrowserRouter>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <BrowserRouter>
+            <CssBaseline />
+            <Switch key="routes">
+              <PublicRoute path="/login" component={LoginPage} exact />
+              <PublicRoute path="/register" component={RegisterPage} exact />
+              <Route path="/set-password" component={SetPasswordPage} exact />
+              <PrivateRoute exact path="/" component={DashboardPage} />
+              <PrivateRoute path="/profile" component={ProfilePage} />
+              <Route path="" component={NotFoundPage} />
+            </Switch>
+          </BrowserRouter>
+        </MuiPickersUtilsProvider>
       </SnackbarProvider>
     </ThemeProvider>
   );

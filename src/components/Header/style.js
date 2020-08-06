@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   },
   toolBarGutters: {
     [theme.breakpoints.up("lg")]: {
-      padding: "0 7rem"
+      padding: "0 10rem"
     }
   },
   primaryHeaderBar: {

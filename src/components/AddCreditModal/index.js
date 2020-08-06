@@ -39,6 +39,7 @@ const AddCreditModal = ({ globalData, onToggleCreditModal }) => {
       handleClose={() => {
         onToggleCreditModal(false);
         setAmount(0);
+        setAmountError(true);
         setIsPaymentScreen(false);
       }}
       title="Add Credit Balance"

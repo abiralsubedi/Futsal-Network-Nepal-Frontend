@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.common.paperBackgroundColor,
     padding: "20px 24px",
     [theme.breakpoints.up("lg")]: {
-      padding: "20px 7rem"
+      padding: "20px 10rem"
     }
   },
 
