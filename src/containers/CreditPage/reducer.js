@@ -8,7 +8,7 @@ import {
 export default (
   state = {
     creditHistoryLoading: false,
-    creditHistory: false,
+    creditHistory: [],
     creditHistoryError: ""
   },
   action
@@ -36,7 +36,7 @@ export default (
     case CLEAR_CREDIT_HISTORY:
       return {
         ...state,
-        creditHistory: false,
+        creditHistory: [],
         creditHistoryLoading: false,
         creditHistoryError: ""
       };

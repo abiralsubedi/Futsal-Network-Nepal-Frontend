@@ -104,9 +104,15 @@ const PaymentForm = ({
       if (result.paymentIntent.status === "succeeded") {
         const { amount } = result.paymentIntent;
         const receivedAmount = amount / 100;
-        onUpdateCreditAmount(receivedAmount);
-        enqueueSnackbar(`Your payment is successful.`, {
-          variant: "success"
+
+        await new Promise(resolve => {
+          setTimeout(() => {
+            onUpdateCreditAmount(receivedAmount);
+            enqueueSnackbar(`Your payment is successful.`, {
+              variant: "success"
+            });
+            resolve("success");
+          }, 1000);
         });
       }
     }

@@ -39,7 +39,7 @@ const CreditPage = ({
     profile: { credit }
   } = globalData;
 
-  const { creditHistoryLoading, creditHistory: historyCredit } = creditPageData;
+  const { creditHistoryLoading, creditHistory } = creditPageData;
 
   const [orderBy, setOrderBy] = useState("transactionDate");
   const [order, setOrder] = useState("desc");
@@ -50,8 +50,11 @@ const CreditPage = ({
 
   useEffect(() => {
     onClearCreditHistory();
-    handleHistorySearch();
   }, []);
+
+  useEffect(() => {
+    handleHistorySearch();
+  }, [credit]);
 
   const getFirstLastHourDate = (requiredDate, type) => {
     let updatedDate = new Date(requiredDate);
@@ -67,31 +70,6 @@ const CreditPage = ({
       endDate: getFirstLastHourDate(endDate, "last")
     });
   };
-
-  const creditHistory = [
-    {
-      remark: "Opening Balance",
-      transactionDate: "2020-08-03T10:58:56.832Z",
-      amount: 10
-    },
-    {
-      remark:
-        "Topup from stripe is the greatest. Topup from stripe is the greatest",
-      transactionDate: "2020-08-05T10:58:56.832Z",
-      amount: 25
-    },
-    {
-      remark:
-        "Topup from stripe is the greatest. Topup from stripe is the greatest",
-      transactionDate: "2020-08-04T10:58:56.832Z",
-      amount: -5
-    },
-    {
-      remark: "Topup from stripe is the greatest.",
-      transactionDate: "2020-08-04T11:58:56.832Z",
-      amount: -5
-    }
-  ];
 
   const StyledTableCell = withStyles(theme => ({
     head: {},
@@ -223,7 +201,7 @@ const CreditPage = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {!historyCredit && (
+            {!creditHistory.length && (
               <TableRow>
                 <TableCell colSpan={3}>
                   {creditHistoryLoading && (
@@ -235,7 +213,7 @@ const CreditPage = ({
                 </TableCell>
               </TableRow>
             )}
-            {historyCredit &&
+            {!!creditHistory.length &&
               stableHistorySort().map(row => (
                 <StyledTableRow key={row.transactionDate} hover>
                   <StyledTableCell>

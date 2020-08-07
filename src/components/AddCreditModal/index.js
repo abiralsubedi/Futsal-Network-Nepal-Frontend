@@ -27,6 +27,14 @@ const AddCreditModal = ({ globalData, onToggleCreditModal }) => {
   const [amountError, setAmountError] = useState(true);
   const [isPaymentScreen, setIsPaymentScreen] = useState(false);
 
+  useEffect(() => {
+    if (!addCreditModalActive) {
+      setAmount(0);
+      setAmountError(true);
+      setIsPaymentScreen(false);
+    }
+  }, [addCreditModalActive]);
+
   const handleContinue = () => {
     if (amount >= 5) {
       setIsPaymentScreen(prev => !prev);
@@ -38,9 +46,6 @@ const AddCreditModal = ({ globalData, onToggleCreditModal }) => {
       open={addCreditModalActive}
       handleClose={() => {
         onToggleCreditModal(false);
-        setAmount(0);
-        setAmountError(true);
-        setIsPaymentScreen(false);
       }}
       title="Add Credit Balance"
     >

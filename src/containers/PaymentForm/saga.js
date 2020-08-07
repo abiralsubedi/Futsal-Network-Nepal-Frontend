@@ -15,12 +15,6 @@ function* postPaymentIntent({ payload }) {
       },
       body: JSON.stringify(payload)
     });
-    // const response = yield call(request, "/profile", {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: `Bearer ${token}`
-    //   }
-    // });
     yield put(postPaymentIntentSuccess(response));
   } catch (error) {
     const errorObj = yield error.response.json();
