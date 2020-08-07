@@ -19,7 +19,7 @@ const { REACT_APP_STRIPE_PUBLIC_KEY } = process.env;
 
 const AddCreditModal = ({ globalData, onToggleCreditModal }) => {
   const classes = useStyles();
-  const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLIC_KEY);
+  const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLIC_KEY || "");
 
   const { addCreditModalActive } = globalData;
 
