@@ -112,7 +112,7 @@ const PaymentForm = ({
               variant: "success"
             });
             resolve("success");
-          }, 1000);
+          }, 2000);
         });
       }
     }
