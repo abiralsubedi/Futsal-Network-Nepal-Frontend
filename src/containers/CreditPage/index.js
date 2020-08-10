@@ -95,7 +95,8 @@ const CreditPage = ({
   };
 
   const stableHistorySort = () => {
-    return (creditHistory || []).sort((a, b) => {
+    const newCreditHistory = JSON.parse(JSON.stringify(creditHistory));
+    return (newCreditHistory || []).sort((a, b) => {
       let val;
       if (a[orderBy] > b[orderBy]) {
         val = 1;
