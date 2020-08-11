@@ -61,7 +61,7 @@ const CreditPage = ({
     if (type === "last") {
       updatedDate.setDate(updatedDate.getDate() + 1);
     }
-    return new Date(new Date(updatedDate).toLocaleDateString()).toISOString();
+    return new Date(format(new Date(updatedDate), "yyyy/MM/dd")).toISOString();
   };
 
   const handleHistorySearch = () => {
