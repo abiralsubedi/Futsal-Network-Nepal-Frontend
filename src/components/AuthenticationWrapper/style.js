@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     flex: "1 1 0",
     padding: "20px 24px",
-    background: theme.palette.common.headerColor,
+    background: theme.palette.common.primaryDarkColor,
     [theme.breakpoints.up("lg")]: {
       padding: "20px 7rem"
     }

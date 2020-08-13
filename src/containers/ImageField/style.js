@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     position: "absolute",
     right: "0.2rem",
     bottom: "0.2rem",
-    background: theme.palette.common.whiteBlackShadow,
+    background: theme.palette.common.lightDarkShadow,
     boxSizing: "border-box",
     height: "2.5rem",
     width: "2.5rem",

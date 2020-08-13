@@ -1,33 +1,16 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
+  dialogPaperRoot: {
+    borderRadius: "8px"
   },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "1px solid rgba(0, 0, 0, 0.2)",
-    borderRadius: "10px",
-    outline: "none",
-    boxShadow: theme.shadows[5],
+  dialogContent: {
     "& hr": {
       border: "none",
       borderTop: `1.5px solid ${theme.palette.divider}`
-    },
-    width: "40%",
-    [theme.breakpoints.down("md")]: {
-      width: "55%"
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: "80%"
-    },
-    [theme.breakpoints.down("xs")]: {
-      width: "90%"
     }
   },
-  modalTitle: {
+  dialogTitle: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -40,7 +23,7 @@ const useStyles = makeStyles(theme => ({
       cursor: "pointer"
     }
   },
-  modalContent: {
+  dialogBody: {
     padding: theme.spacing(0, 4, 1),
     maxHeight: "34rem",
     overflowY: "auto"

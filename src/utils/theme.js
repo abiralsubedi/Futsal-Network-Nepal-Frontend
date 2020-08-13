@@ -7,12 +7,13 @@ const getTheme = darkMode => {
       common: {
         paperBackgroundColor: darkMode ? "#212121" : "#F5F7F9",
         textFieldShadow: darkMode ? "#424242" : "#ffffff",
-        headerColor: darkMode ? "#333333" : "#2196f3",
+        primaryDarkColor: darkMode ? "#333333" : "#2196f3",
+        lightDarkColor: darkMode ? "#333333" : "#ffffff",
 
-        blackWhiteShadow: darkMode
+        darkLightShadow: darkMode
           ? "rgba(255, 255, 255, 0.06)"
           : "rgba(0, 0, 0, 0.08)",
-        whiteBlackShadow: darkMode
+        lightDarkShadow: darkMode
           ? "rgba(0,0,0,0.5)"
           : "rgba(255,255,255,0.5)",
         primaryWhiteColor: darkMode ? "#ffffff" : "#2196f3"

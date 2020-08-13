@@ -5,7 +5,7 @@ const useStyles = makeStyles(theme => ({
     cursor: "pointer"
   },
   appBarRoot: {
-    background: theme.palette.common.headerColor
+    background: theme.palette.common.primaryDarkColor
   },
   toolBarRoot: {
     minHeight: "64px"
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: "0.8rem",
     color: "#ffffffe6",
     [theme.breakpoints.down("xs")]: {
-      borderTop: `1.5px solid ${theme.palette.common.blackWhiteShadow}`
+      borderTop: `1.5px solid ${theme.palette.common.darkLightShadow}`
     },
     "& li": {
       display: "inline",
@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
         padding: "0.35rem 0.5rem",
         borderRadius: "5px",
         "&:hover, &.active": {
-          background: theme.palette.common.blackWhiteShadow
+          background: theme.palette.common.darkLightShadow
         },
         [theme.breakpoints.down("xs")]: {
           width: "12rem !important",
@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   drawerPaper: {
-    background: theme.palette.common.headerColor,
+    background: theme.palette.common.primaryDarkColor,
     width: "16rem"
   },
   drawerLogo: {
@@ -90,7 +90,7 @@ const useStyles = makeStyles(theme => ({
   },
   iconButtonRoot: {
     "&.active": {
-      background: theme.palette.common.blackWhiteShadow,
+      background: theme.palette.common.darkLightShadow,
       transition: "0.5s ease"
     }
   },

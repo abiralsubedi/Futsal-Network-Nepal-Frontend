@@ -1,40 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
+import Dialog from "@material-ui/core/Dialog";
 
 import CancelIcon from "@material-ui/icons/Cancel";
 
 import useStyles from "./style";
 
-const CustomModal = ({ open, handleClose, title, children }) => {
+const CustomModal = ({ open, handleClose, title, children, ...rest }) => {
   const classes = useStyles();
 
   return (
-    <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
-      className={classes.modal}
+    <Dialog
+      fullWidth
+      maxWidth="sm"
       open={open}
       onClose={handleClose}
-      closeAfterTransition
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 200
+      aria-labelledby="max-width-dialog-title"
+      classes={{
+        paper: classes.dialogPaperRoot
       }}
+      {...rest}
     >
-      <div className={classes.paper}>
-        <div className={classes.modalTitle}>
+      <div className={classes.dialogContent}>
+        <div className={classes.dialogTitle}>
           <div>{title}</div>
           <div onClick={handleClose}>
             <CancelIcon />
           </div>
         </div>
         <hr />
-        <div className={classes.modalContent}>{children}</div>
+        <div className={classes.dialogBody}>{children}</div>
       </div>
-    </Modal>
+    </Dialog>
   );
 };
 
