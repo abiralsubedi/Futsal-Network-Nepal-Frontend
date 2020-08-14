@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import PropTypes from "prop-types";
-import { withRouter, NavLink, Link } from "react-router-dom";
+import { withRouter, NavLink, Link, Route } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -17,8 +17,6 @@ import Avatar from "@material-ui/core/Avatar";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import HomeIcon from "@material-ui/icons/Home";
-import PersonIcon from "@material-ui/icons/Person";
 import MenuIcon from "@material-ui/icons/Menu";
 
 import { IOSSwitch } from "components/Common";
@@ -26,12 +24,21 @@ import { logoutSuccess, getProfileInfo } from "containers/LoginPage/actions";
 
 import { ThemeContext } from "context/themeContext";
 import getImageUrl from "utils/getImageUrl";
+import GetCommonIcon from "utils/getCommonIcon.js";
 
 import useStyles from "./style";
 
 const userLinks = [
-  { value: "Home", url: "/", icon: <HomeIcon /> },
-  { value: "Profile", url: "/profile", icon: <PersonIcon /> }
+  {
+    value: "Home",
+    url: "/",
+    icon: <GetCommonIcon type="filledHome" />
+  },
+  {
+    value: "Profile",
+    url: "/profile",
+    icon: <GetCommonIcon type="filledProfile" />
+  }
 ];
 
 const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
@@ -86,6 +93,7 @@ const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
             root: classes.toolBarRoot,
             gutters: classes.toolBarGutters
           }}
+          elevation={3}
         >
           <div className={classes.primaryHeaderBar}>
             <div className={classes.logoBar}>
@@ -94,7 +102,6 @@ const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
                   aria-label="menu-side-bar"
                   aria-controls="menu-side-bar"
                   aria-haspopup="true"
-                  color="inherit"
                   onClick={toggleNavBarDrawer}
                 >
                   <MenuIcon />
@@ -119,14 +126,18 @@ const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                color="inherit"
                 onClick={evt => setProfileMenuAnchorEl(evt.currentTarget)}
                 classes={{ root: classes.iconButtonRoot }}
                 className={profileMenuAnchorEl ? "active" : ""}
                 disableFocusRipple
                 disableRipple
               >
-                <AccountCircle />
+                {/* <AccountCircle /> */}
+                <Avatar
+                  alt="header-profile-picture"
+                  src={userPhoto}
+                  className={classes.smallAvatar}
+                />
               </IconButton>
               <Menu
                 id="simple-menu"

@@ -8,7 +8,7 @@ const ThemeContextProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") === "true"
   );
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 576);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 960);
   return (
     <ThemeContext.Provider
       value={{ darkMode, setDarkMode, isMobile, setIsMobile }}

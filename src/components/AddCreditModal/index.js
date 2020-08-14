@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PropTypes, { number } from "prop-types";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
 

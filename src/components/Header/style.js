@@ -5,7 +5,7 @@ const useStyles = makeStyles(theme => ({
     cursor: "pointer"
   },
   appBarRoot: {
-    background: theme.palette.common.primaryDarkColor
+    background: theme.palette.common.lightDarkColor
   },
   toolBarRoot: {
     minHeight: "64px"
@@ -29,15 +29,15 @@ const useStyles = makeStyles(theme => ({
     display: "-webkit-box,",
     listStyle: "none",
     paddingLeft: "0.8rem",
-    color: "#ffffffe6",
-    [theme.breakpoints.down("xs")]: {
-      borderTop: `1.5px solid ${theme.palette.common.darkLightShadow}`
+    color: theme.palette.text.secondary,
+    [theme.breakpoints.down("sm")]: {
+      borderTop: `1.5px solid ${theme.palette.divider}`
     },
     "& li": {
       display: "inline",
       margin: "0 0.5rem",
       position: "relative",
-      [theme.breakpoints.down("xs")]: {
+      [theme.breakpoints.down("sm")]: {
         display: "block",
         marginTop: "0.8rem"
       },
@@ -47,20 +47,28 @@ const useStyles = makeStyles(theme => ({
         lineHeight: "1.6",
         textDecoration: "none",
         color: "inherit",
-        padding: "0.35rem 0.5rem",
+        padding: "0.6rem",
         borderRadius: "5px",
         "&:hover, &.active": {
-          background: theme.palette.common.darkLightShadow
+          color: theme.palette.primary.main,
+          "& svg": {
+            "& path": {
+              fill: theme.palette.primary.main
+            }
+          }
         },
-        [theme.breakpoints.down("xs")]: {
+        "&:hover": {
+          background: `${theme.palette.primary.main}15`
+        },
+        [theme.breakpoints.down("sm")]: {
           width: "12rem !important",
           display: "inline-block"
         },
         "& svg": {
           position: "absolute",
-          top: "-0.3rem",
-          [theme.breakpoints.down("xs")]: {
-            top: "0.5rem"
+          top: "-0.45rem",
+          [theme.breakpoints.down("sm")]: {
+            top: "0.7rem"
           }
         },
         "& span": {
@@ -70,7 +78,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   drawerPaper: {
-    background: theme.palette.common.primaryDarkColor,
+    background: theme.palette.common.lightDarkColor,
     width: "16rem"
   },
   drawerLogo: {
@@ -90,13 +98,17 @@ const useStyles = makeStyles(theme => ({
   },
   iconButtonRoot: {
     "&.active": {
-      background: theme.palette.common.darkLightShadow,
-      transition: "0.5s ease"
+      background: `${theme.palette.common.darkLightShadow}`
+      // color: theme.palette.primary.main
     }
   },
   largeAvatar: {
     width: theme.spacing(7),
     height: theme.spacing(7)
+  },
+  smallAvatar: {
+    width: theme.spacing(4),
+    height: theme.spacing(4),
   },
   menuItemRoot: {
     width: "100%",

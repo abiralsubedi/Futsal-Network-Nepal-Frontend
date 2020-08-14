@@ -1,16 +1,47 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { useTheme } from "@material-ui/core/styles";
 
-const getCommonIcon = type => {
-  if (type === "google") {
+const GetCommonIcon = ({ type }) => {
+  const theme = useTheme();
+  if (type === "filledHome") {
     return (
-      <svg style={{ width: "24px" }} viewBox="0 0 24 24">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        imageRendering="optimizeQuality"
+        shapeRendering="geometricPrecision"
+        textRendering="geometricPrecision"
+        viewBox="0 0 326 385"
+        style={{ width: "24px" }}
+      >
         <path
-          fill="currentColor"
-          d="M21.35,11.1H12.18V13.83H18.69C18.36,17.64 15.19,19.27 12.19,19.27C8.36,19.27 5,16.25 5,12C5,7.9 8.2,4.73 12.2,4.73C15.29,4.73 17.1,6.7 17.1,6.7L19,4.72C19,4.72 16.56,2 12.1,2C6.42,2 2.03,6.8 2.03,12C2.03,17.05 6.16,22 12.25,22C17.6,22 21.5,18.33 21.5,12.91C21.5,11.76 21.35,11.1 21.35,11.1V11.1Z"
+          fill={theme.palette.text.secondary}
+          d="M45 187c-27 18-61-20-36-45L142 8c12-11 30-11 41 0l134 134c25 25-10 63-36 45v121h-83V198h-71v110H45V187z"
         />
       </svg>
     );
   }
+
+  if (type === "filledProfile") {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 81.244 111.25"
+        style={{ width: "21px" }}
+      >
+        <path
+          fill={theme.palette.text.secondary}
+          d="M48.234 49.116C58.4 45.889 65.771 36.382 65.771 25.147 65.771 11.259 54.513 0 40.624 0c-13.89 0-25.148 11.259-25.148 25.147 0 11.234 7.369 20.742 17.535 23.966C14.217 52.68 0 69.168 0 89h81.244c0-19.832-14.217-36.318-33.01-39.884z"
+        />
+      </svg>
+    );
+  }
+
+  return "";
 };
 
-export default getCommonIcon;
+GetCommonIcon.propTypes = {
+  type: PropTypes.string
+};
+
+export default GetCommonIcon;
