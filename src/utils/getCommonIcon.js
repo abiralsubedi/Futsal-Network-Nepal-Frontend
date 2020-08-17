@@ -12,7 +12,7 @@ const GetCommonIcon = ({ type }) => {
         shapeRendering="geometricPrecision"
         textRendering="geometricPrecision"
         viewBox="0 0 326 385"
-        style={{ width: "24px" }}
+        style={{ width: "22px" }}
       >
         <path
           fill={theme.palette.text.secondary}
@@ -27,7 +27,7 @@ const GetCommonIcon = ({ type }) => {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 81.244 111.25"
-        style={{ width: "21px" }}
+        style={{ width: "19px" }}
       >
         <path
           fill={theme.palette.text.secondary}

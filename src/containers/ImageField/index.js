@@ -230,7 +230,7 @@ const ImageField = ({
 ImageField.propTypes = {
   photoUri: PropTypes.string,
   imageFieldData: PropTypes.object,
-  savePassword: PropTypes.func,
+  saveProfilePicture: PropTypes.func,
   onClearImageMessage: PropTypes.func
 };
 

@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
         marginTop: "0.8rem"
       },
       "& a": {
-        fontWeight: 600,
+        fontWeight: 500,
         fontSize: "1.25rem",
         lineHeight: "1.6",
         textDecoration: "none",
@@ -58,7 +58,11 @@ const useStyles = makeStyles(theme => ({
           }
         },
         "&:hover": {
-          background: `${theme.palette.primary.main}15`
+          background: `${theme.palette.primary.main}15`,
+          borderRadius: '2rem'
+        },
+        "&.active": {
+          fontWeight: 600,
         },
         [theme.breakpoints.down("sm")]: {
           width: "12rem !important",
@@ -66,13 +70,13 @@ const useStyles = makeStyles(theme => ({
         },
         "& svg": {
           position: "absolute",
-          top: "-0.45rem",
+          top: "-0.35rem",
           [theme.breakpoints.down("sm")]: {
-            top: "0.7rem"
+            top: "0.8rem"
           }
         },
         "& span": {
-          paddingLeft: "2rem"
+          paddingLeft: "1.75rem"
         }
       }
     }
@@ -97,9 +101,9 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "6px"
   },
   iconButtonRoot: {
+    color: theme.palette.text.secondary,
     "&.active": {
       background: `${theme.palette.common.darkLightShadow}`
-      // color: theme.palette.primary.main
     }
   },
   largeAvatar: {
@@ -108,7 +112,7 @@ const useStyles = makeStyles(theme => ({
   },
   smallAvatar: {
     width: theme.spacing(4),
-    height: theme.spacing(4),
+    height: theme.spacing(4)
   },
   menuItemRoot: {
     width: "100%",

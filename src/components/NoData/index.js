@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 
 import useStyles from "./style";
 
-const Loader = ({ wrapperClass, text, ...rest }) => {
+const Loader = ({ wrapperClass, text }) => {
   const classes = useStyles();
   return (
     <div className={`${classes.noDataWrapper} ${wrapperClass}`}>

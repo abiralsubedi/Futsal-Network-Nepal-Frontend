@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import PropTypes from "prop-types";
-import { withRouter, NavLink, Link, Route } from "react-router-dom";
+import { withRouter, NavLink, Link } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -14,10 +14,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import Avatar from "@material-ui/core/Avatar";
 
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@material-ui/icons/Menu";
+
+import GlobalSearch from "containers/GlobalSearch";
 
 import { IOSSwitch } from "components/Common";
 import { logoutSuccess, getProfileInfo } from "containers/LoginPage/actions";
@@ -122,6 +123,7 @@ const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
               </div>
             )}
             <div className={classes.profileMenuBar}>
+              <GlobalSearch />
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -132,7 +134,6 @@ const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
                 disableFocusRipple
                 disableRipple
               >
-                {/* <AccountCircle /> */}
                 <Avatar
                   alt="header-profile-picture"
                   src={userPhoto}

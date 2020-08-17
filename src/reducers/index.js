@@ -9,6 +9,7 @@ import CreditPageReducer from "containers/CreditPage/reducer.js";
 import ImageFieldReducer from "containers/ImageField/reducer.js";
 import SetPasswordPageReducer from "containers/SetPasswordPage/reducer.js";
 import PaymentFormReducer from "containers/PaymentForm/reducer.js";
+import GlobalSearchReducer from "containers/GlobalSearch/reducer.js";
 
 export default combineReducers({
   LoginReducer,
@@ -19,5 +20,6 @@ export default combineReducers({
   CreditPageReducer,
   ImageFieldReducer,
   SetPasswordPageReducer,
-  PaymentFormReducer
+  PaymentFormReducer,
+  GlobalSearchReducer
 });
