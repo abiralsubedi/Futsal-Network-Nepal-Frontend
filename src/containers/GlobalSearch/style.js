@@ -31,7 +31,6 @@ const useStyles = makeStyles(theme => ({
   listItemText: {
     display: "-webkit-box",
     maxWidth: "100%",
-    margin: "0 auto",
     WebkitLineClamp: "2",
     WebkitBoxOrient: "vertical",
     overflow: "hidden",
@@ -50,6 +49,18 @@ const useStyles = makeStyles(theme => ({
   },
   globalSearchNoData: {
     padding: "2rem 0"
+  },
+  searchItemSecondary: {
+    display: "flex",
+    alignItems: "center",
+    "& svg": {
+      marginRight: "5px"
+    }
+  },
+  searchIconButtonRoot: {
+    "&:hover": {
+      background: "inherit"
+    }
   }
 }));
 

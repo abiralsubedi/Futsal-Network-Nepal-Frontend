@@ -14,11 +14,14 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 // import Divider from "@material-ui/core/Divider";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 import SearchIcon from "@material-ui/icons/Search";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
+import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 
 import NoData from "components/NoData";
 
@@ -113,7 +116,12 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
                 secondary: classes.listItemText
               }}
               primary={item.name}
-              secondary={item.address}
+              secondary={
+                <div className={classes.searchItemSecondary}>
+                  <RoomOutlinedIcon fontSize="small" />
+                  <span className={classes.listItemText}>{item.address}</span>
+                </div>
+              }
             />
           </ListItem>
         ))}
@@ -184,11 +192,29 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
                 input: classes.searchInputRoot
               }}
               placeholder="Search App"
+              id="global-search-field"
               inputProps={{ "aria-label": "Search App" }}
               autoFocus
               value={globalSearchText}
               onChange={({ target: { value } }) =>
                 handleSearchFieldChange(value)
+              }
+              endAdornment={
+                globalSearchText && (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => {
+                        setGlobalSearchText("");
+                        document.querySelector('#global-search-field').focus()
+                      }}
+                      edge="end"
+                      classes={{ root: classes.searchIconButtonRoot }}
+                    >
+                      <CancelOutlinedIcon />
+                    </IconButton>
+                  </InputAdornment>
+                )
               }
             />
           </div>
