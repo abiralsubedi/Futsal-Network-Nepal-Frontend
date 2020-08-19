@@ -6,25 +6,18 @@ import { withRouter, NavLink, Link } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import Avatar from "@material-ui/core/Avatar";
 
-import Brightness4Icon from "@material-ui/icons/Brightness4";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+
 import MenuIcon from "@material-ui/icons/Menu";
 
 import GlobalSearch from "containers/GlobalSearch";
+import ProfileMenu from "components/ProfileMenu";
 
-import { IOSSwitch } from "components/Common";
-import { logoutSuccess, getProfileInfo } from "containers/LoginPage/actions";
+import { getProfileInfo } from "containers/LoginPage/actions";
 
 import { ThemeContext } from "context/themeContext";
-import getImageUrl from "utils/getImageUrl";
 import GetCommonIcon from "utils/getCommonIcon.js";
 
 import useStyles from "./style";
@@ -42,13 +35,11 @@ const userLinks = [
   }
 ];
 
-const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
+const Header = ({ globalData, fetchProfileInfo }) => {
   const classes = useStyles();
-  const { profile } = globalData;
 
-  const { darkMode, setDarkMode, isMobile } = useContext(ThemeContext);
+  const { isMobile } = useContext(ThemeContext);
 
-  const [profileMenuAnchorEl, setProfileMenuAnchorEl] = useState(null);
   const [navBarDrawerShow, setNavBarDrawerShow] = useState(false);
 
   useEffect(() => {
@@ -66,8 +57,6 @@ const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
 
     setNavBarDrawerShow(true);
   };
-
-  const userPhoto = getImageUrl(profile.photoUri);
 
   const renderNavBar = () => {
     return userLinks.map((link, index) => (
@@ -124,103 +113,7 @@ const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
             )}
             <div className={classes.profileMenuBar}>
               <GlobalSearch />
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={evt => setProfileMenuAnchorEl(evt.currentTarget)}
-                classes={{ root: classes.iconButtonRoot }}
-                className={profileMenuAnchorEl ? "active" : ""}
-                disableFocusRipple
-                disableRipple
-              >
-                <Avatar
-                  alt="header-profile-picture"
-                  src={userPhoto}
-                  className={classes.smallAvatar}
-                />
-              </IconButton>
-              <Menu
-                id="simple-menu"
-                anchorEl={profileMenuAnchorEl}
-                keepMounted
-                open={Boolean(profileMenuAnchorEl)}
-                onClose={() => setProfileMenuAnchorEl(null)}
-                classes={{ paper: classes.profileMenuPaper }}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right"
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right"
-                }}
-              >
-                <MenuItem
-                  onClick={() => {
-                    setProfileMenuAnchorEl(null);
-                    history.push("/profile/basic-info");
-                  }}
-                  classes={{
-                    root: classes.menuItemRoot
-                  }}
-                  className="first-menu-item"
-                  disableRipple
-                >
-                  <div>
-                    <Avatar
-                      alt="header-profile-picture"
-                      src={userPhoto}
-                      className={classes.largeAvatar}
-                    />
-                  </div>
-                  <div className={classes.menuDetailItem}>
-                    <div>{profile.fullName}</div>
-                    <div>See your profile</div>
-                  </div>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    setDarkMode(prev => !prev);
-                    localStorage.setItem("darkMode", !darkMode);
-                  }}
-                  classes={{
-                    root: classes.menuItemRoot
-                  }}
-                  disableRipple
-                >
-                  <div className={classes.menuItemLeft}>
-                    <Brightness4Icon />
-                    <Typography>Dark Mode</Typography>
-                  </div>
-                  <div>
-                    <FormControlLabel
-                      control={
-                        <IOSSwitch
-                          checked={darkMode}
-                          name="screen-mode-switch"
-                        />
-                      }
-                    />
-                  </div>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("profile");
-                    postLogout();
-                  }}
-                  classes={{
-                    root: classes.menuItemRoot
-                  }}
-                  disableRipple
-                >
-                  <div className={classes.menuItemLeft}>
-                    <ExitToAppIcon />
-                    <Typography>Logout</Typography>
-                  </div>
-                </MenuItem>
-              </Menu>
+              <ProfileMenu />
             </div>
           </div>
         </Toolbar>
@@ -248,8 +141,6 @@ const Header = ({ globalData, postLogout, history, fetchProfileInfo }) => {
 };
 
 Header.propTypes = {
-  history: PropTypes.object,
-  postLogout: PropTypes.func,
   globalData: PropTypes.object,
   fetchProfileInfo: PropTypes.func
 };
@@ -259,7 +150,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  postLogout: () => dispatch(logoutSuccess()),
   fetchProfileInfo: () => dispatch(getProfileInfo())
 });
 
