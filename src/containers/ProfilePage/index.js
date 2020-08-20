@@ -20,9 +20,12 @@ import { ThemeContext } from "context/themeContext";
 
 import useStyles from "./style";
 
-const ProfilePage = ({ location, history }) => {
+const ProfilePage = ({ location, history, globalData }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
+  const {
+    profile: { role }
+  } = globalData;
 
   const [tabIndexValue, setTabIndexValue] = React.useState(0);
 
@@ -33,10 +36,12 @@ const ProfilePage = ({ location, history }) => {
     if (location.pathname.includes("change-password")) {
       setTabIndexValue(1);
     }
-    if (location.pathname.includes("credit")) {
+    if (location.pathname.includes("credit") && isUser) {
       setTabIndexValue(2);
     }
   }, [location.pathname]);
+
+  const isUser = role === "User";
 
   const profileTabContent = {
     value: tabIndexValue,
@@ -55,11 +60,15 @@ const ProfilePage = ({ location, history }) => {
         labelIcon: <LockOpenIcon />,
         content: <ChangePassword />
       },
-      {
-        labelText: "Credit",
-        labelIcon: <CreditCardIcon />,
-        content: <CreditPage />
-      }
+      ...(isUser
+        ? [
+            {
+              labelText: "Credit",
+              labelIcon: <CreditCardIcon />,
+              content: <CreditPage />
+            }
+          ]
+        : [])
     ]
   };
 
@@ -91,10 +100,13 @@ const ProfilePage = ({ location, history }) => {
 
 ProfilePage.propTypes = {
   location: PropTypes.object,
-  history: PropTypes.object
+  history: PropTypes.object,
+  globalData: PropTypes.object
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  globalData: state.LoginReducer
+});
 
 const mapDispatchToProps = dispatch => ({});
 

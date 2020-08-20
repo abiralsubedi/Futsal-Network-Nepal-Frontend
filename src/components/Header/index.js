@@ -32,18 +32,29 @@ const userLinks = [
     value: "Profile",
     url: "/profile",
     icon: <GetCommonIcon type="filledProfile" />
-  }
+  },
 ];
 
 const Header = ({ globalData, fetchProfileInfo }) => {
   const classes = useStyles();
 
   const { isMobile } = useContext(ThemeContext);
+  const {
+    profile: { role }
+  } = globalData;
 
   const [navBarDrawerShow, setNavBarDrawerShow] = useState(false);
 
   useEffect(() => {
     fetchProfileInfo();
+
+    if (role === "Admin") {
+      userLinks.push({
+        value: "People",
+        url: "/profile/change-password",
+        icon: <GetCommonIcon type="filledProfile" />
+      });
+    }
   }, []);
 
   const toggleNavBarDrawer = event => {

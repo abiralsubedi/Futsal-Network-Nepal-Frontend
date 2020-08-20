@@ -4,25 +4,38 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Header from "components/Header";
 
-const PrivateRoute = ({ component: Component, data, ...rest }) => (
-  <Route
-    {...rest}
-    render={props => {
-      if (!data.isAuthenticated || !data.profile) {
-        return <Redirect to="/login" />;
-      }
-      return (
-        <>
-          <Header />
-          <Component {...props} />
-        </>
-      );
-    }}
-  />
-);
+const PrivateRoute = ({ component, globalData, ...rest }) => {
+  const { isAuthenticated, profile } = globalData;
+  const { role } = profile;
 
-PrivateRoute.propTypes = { component: PropTypes.object };
+  const Component = component["WrappedComponent"] ? component : component[role];
 
-const mapStateToProps = state => ({ data: state.LoginReducer });
+  return (
+    <Route
+      {...rest}
+      render={props => {
+        if (!isAuthenticated || !profile) {
+          return <Redirect to="/login" />;
+        }
+        if (!Component) {
+          return <Redirect to="/" />;
+        }
+        return (
+          <>
+            <Header />
+            <Component {...props} />
+          </>
+        );
+      }}
+    />
+  );
+};
+
+PrivateRoute.propTypes = {
+  component: PropTypes.object,
+  globalData: PropTypes.object
+};
+
+const mapStateToProps = state => ({ globalData: state.LoginReducer });
 
 export default connect(mapStateToProps)(PrivateRoute);
