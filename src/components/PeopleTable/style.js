@@ -1,26 +1,36 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
-  buttonLabel: {
-    fontSize: "1rem",
-    fontWeight: 600,
-    lineHeight: "22px",
-    textTransform: "initial",
-    "& img": {
-      marginRight: "0.5rem",
-      width: "1.625rem"
+  tableContainer: {
+    maxHeight: "40rem"
+  },
+  table: {
+    minWidth: "17rem",
+    border: `1px solid ${theme.palette.divider}`
+  },
+  tableHead: {
+    fontSize: "1.125rem"
+  },
+
+  tableToolbar: {
+    display: "flex",
+    "&.highlight": {
+      backgroundColor: `${theme.palette.primary.main}20 !important`
     }
   },
-  buttonRoot: {
-    margin: "0.8rem 0",
-    padding: "0.8125rem",
-    borderRadius: "50px"
+  tableTitle: {
+    marginRight: "1rem"
   },
-  buttonIcon: {
-    marginRight: "0.5rem"
+  selectedRow: {
+    backgroundColor: `${theme.palette.primary.main}20 !important`
   },
-  circularRoot: {
-    marginRight: "0.8rem"
+  paginationWrapper: {
+    display: "flex",
+    justifyContent: "center"
+  },
+
+  loadingWrapper: {
+    height: "12rem"
   }
 }));
 
