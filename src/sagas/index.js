@@ -10,6 +10,7 @@ import SetPasswordPageSagas from "containers/SetPasswordPage/saga.js";
 import ImageFieldSagas from "containers/ImageField/saga.js";
 import PaymentFormSagas from "containers/PaymentForm/saga.js";
 import GlobalSearchSagas from "containers/GlobalSearch/saga.js";
+import PeopleUserPageSagas from "containers/Admin/PeopleUserPage/saga.js";
 
 export default function* rootSaga() {
   yield all(
@@ -23,7 +24,8 @@ export default function* rootSaga() {
       SetPasswordPageSagas,
       PaymentFormSagas,
       CreditPageSagas,
-      GlobalSearchSagas
+      GlobalSearchSagas,
+      PeopleUserPageSagas
     ].map(fork)
   );
 }

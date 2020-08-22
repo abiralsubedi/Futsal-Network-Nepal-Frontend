@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
     maxHeight: "25.125rem"
   },
   table: {
-    minWidth: "17rem"
+    minWidth: "17rem",
+    border: `1px solid ${theme.palette.divider}`
   },
   tableHead: {
     fontSize: "1.125rem"

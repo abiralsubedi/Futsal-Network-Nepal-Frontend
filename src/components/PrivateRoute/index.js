@@ -6,20 +6,21 @@ import Header from "components/Header";
 
 const PrivateRoute = ({ component, globalData, ...rest }) => {
   const { isAuthenticated, profile } = globalData;
+
+  if (!isAuthenticated || !profile) {
+    return <Redirect to="/login" />;
+  }
   const { role } = profile;
 
   const Component = component["WrappedComponent"] ? component : component[role];
+  if (!Component) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Route
       {...rest}
       render={props => {
-        if (!isAuthenticated || !profile) {
-          return <Redirect to="/login" />;
-        }
-        if (!Component) {
-          return <Redirect to="/" />;
-        }
         return (
           <>
             <Header />

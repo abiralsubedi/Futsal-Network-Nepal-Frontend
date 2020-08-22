@@ -51,7 +51,7 @@ const Header = ({ globalData, fetchProfileInfo }) => {
     if (role === "Admin") {
       userLinks.push({
         value: "People",
-        url: "/profile/change-password",
+        url: "/people",
         icon: <GetCommonIcon type="filledProfile" />
       });
     }

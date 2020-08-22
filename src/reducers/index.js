@@ -10,6 +10,7 @@ import ImageFieldReducer from "containers/ImageField/reducer.js";
 import SetPasswordPageReducer from "containers/SetPasswordPage/reducer.js";
 import PaymentFormReducer from "containers/PaymentForm/reducer.js";
 import GlobalSearchReducer from "containers/GlobalSearch/reducer.js";
+import PeopleUserPageReducer from "containers/Admin/PeopleUserPage/reducer.js";
 
 export default combineReducers({
   LoginReducer,
@@ -21,5 +22,6 @@ export default combineReducers({
   ImageFieldReducer,
   SetPasswordPageReducer,
   PaymentFormReducer,
-  GlobalSearchReducer
+  GlobalSearchReducer,
+  PeopleUserPageReducer
 });

@@ -16,6 +16,7 @@ import LoginPage from "containers/LoginPage";
 import RegisterPage from "containers/RegisterPage";
 import SetPasswordPage from "containers/SetPasswordPage";
 import ProfilePage from "containers/ProfilePage";
+import AdminPeoplePage from "containers/Admin/PeoplePage";
 import DashboardPage from "containers/DashboardPage";
 import PrivateRoute from "components/PrivateRoute";
 import PublicRoute from "components/PublicRoute";
@@ -69,6 +70,10 @@ const Main = () => {
               <Route path="/set-password" component={SetPasswordPage} exact />
               <PrivateRoute exact path="/" component={DashboardPage} />
               <PrivateRoute path="/profile" component={ProfilePage} />
+              <PrivateRoute
+                path="/people"
+                component={{ Admin: AdminPeoplePage }}
+              />
               <Route path="" component={NotFoundPage} />
             </Switch>
           </BrowserRouter>
