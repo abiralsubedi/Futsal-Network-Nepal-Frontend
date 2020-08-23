@@ -3,10 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
 
-import Grid from "@material-ui/core/Grid";
-
-import Button from "components/Button";
-import TextField from "components/TextField";
+import TableFilter from "components/TableFilter";
 import PeopleTable from "components/PeopleTable";
 
 import { getUserList, clearUserListData } from "./actions";
@@ -42,6 +39,12 @@ const PeopleUserPage = ({
     });
   };
 
+  const handleUserSearch = e => {
+    e.preventDefault();
+    setCurrentPage(1);
+    makeUserSearch({ updatedPage: 1 });
+  };
+
   const handleResetSearch = () => {
     setSearchText("");
     setCurrentPage(1);
@@ -53,57 +56,27 @@ const PeopleUserPage = ({
     makeUserSearch({ updatedPage: page });
   };
 
-  const handleUserSearch = e => {
-    e.preventDefault();
-    setCurrentPage(1);
-    makeUserSearch({ updatedPage: 1 });
-  };
-
   const tableHeader = [
     { label: "Full Name", key: "fullName" },
     { label: "Email", key: "emailAddress" },
     { label: "Location", key: "location" }
   ];
 
+  const actions = [{ type: "Edit", pushUrl: "/people/vendors/edit" }];
+
   return (
     <div className={classes.creditPageContent}>
-      <form onSubmit={handleUserSearch}>
-        <Grid container spacing={3} alignItems="center">
-          <Grid item sm={4} xs={12}>
-            <TextField
-              id="search-text"
-              label="Search by Name"
-              value={searchText}
-              handleChange={val => setSearchText(val)}
-              autoFocus
-              fullWidth
-              size="small"
-            />
-          </Grid>
-          <Grid item sm={6} xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              disabled={userListLoading || !searchText}
-              buttonRootClass={classes.tableFilterButton}
-              buttonText="Search"
-              type="submit"
-              size="small"
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              disabled={userListLoading || !searchText}
-              buttonRootClass={classes.tableFilterButton}
-              buttonText="Reset"
-              onClick={handleResetSearch}
-              size="small"
-            />
-          </Grid>
-        </Grid>
-      </form>
+      <TableFilter
+        textField={[
+          {
+            value: searchText,
+            handleChange: val => setSearchText(val)
+          }
+        ]}
+        contentLoading={userListLoading}
+        handleSearch={handleUserSearch}
+        handleReset={handleResetSearch}
+      />
       <PeopleTable
         tableHeader={tableHeader}
         tableBody={userList || []}
@@ -112,6 +85,7 @@ const PeopleUserPage = ({
         searchCount={searchCount}
         currentPage={currentPage}
         handlePaginationChange={handlePaginationChange}
+        actions={actions}
       />
     </div>
   );

@@ -24,10 +24,10 @@ const PeoplePage = ({ location, history }) => {
   const [tabIndexValue, setTabIndexValue] = React.useState(0);
 
   useEffect(() => {
-    if (location.pathname.includes("user")) {
+    if (location.pathname.includes("users")) {
       setTabIndexValue(0);
     }
-    if (location.pathname.includes("vendor")) {
+    if (location.pathname.includes("vendors")) {
       setTabIndexValue(1);
     }
   }, [location.pathname]);

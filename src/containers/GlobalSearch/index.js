@@ -16,8 +16,9 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
-// import Divider from "@material-ui/core/Divider";
+import Tooltip from "@material-ui/core/Tooltip";
 import Skeleton from "@material-ui/lab/Skeleton";
+// import Divider from "@material-ui/core/Divider";
 
 import SearchIcon from "@material-ui/icons/Search";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
@@ -202,17 +203,21 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
               endAdornment={
                 globalSearchText && (
                   <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => {
-                        setGlobalSearchText("");
-                        document.querySelector('#global-search-field').focus()
-                      }}
-                      edge="end"
-                      classes={{ root: classes.searchIconButtonRoot }}
-                    >
-                      <CancelOutlinedIcon />
-                    </IconButton>
+                    <Tooltip title="Clear" arrow>
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => {
+                          setGlobalSearchText("");
+                          document
+                            .querySelector("#global-search-field")
+                            .focus();
+                        }}
+                        edge="end"
+                        classes={{ root: classes.searchIconButtonRoot }}
+                      >
+                        <CancelOutlinedIcon />
+                      </IconButton>
+                    </Tooltip>
                   </InputAdornment>
                 )
               }

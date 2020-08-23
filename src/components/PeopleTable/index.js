@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
+import { compose } from "redux";
 
 import Typography from "@material-ui/core/Typography";
 
@@ -18,6 +20,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Pagination from "@material-ui/lab/Pagination";
 
 import DeleteIcon from "@material-ui/icons/Delete";
+import EditRoundedIcon from "@material-ui/icons/EditRounded";
 
 import NoData from "components/NoData";
 import Loader from "components/Loader";
@@ -31,7 +34,9 @@ const PeopleTable = ({
   pageSize,
   searchCount,
   currentPage,
-  handlePaginationChange
+  handlePaginationChange,
+  actions,
+  history
 }) => {
   const classes = useStyles();
 
@@ -64,6 +69,23 @@ const PeopleTable = ({
     setSelectedRow(newSelected);
   };
 
+  const getAction = (actionItem, userId) => {
+    const { type, pushUrl } = actionItem;
+    if (type === "Edit") {
+      return (
+        <Tooltip title="Edit">
+          <IconButton
+            aria-label="edit"
+            onClick={() => history.push(`${pushUrl}/${userId}`)}
+          >
+            <EditRoundedIcon />
+          </IconButton>
+        </Tooltip>
+      );
+    }
+    return null;
+  };
+
   const handleSelectAllClick = event => {
     if (event.target.checked) {
       const newSelected = (tableBody || []).map(item => item._id);
@@ -92,7 +114,10 @@ const PeopleTable = ({
 
         {!!selectedRowCount && (
           <Tooltip title="Delete">
-            <IconButton aria-label="delete" onClick={() => console.log(selectedRow, 'row')}>
+            <IconButton
+              aria-label="delete"
+              onClick={() => console.log(selectedRow, "row")}
+            >
               <DeleteIcon />
             </IconButton>
           </Tooltip>
@@ -128,6 +153,11 @@ const PeopleTable = ({
                   {headCell.label}
                 </TableCell>
               ))}
+              {actions && (
+                <TableCell classes={{ head: classes.tableHead }}>
+                  Action
+                </TableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -146,9 +176,10 @@ const PeopleTable = ({
             {!!(tableBody || []).length &&
               (tableBody || []).map(row => {
                 const isSelected = isRowSelected(row._id);
+                const userId = row._id;
                 return (
                   <TableRow
-                    key={row._id}
+                    key={userId}
                     hover
                     selected={isSelected}
                     classes={{ selected: classes.selectedRow }}
@@ -166,6 +197,13 @@ const PeopleTable = ({
                         {row[col.key]}
                       </StyledTableCell>
                     ))}
+                    {actions && (
+                      <StyledTableCell>
+                        {(actions || []).map(action =>
+                          getAction(action, userId)
+                        )}
+                      </StyledTableCell>
+                    )}
                   </TableRow>
                 );
               })}
@@ -196,7 +234,13 @@ const PeopleTable = ({
 PeopleTable.propTypes = {
   tableHeader: PropTypes.instanceOf(Array),
   tableBody: PropTypes.instanceOf(Array),
-  tableBodyLoading: PropTypes.bool
+  tableBodyLoading: PropTypes.bool,
+  pageSize: PropTypes.number,
+  searchCount: PropTypes.number,
+  currentPage: PropTypes.number,
+  handlePaginationChange: PropTypes.func,
+  actions: PropTypes.instanceOf(Array),
+  history: PropTypes.object
 };
 
-export default PeopleTable;
+export default compose(withRouter)(PeopleTable);
