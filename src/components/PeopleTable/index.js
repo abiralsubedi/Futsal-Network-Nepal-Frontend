@@ -73,10 +73,12 @@ const PeopleTable = ({
     const { type, pushUrl } = actionItem;
     if (type === "Edit") {
       return (
-        <Tooltip title="Edit">
+        <Tooltip title="Edit" key={userId}>
           <IconButton
             aria-label="edit"
-            onClick={() => history.push(`${pushUrl}/${userId}`)}
+            onClick={() => {
+              history.push(`${pushUrl}/${userId}`);
+            }}
           >
             <EditRoundedIcon />
           </IconButton>

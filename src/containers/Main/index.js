@@ -71,6 +71,11 @@ const Main = () => {
               <PrivateRoute exact path="/" component={DashboardPage} />
               <PrivateRoute path="/profile" component={ProfilePage} />
               <PrivateRoute
+                path="/people/users/edit/:userId"
+                exact
+                component={{ Admin: AdminPeoplePage }}
+              />
+              <PrivateRoute
                 path="/people"
                 component={{ Admin: AdminPeoplePage }}
               />

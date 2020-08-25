@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { compose } from "redux";
+
+import Typography from "@material-ui/core/Typography";
+
+import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
+
+import AddUser from "containers/Admin/AddUser";
 
 import TableFilter from "components/TableFilter";
 import PeopleTable from "components/PeopleTable";
@@ -12,7 +19,9 @@ import useStyles from "./style";
 const PeopleUserPage = ({
   fetchUserList,
   onClearUserListData,
-  peopleUserData
+  peopleUserData,
+  match,
+  history
 }) => {
   const classes = useStyles();
 
@@ -25,6 +34,8 @@ const PeopleUserPage = ({
 
   const [searchText, setSearchText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
+  const selectedUserId = match.params.userId;
 
   useEffect(() => {
     onClearUserListData();
@@ -62,31 +73,50 @@ const PeopleUserPage = ({
     { label: "Location", key: "location" }
   ];
 
-  const actions = [{ type: "Edit", pushUrl: "/people/vendors/edit" }];
+  const actions = [{ type: "Edit", pushUrl: "/people/users/edit" }];
 
   return (
-    <div className={classes.creditPageContent}>
-      <TableFilter
-        textField={[
-          {
-            value: searchText,
-            handleChange: val => setSearchText(val)
-          }
-        ]}
-        contentLoading={userListLoading}
-        handleSearch={handleUserSearch}
-        handleReset={handleResetSearch}
-      />
-      <PeopleTable
-        tableHeader={tableHeader}
-        tableBody={userList || []}
-        tableBodyLoading={userListLoading}
-        pageSize={pageSize}
-        searchCount={searchCount}
-        currentPage={currentPage}
-        handlePaginationChange={handlePaginationChange}
-        actions={actions}
-      />
+    <div className={classes.peopleUserPageContent}>
+      {selectedUserId && (
+        <>
+          <div className={classes.backTextWrapper}>
+            <Typography
+              variant="body1"
+              onClick={() => history.push("people/users")}
+              color="textSecondary"
+              className={classes.backText}
+            >
+              <KeyboardBackspaceIcon fontSize="small" /> Back to Listing
+            </Typography>
+          </div>
+          <AddUser />
+        </>
+      )}
+      {!selectedUserId && (
+        <>
+          <TableFilter
+            textField={[
+              {
+                value: searchText,
+                handleChange: val => setSearchText(val)
+              }
+            ]}
+            contentLoading={userListLoading}
+            handleSearch={handleUserSearch}
+            handleReset={handleResetSearch}
+          />
+          <PeopleTable
+            tableHeader={tableHeader}
+            tableBody={userList || []}
+            tableBodyLoading={userListLoading}
+            pageSize={pageSize}
+            searchCount={searchCount}
+            currentPage={currentPage}
+            handlePaginationChange={handlePaginationChange}
+            actions={actions}
+          />
+        </>
+      )}
     </div>
   );
 };
@@ -94,7 +124,9 @@ const PeopleUserPage = ({
 PeopleUserPage.propTypes = {
   peopleUserData: PropTypes.object,
   fetchUserList: PropTypes.func,
-  onClearUserListData: PropTypes.func
+  onClearUserListData: PropTypes.func,
+  match: PropTypes.object,
+  history: PropTypes.object
 };
 
 const mapStateToProps = state => ({
@@ -108,4 +140,4 @@ const mapDispatchToProps = dispatch => ({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect)(PeopleUserPage);
+export default compose(withConnect, withRouter)(PeopleUserPage);

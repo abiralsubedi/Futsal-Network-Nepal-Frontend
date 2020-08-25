@@ -11,6 +11,7 @@ import ImageFieldSagas from "containers/ImageField/saga.js";
 import PaymentFormSagas from "containers/PaymentForm/saga.js";
 import GlobalSearchSagas from "containers/GlobalSearch/saga.js";
 import PeopleUserPageSagas from "containers/Admin/PeopleUserPage/saga.js";
+import AddUserSagas from "containers/Admin/AddUser/saga.js";
 
 export default function* rootSaga() {
   yield all(
@@ -25,7 +26,8 @@ export default function* rootSaga() {
       PaymentFormSagas,
       CreditPageSagas,
       GlobalSearchSagas,
-      PeopleUserPageSagas
+      PeopleUserPageSagas,
+      AddUserSagas
     ].map(fork)
   );
 }
