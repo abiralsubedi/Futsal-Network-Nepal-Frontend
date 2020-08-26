@@ -65,7 +65,7 @@ html ::-webkit-scrollbar-corner {
 
 .react-simple-image-viewer__modal {
   z-index: 999;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.75);
 }
 
 .react-simple-image-viewer__close {

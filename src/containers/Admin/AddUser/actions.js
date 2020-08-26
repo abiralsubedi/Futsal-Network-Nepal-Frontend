@@ -5,6 +5,8 @@ import {
   GET_PROFILE_INFO,
   GET_PROFILE_INFO_ERROR,
   GET_PROFILE_INFO_SUCCESS,
+  UPDATE_USER_PHOTO,
+  CLEAR_USER_INFO,
   CLEAR_MESSAGE
 } from "./constants";
 
@@ -26,6 +28,14 @@ export const getProfileInfoSuccess = payload => {
 };
 export const getProfileInfoError = error => {
   return { type: GET_PROFILE_INFO_ERROR, error };
+};
+
+export const updateUserPhoto = photoUri => {
+  return { type: UPDATE_USER_PHOTO, photoUri };
+};
+
+export const clearUserInfo = () => {
+  return { type: CLEAR_USER_INFO };
 };
 
 export const clearMessage = () => ({ type: CLEAR_MESSAGE });

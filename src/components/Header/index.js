@@ -15,14 +15,12 @@ import MenuIcon from "@material-ui/icons/Menu";
 import GlobalSearch from "containers/GlobalSearch";
 import ProfileMenu from "components/ProfileMenu";
 
-import { getProfileInfo } from "containers/LoginPage/actions";
-
 import { ThemeContext } from "context/themeContext";
 import GetCommonIcon from "utils/getCommonIcon.js";
 
 import useStyles from "./style";
 
-const userLinks = [
+let userLinks = [
   {
     value: "Home",
     url: "/",
@@ -32,10 +30,10 @@ const userLinks = [
     value: "Profile",
     url: "/profile",
     icon: <GetCommonIcon type="filledProfile" />
-  },
+  }
 ];
 
-const Header = ({ globalData, fetchProfileInfo }) => {
+const Header = ({ globalData }) => {
   const classes = useStyles();
 
   const { isMobile } = useContext(ThemeContext);
@@ -44,19 +42,24 @@ const Header = ({ globalData, fetchProfileInfo }) => {
   } = globalData;
 
   const [navBarDrawerShow, setNavBarDrawerShow] = useState(false);
+  const [stateChange, setStateChange] = useState(false);
 
   useEffect(() => {
-    fetchProfileInfo();
-
     if (role === "Admin") {
+      console.log("in admin");
       userLinks.push({
         value: "People",
         url: "/people",
         icon: <GetCommonIcon type="filledProfile" />
       });
+      setStateChange(prev => !prev);
     }
-  }, []);
 
+    return () => {
+      userLinks = userLinks.slice(0, 2);
+    };
+  }, []);
+  console.log(userLinks, "admin links");
   const toggleNavBarDrawer = event => {
     if (
       event &&
@@ -152,17 +155,14 @@ const Header = ({ globalData, fetchProfileInfo }) => {
 };
 
 Header.propTypes = {
-  globalData: PropTypes.object,
-  fetchProfileInfo: PropTypes.func
+  globalData: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   globalData: state.LoginReducer
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchProfileInfo: () => dispatch(getProfileInfo())
-});
+const mapDispatchToProps = dispatch => ({});
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

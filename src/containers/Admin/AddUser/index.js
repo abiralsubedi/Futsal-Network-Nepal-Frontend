@@ -6,14 +6,21 @@ import { withRouter } from "react-router-dom";
 
 import Grid from "@material-ui/core/Grid";
 import { useSnackbar } from "notistack";
+import ImageViewer from "react-simple-image-viewer";
 
 import TextField from "components/TextField";
 import Button from "components/Button";
 import Loader from "components/Loader";
+import ImageHolder from "components/ImageHolder";
 
 import checkValidEmail from "utils/checkValidEmail";
 
-import { postProfileInfo, clearMessage, getProfileInfo } from "./actions";
+import {
+  postProfileInfo,
+  clearMessage,
+  getProfileInfo,
+  clearUserInfo
+} from "./actions";
 import useStyles from "./style";
 
 const AddUser = ({
@@ -21,7 +28,8 @@ const AddUser = ({
   saveProfileInfo,
   onClearMessage,
   getProfileInfo,
-  match
+  match,
+  onClearUserInfo
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -40,31 +48,59 @@ const AddUser = ({
     fullName: "",
     username: "",
     location: "",
-    emailAddress: ""
+    emailAddress: "",
+    credit: 0,
+    userPhoto: ""
   });
+  const [viewPhotoUrl, setViewPhotoUrl] = useState(false);
 
   const updateUserInfo = (key, value) => {
     setUserInfo({ ...userInfo, [key]: value });
   };
 
-  const { fullName, username, location, emailAddress } = userInfo;
+  const {
+    fullName,
+    username,
+    location,
+    emailAddress,
+    credit,
+    userPhoto
+  } = userInfo;
 
   useEffect(() => {
     getProfileInfo({ userId: selectedUserId });
+
+    return () => {
+      onClearUserInfo();
+    };
   }, []);
 
   useEffect(() => {
     if (!getProfileInfoLoading && profileInfo) {
-      const pickedInfo = (({ fullName, username, location, emailAddress }) => ({
+      const pickedInfo = (({
         fullName,
         username,
         location,
-        emailAddress
+        emailAddress,
+        credit,
+        photoUri
+      }) => ({
+        fullName,
+        username,
+        location,
+        emailAddress,
+        credit,
+        userPhoto: photoUri
       }))(profileInfo);
-
       setUserInfo(pickedInfo);
     }
-  }, [getProfileInfoLoading, profileInfo]);
+  }, [getProfileInfoLoading]);
+
+  useEffect(() => {
+    if (!postProfileLoading && profileInfo) {
+      updateUserInfo("userPhoto", profileInfo.photoUri);
+    }
+  }, [postProfileLoading]);
 
   useEffect(() => {
     if (postProfileError) {
@@ -89,7 +125,7 @@ const AddUser = ({
         onClose: () => onClearMessage()
       });
     }
-    saveProfileInfo(userInfo);
+    saveProfileInfo({ ...userInfo, userId: selectedUserId });
   };
 
   if (getProfileInfoLoading) {
@@ -99,7 +135,16 @@ const AddUser = ({
   return (
     <div className={classes.addUserContent}>
       <form onSubmit={handleFormSubmit}>
-        {/* <ImageField photoUri={profile.photoUri} /> */}
+        <ImageHolder
+          noCaption
+          image={userPhoto}
+          wrapperClass={classes.userImageContainer}
+          handleImageClick={url => setViewPhotoUrl(url)}
+          handleImageEdit={imageFormData =>
+            updateUserInfo("userPhoto", imageFormData)
+          }
+          handleImageRemove={() => updateUserInfo("userPhoto", "")}
+        />
         <Grid container spacing={3}>
           <Grid item lg={5} md={6} xs={12}>
             <TextField
@@ -128,7 +173,6 @@ const AddUser = ({
               label="Location"
               value={location}
               handleChange={val => updateUserInfo("location", val)}
-              required
               fullWidth
             />
           </Grid>
@@ -139,6 +183,16 @@ const AddUser = ({
               value={emailAddress}
               handleChange={val => updateUserInfo("emailAddress", val)}
               required
+              fullWidth
+            />
+          </Grid>
+          <Grid item lg={5} md={6} xs={12}>
+            <TextField
+              id="credit"
+              label="Credit"
+              value={credit}
+              type="number"
+              handleChange={val => updateUserInfo("credit", Math.ceil(val))}
               fullWidth
             />
           </Grid>
@@ -155,6 +209,15 @@ const AddUser = ({
           buttonText="Save Changes"
         />
       </form>
+      <div className="custom-image-viewer single">
+        {viewPhotoUrl && (
+          <ImageViewer
+            src={[viewPhotoUrl]}
+            currentIndex={0}
+            onClose={() => setViewPhotoUrl(false)}
+          />
+        )}
+      </div>
     </div>
   );
 };
@@ -164,7 +227,8 @@ AddUser.propTypes = {
   saveProfileInfo: PropTypes.func,
   onClearMessage: PropTypes.func,
   getProfileInfo: PropTypes.func,
-  match: PropTypes.object
+  match: PropTypes.object,
+  onClearUserInfo: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -174,7 +238,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   saveProfileInfo: data => dispatch(postProfileInfo(data)),
   getProfileInfo: data => dispatch(getProfileInfo(data)),
-  onClearMessage: () => dispatch(clearMessage())
+  onClearMessage: () => dispatch(clearMessage()),
+  onClearUserInfo: () => dispatch(clearUserInfo())
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

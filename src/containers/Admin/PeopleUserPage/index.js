@@ -42,29 +42,33 @@ const PeopleUserPage = ({
     makeUserSearch({});
   }, []);
 
-  const makeUserSearch = ({ resetText, updatedPage }) => {
-    fetchUserList({
-      searchText: resetText ? "" : searchText,
-      currentPage: updatedPage || currentPage,
-      pageSize
-    });
+  const getUrlParam = (text, pageNum) => {
+    const textQuery = `searchText=${encodeURIComponent(text)}`;
+    const pageQuery = `&currentPage=${pageNum}`;
+    const sizeQuery = `&pageSize=${pageSize}`;
+
+    return textQuery + pageQuery + sizeQuery;
+  };
+
+  const makeUserSearch = ({ resetText, pageNum }) => {
+    const updatedText = resetText ? "" : searchText;
+    const updatedPage = pageNum || currentPage;
+    setSearchText(updatedText);
+    setCurrentPage(updatedPage);
+    fetchUserList(getUrlParam(updatedText, updatedPage));
   };
 
   const handleUserSearch = e => {
     e.preventDefault();
-    setCurrentPage(1);
-    makeUserSearch({ updatedPage: 1 });
+    makeUserSearch({ pageNum: 1 });
   };
 
   const handleResetSearch = () => {
-    setSearchText("");
-    setCurrentPage(1);
-    makeUserSearch({ resetText: true, updatedPage: 1 });
+    makeUserSearch({ resetText: true, pageNum: 1 });
   };
 
   const handlePaginationChange = (event, page) => {
-    setCurrentPage(page);
-    makeUserSearch({ updatedPage: page });
+    makeUserSearch({ pageNum: page });
   };
 
   const tableHeader = [

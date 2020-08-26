@@ -32,11 +32,24 @@ const PeoplePage = ({ location, history }) => {
     }
   }, [location.pathname]);
 
+  const pushPathname = val => {
+    switch (val) {
+      case 0:
+        return history.push("/people/users");
+
+      case 1:
+        return history.push("/people/vendors");
+
+      default:
+    }
+  };
+
   const profileTabContent = {
     value: tabIndexValue,
     handleChange: (event, newValue) => {
-      setTabIndexValue(newValue);
-      history.replace("/people");
+      if (tabIndexValue !== newValue) {
+        pushPathname(newValue);
+      }
     },
     items: [
       {

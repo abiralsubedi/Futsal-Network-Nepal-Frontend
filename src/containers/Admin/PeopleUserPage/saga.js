@@ -6,13 +6,9 @@ import { getUserListSuccess, getUserListError } from "./actions";
 
 function* getUserList({ payload }) {
   try {
-    const { searchText, pageSize, currentPage } = payload;
     const token = localStorage.getItem("token");
-    const queryString = `searchText=${encodeURIComponent(
-      searchText
-    )}&pageSize=${pageSize}&currentPage=${currentPage}`;
 
-    const response = yield call(request, `/people/user?${queryString}`, {
+    const response = yield call(request, `/people/user?${payload}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`

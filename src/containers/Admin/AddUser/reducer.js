@@ -5,6 +5,8 @@ import {
   GET_PROFILE_INFO,
   GET_PROFILE_INFO_ERROR,
   GET_PROFILE_INFO_SUCCESS,
+  UPDATE_USER_PHOTO,
+  CLEAR_USER_INFO,
   CLEAR_MESSAGE
 } from "./constants";
 
@@ -58,6 +60,18 @@ export default (
         ...state,
         getProfileInfoLoading: false,
         getProfileInfoError: action.error
+      };
+
+    case UPDATE_USER_PHOTO:
+      return {
+        ...state,
+        profileInfo: { ...state.profileInfo, photoUri: action.photoUri }
+      };
+
+    case CLEAR_USER_INFO:
+      return {
+        ...state,
+        profileInfo: false
       };
 
     case CLEAR_MESSAGE:

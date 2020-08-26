@@ -39,7 +39,7 @@ const ProfilePage = ({
     postChangeEmailError
   } = basicInformationData;
 
-  const { profile } = globalData;
+  const { profile, isLoading } = globalData;
 
   const [fullName, setFullName] = useState(profile.fullName);
   const [username, setUsername] = useState(profile.username);
@@ -47,6 +47,15 @@ const ProfilePage = ({
   const [emailAddress, setEmailAddress] = useState(profile.emailAddress);
   const [changeEmailActive, setChangeEmailActive] = useState(false);
   const [newEmail, setNewEmail] = useState("");
+
+  useEffect(() => {
+    if (!isLoading) {
+      setFullName(profile.fullName);
+      setUsername(profile.username);
+      setLocation(profile.location);
+      setEmailAddress(profile.emailAddress);
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     if (postProfileError) {

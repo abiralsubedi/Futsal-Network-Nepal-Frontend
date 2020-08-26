@@ -99,9 +99,7 @@ const ImageField = ({
   const images = [getImageUrl(photoUri)];
 
   return (
-    <div
-      className={`custom-image-viewer ${images.length === 1 ? "single" : ""}`}
-    >
+    <div className="custom-image-viewer single">
       <ConfirmationModal
         open={confirmModalActive}
         handleClose={() => setConfirmModalActive(false)}

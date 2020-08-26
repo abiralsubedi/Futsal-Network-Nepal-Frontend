@@ -16,18 +16,26 @@ import CreditPage from "containers/CreditPage";
 import { Wrapper } from "components/Common";
 import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
 
+import { getProfileInfo } from "containers/LoginPage/actions";
+
 import { ThemeContext } from "context/themeContext";
 
 import useStyles from "./style";
 
-const ProfilePage = ({ location, history, globalData }) => {
+const ProfilePage = ({ location, history, globalData, fetchProfileInfo }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
   const {
     profile: { role }
   } = globalData;
 
+  const isUser = role === "User";
+
   const [tabIndexValue, setTabIndexValue] = React.useState(0);
+
+  useEffect(() => {
+    fetchProfileInfo();
+  }, []);
 
   useEffect(() => {
     if (location.pathname.includes("basic-info")) {
@@ -41,13 +49,27 @@ const ProfilePage = ({ location, history, globalData }) => {
     }
   }, [location.pathname]);
 
-  const isUser = role === "User";
+  const pushPathname = val => {
+    switch (val) {
+      case 0:
+        return history.push("/profile/basic-info");
+
+      case 1:
+        return history.push("/profile/change-password");
+
+      case 2:
+        return history.push("/profile/credit");
+
+      default:
+    }
+  };
 
   const profileTabContent = {
     value: tabIndexValue,
     handleChange: (event, newValue) => {
-      setTabIndexValue(newValue);
-      history.replace("/profile");
+      if (tabIndexValue !== newValue) {
+        pushPathname(newValue);
+      }
     },
     items: [
       {
@@ -101,14 +123,17 @@ const ProfilePage = ({ location, history, globalData }) => {
 ProfilePage.propTypes = {
   location: PropTypes.object,
   history: PropTypes.object,
-  globalData: PropTypes.object
+  globalData: PropTypes.object,
+  fetchProfileInfo: PropTypes.func
 };
 
 const mapStateToProps = state => ({
   globalData: state.LoginReducer
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  fetchProfileInfo: () => dispatch(getProfileInfo())
+});
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

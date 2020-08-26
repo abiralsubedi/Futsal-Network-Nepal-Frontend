@@ -7,6 +7,9 @@ const useStyles = makeStyles(theme => ({
   informationButtonRoot: {
     marginTop: "2.5rem",
     maxWidth: "12rem"
+  },
+  userImageContainer: {
+    marginBottom: "2rem"
   }
 }));
 
