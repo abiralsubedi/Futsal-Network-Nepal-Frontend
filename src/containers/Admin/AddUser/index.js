@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
@@ -7,6 +7,11 @@ import { withRouter } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import { useSnackbar } from "notistack";
 import ImageViewer from "react-simple-image-viewer";
+
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 import TextField from "components/TextField";
 import Button from "components/Button";
@@ -29,7 +34,8 @@ const AddUser = ({
   onClearMessage,
   getProfileInfo,
   match,
-  onClearUserInfo
+  onClearUserInfo,
+  history
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -44,15 +50,17 @@ const AddUser = ({
 
   const selectedUserId = match.params.userId;
 
-  const [userInfo, setUserInfo] = useState({
+  const [userInfo, setUserInfo] = useState(() => ({
     fullName: "",
     username: "",
     location: "",
     emailAddress: "",
     credit: 0,
-    userPhoto: ""
-  });
+    userPhoto: "",
+    newPassword: ""
+  }));
   const [viewPhotoUrl, setViewPhotoUrl] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
 
   const updateUserInfo = (key, value) => {
     setUserInfo({ ...userInfo, [key]: value });
@@ -64,11 +72,14 @@ const AddUser = ({
     location,
     emailAddress,
     credit,
-    userPhoto
+    userPhoto,
+    newPassword
   } = userInfo;
 
   useEffect(() => {
-    getProfileInfo({ userId: selectedUserId });
+    if (selectedUserId) {
+      getProfileInfo({ userId: selectedUserId });
+    }
 
     return () => {
       onClearUserInfo();
@@ -90,7 +101,8 @@ const AddUser = ({
         location,
         emailAddress,
         credit,
-        userPhoto: photoUri
+        userPhoto: photoUri,
+        newPassword: ""
       }))(profileInfo);
       setUserInfo(pickedInfo);
     }
@@ -110,10 +122,18 @@ const AddUser = ({
       });
     }
     if (postProfileSuccess) {
-      enqueueSnackbar(postProfileSuccess, {
+      let successMessage = "Profile updated successfully!";
+      if (!selectedUserId) {
+        successMessage = "Profile created successfully";
+      }
+      updateUserInfo("newPassword", "");
+      enqueueSnackbar(successMessage, {
         variant: "success",
         onClose: () => onClearMessage()
       });
+      if (!selectedUserId) {
+        history.replace(`/people/users/edit/${postProfileSuccess._id}`);
+      }
     }
   }, [postProfileError, postProfileSuccess]);
 
@@ -196,6 +216,32 @@ const AddUser = ({
               fullWidth
             />
           </Grid>
+          {!profileInfo.googleId && (
+            <Grid item lg={5} md={6} xs={12}>
+              <TextField
+                id="new-password"
+                label="New Password"
+                type={showNewPassword ? "text" : "password"}
+                value={newPassword}
+                handleChange={val => updateUserInfo("newPassword", val)}
+                fullWidth
+                required={!selectedUserId}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() =>
+                        setShowNewPassword(prevState => !prevState)
+                      }
+                      edge="end"
+                    >
+                      {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </Grid>
+          )}
         </Grid>
         <Button
           variant="contained"
@@ -228,7 +274,8 @@ AddUser.propTypes = {
   onClearMessage: PropTypes.func,
   getProfileInfo: PropTypes.func,
   match: PropTypes.object,
-  onClearUserInfo: PropTypes.func
+  onClearUserInfo: PropTypes.func,
+  history: PropTypes.object
 };
 
 const mapStateToProps = state => ({

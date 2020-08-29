@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -20,7 +20,7 @@ const PeopleUserPage = ({
   fetchUserList,
   onClearUserListData,
   peopleUserData,
-  match,
+  location,
   history
 }) => {
   const classes = useStyles();
@@ -35,7 +35,8 @@ const PeopleUserPage = ({
   const [searchText, setSearchText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const selectedUserId = match.params.userId;
+  const singleUserInfo =
+    location.pathname.includes("add") || location.pathname.includes("edit");
 
   useEffect(() => {
     onClearUserListData();
@@ -79,14 +80,31 @@ const PeopleUserPage = ({
 
   const actions = [{ type: "Edit", pushUrl: "/people/users/edit" }];
 
+  const peopleTableMemo = useMemo(
+    () => (
+      <PeopleTable
+        type="user"
+        tableHeader={tableHeader}
+        tableBody={userList || []}
+        tableBodyLoading={userListLoading}
+        pageSize={pageSize}
+        searchCount={searchCount}
+        currentPage={currentPage}
+        handlePaginationChange={handlePaginationChange}
+        actions={actions}
+      />
+    ),
+    [userListLoading, userList]
+  );
+
   return (
     <div className={classes.peopleUserPageContent}>
-      {selectedUserId && (
+      {singleUserInfo && (
         <>
           <div className={classes.backTextWrapper}>
             <Typography
               variant="body1"
-              onClick={() => history.push("people/users")}
+              onClick={() => history.push("/people/users")}
               color="textSecondary"
               className={classes.backText}
             >
@@ -96,7 +114,7 @@ const PeopleUserPage = ({
           <AddUser />
         </>
       )}
-      {!selectedUserId && (
+      {!singleUserInfo && (
         <>
           <TableFilter
             textField={[
@@ -109,16 +127,7 @@ const PeopleUserPage = ({
             handleSearch={handleUserSearch}
             handleReset={handleResetSearch}
           />
-          <PeopleTable
-            tableHeader={tableHeader}
-            tableBody={userList || []}
-            tableBodyLoading={userListLoading}
-            pageSize={pageSize}
-            searchCount={searchCount}
-            currentPage={currentPage}
-            handlePaginationChange={handlePaginationChange}
-            actions={actions}
-          />
+          {peopleTableMemo}
         </>
       )}
     </div>
@@ -129,7 +138,7 @@ PeopleUserPage.propTypes = {
   peopleUserData: PropTypes.object,
   fetchUserList: PropTypes.func,
   onClearUserListData: PropTypes.func,
-  match: PropTypes.object,
+  location: PropTypes.object,
   history: PropTypes.object
 };
 

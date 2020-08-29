@@ -46,7 +46,6 @@ const Header = ({ globalData }) => {
 
   useEffect(() => {
     if (role === "Admin") {
-      console.log("in admin");
       userLinks.push({
         value: "People",
         url: "/people",
@@ -59,7 +58,6 @@ const Header = ({ globalData }) => {
       userLinks = userLinks.slice(0, 2);
     };
   }, []);
-  console.log(userLinks, "admin links");
   const toggleNavBarDrawer = event => {
     if (
       event &&

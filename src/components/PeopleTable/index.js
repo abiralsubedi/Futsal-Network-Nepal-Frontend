@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
@@ -22,6 +22,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 
+import Button from "components/Button";
 import NoData from "components/NoData";
 import Loader from "components/Loader";
 
@@ -36,7 +37,8 @@ const PeopleTable = ({
   currentPage,
   handlePaginationChange,
   actions,
-  history
+  history,
+  type
 }) => {
   const classes = useStyles();
 
@@ -99,30 +101,60 @@ const PeopleTable = ({
 
   const isRowSelected = id => selectedRow.indexOf(id) !== -1;
 
+  const getButtonType = () => {
+    if (type === "user") {
+      return { label: "Add User", pushUrl: "/people/users/add" };
+    }
+    return {};
+  };
+
+  const getColumnCount = () => {
+    let count = tableHeader.length + 1;
+    if (actions) {
+      count += 1;
+    }
+    return count;
+  };
+
+  const addButtonType = useMemo(() => getButtonType(), []);
+
+  const columnCount = useMemo(() => getColumnCount(), []);
+
   return (
     <>
       <Toolbar
         className={`${classes.tableToolbar} ${selectedRowCount && "highlight"}`}
       >
-        <Typography
-          className={classes.tableTitle}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-          color="textSecondary"
-        >
-          {selectedRowCount ? `${selectedRowCount} selected` : "User Table"}
-        </Typography>
-
         {!!selectedRowCount && (
-          <Tooltip title="Delete">
-            <IconButton
-              aria-label="delete"
-              onClick={() => console.log(selectedRow, "row")}
+          <>
+            <Typography
+              className={classes.tableTitle}
+              variant="h6"
+              id="tableTitle"
+              component="div"
+              color="textSecondary"
             >
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
+              {selectedRowCount} selected
+            </Typography>
+            <Tooltip title="Delete">
+              <IconButton
+                aria-label="delete"
+                onClick={() => console.log(selectedRow, "row")}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </>
+        )}
+        {!selectedRowCount && (
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            buttonRootClass={classes.peopleAddButton}
+            buttonText={addButtonType.label}
+            onClick={() => history.push(addButtonType.pushUrl)}
+          />
         )}
       </Toolbar>
       <TableContainer className={classes.tableContainer}>
@@ -165,7 +197,7 @@ const PeopleTable = ({
           <TableBody>
             {!(tableBody || []).length && (
               <TableRow>
-                <TableCell colSpan={4}>
+                <TableCell colSpan={columnCount}>
                   {tableBodyLoading && (
                     <Loader wrapperClass={classes.loadingWrapper} />
                   )}
@@ -213,7 +245,7 @@ const PeopleTable = ({
           {paginationSize > 1 && (
             <TableFooter>
               <TableRow>
-                <TableCell colSpan={4}>
+                <TableCell colSpan={columnCount}>
                   <div className={classes.paginationWrapper}>
                     <Pagination
                       page={currentPage}
@@ -242,7 +274,8 @@ PeopleTable.propTypes = {
   currentPage: PropTypes.number,
   handlePaginationChange: PropTypes.func,
   actions: PropTypes.instanceOf(Array),
-  history: PropTypes.object
+  history: PropTypes.object,
+  type: PropTypes.string
 };
 
 export default compose(withRouter)(PeopleTable);

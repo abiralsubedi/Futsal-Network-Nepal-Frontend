@@ -33,7 +33,7 @@ export default (
       return {
         ...state,
         postProfileLoading: false,
-        postProfileSuccess: action.message
+        postProfileSuccess: action.payload
       };
     case POST_PROFILE_INFO_ERROR:
       return {

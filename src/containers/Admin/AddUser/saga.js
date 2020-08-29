@@ -1,7 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import request from "utils/request";
 
-import { getProfileData } from "containers/LoginPage/saga";
 import { uploadFile } from "containers/LoginPage/saga";
 
 import { setFileUploadData } from "containers/LoginPage/actions";
@@ -49,15 +48,22 @@ function* postProfileInfo({ payload }) {
     }
     yield put(updateUserPhoto(photoUri));
 
-    yield call(request, `/people/user/${userId}`, {
-      method: "PUT",
+    let updatedAPI;
+    if (userId) {
+      updatedAPI = `/people/user/${userId}`;
+    } else {
+      updatedAPI = `/people/user`;
+    }
+
+    const response = yield call(request, updatedAPI, {
+      method: userId ? "PUT" : "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ ...payload, photoUri })
     });
-    yield put(postProfileInfoSuccess("Profile Updated successfully!"));
+    yield put(postProfileInfoSuccess(response));
   } catch (error) {
     const errorObj = yield error.response.json();
     yield put(postProfileInfoError(errorObj.message));

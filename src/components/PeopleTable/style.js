@@ -14,8 +14,10 @@ const useStyles = makeStyles(theme => ({
 
   tableToolbar: {
     display: "flex",
+    justifyContent: "flex-end",
     "&.highlight": {
-      backgroundColor: `${theme.palette.primary.main}20 !important`
+      backgroundColor: `${theme.palette.primary.main}20 !important`,
+      justifyContent: "start"
     }
   },
   tableTitle: {
@@ -31,6 +33,10 @@ const useStyles = makeStyles(theme => ({
 
   loadingWrapper: {
     height: "12rem"
+  },
+  peopleAddButton: {
+    maxWidth: "8rem",
+    padding: "0.5rem"
   }
 }));
 

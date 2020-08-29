@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 
 import IconButton from "@material-ui/core/IconButton";
@@ -30,12 +30,15 @@ const ImageHolder = ({
   const [caption, setCaption] = useState("");
   const [confirmModalActive, setConfirmModalActive] = useState(false);
 
-  let imageUrl;
-  if (typeof image === "string") {
-    imageUrl = getImageUrl(image);
-  } else {
-    imageUrl = window.URL.createObjectURL(image.get("file"));
-  }
+  const getImage = () => {
+    if (typeof image === "string") {
+      return getImageUrl(image);
+    } else {
+      return window.URL.createObjectURL(image.get("file"));
+    }
+  };
+
+  const imageUrl = useMemo(() => getImage(), [image]);
 
   return (
     <div className={`${classes.imageHolderContainer} ${wrapperClass}`}>
@@ -49,6 +52,7 @@ const ImageHolder = ({
                 cursor: !image && "auto"
               }}
               onClick={() => (image ? handleImageClick(imageUrl) : null)}
+              alt="holder"
             />
             <div className={classes.imageActions}>
               <Tooltip title="Edit">

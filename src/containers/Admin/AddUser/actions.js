@@ -13,8 +13,8 @@ import {
 export const postProfileInfo = payload => {
   return { type: POST_PROFILE_INFO, payload };
 };
-export const postProfileInfoSuccess = message => {
-  return { type: POST_PROFILE_INFO_SUCCESS, message };
+export const postProfileInfoSuccess = payload => {
+  return { type: POST_PROFILE_INFO_SUCCESS, payload };
 };
 export const postProfileInfoError = error => {
   return { type: POST_PROFILE_INFO_ERROR, error };
