@@ -76,6 +76,11 @@ const Main = () => {
                 component={{ Admin: AdminPeoplePage }}
               />
               <PrivateRoute
+                path="/people/vendors/edit/:vendorId"
+                exact
+                component={{ Admin: AdminPeoplePage }}
+              />
+              <PrivateRoute
                 path="/people"
                 component={{ Admin: AdminPeoplePage }}
               />

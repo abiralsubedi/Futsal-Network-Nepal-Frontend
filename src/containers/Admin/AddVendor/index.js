@@ -28,7 +28,7 @@ import {
 } from "./actions";
 import useStyles from "./style";
 
-const AddUser = ({
+const AddVendor = ({
   addUserData,
   saveProfileInfo,
   onClearMessage,
@@ -48,7 +48,7 @@ const AddUser = ({
     postProfileError
   } = addUserData;
 
-  const selectedUserId = match.params.userId;
+  const selectedUserId = match.params.vendorId;
 
   const [userInfo, setUserInfo] = useState(() => ({
     fullName: "",
@@ -131,7 +131,7 @@ const AddUser = ({
         onClose: () => onClearMessage()
       });
       if (!selectedUserId) {
-        history.replace(`/people/users/edit/${postProfileSuccess._id}`);
+        history.replace(`/people/vendors/edit/${postProfileSuccess._id}`);
       }
     }
   }, [postProfileError, postProfileSuccess]);
@@ -267,7 +267,7 @@ const AddUser = ({
   );
 };
 
-AddUser.propTypes = {
+AddVendor.propTypes = {
   addUserData: PropTypes.object,
   saveProfileInfo: PropTypes.func,
   onClearMessage: PropTypes.func,
@@ -278,7 +278,7 @@ AddUser.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  addUserData: state.AddUserReducer
+  addUserData: state.AddVendorReducer
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -290,4 +290,4 @@ const mapDispatchToProps = dispatch => ({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect, withRouter)(AddUser);
+export default compose(withConnect, withRouter)(AddVendor);

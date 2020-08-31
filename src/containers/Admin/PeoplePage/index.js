@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 
 import PeopleUserPage from "containers/Admin/PeopleUserPage";
-import ChangePassword from "containers/ChangePassword";
+import PeopleVendorPage from "containers/Admin/PeopleVendorPage";
 
 import { Wrapper } from "components/Common";
 import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
@@ -60,7 +60,7 @@ const PeoplePage = ({ location, history }) => {
       {
         labelText: "Vendor",
         labelIcon: <PersonOutlineIcon />,
-        content: <ChangePassword />
+        content: <PeopleVendorPage />
       }
     ]
   };

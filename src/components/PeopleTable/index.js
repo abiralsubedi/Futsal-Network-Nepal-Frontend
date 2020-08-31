@@ -105,6 +105,9 @@ const PeopleTable = ({
     if (type === "user") {
       return { label: "Add User", pushUrl: "/people/users/add" };
     }
+    if (type === "vendor") {
+      return { label: "Add Vendor", pushUrl: "/people/vendors/add" };
+    }
     return {};
   };
 
@@ -202,7 +205,7 @@ const PeopleTable = ({
                     <Loader wrapperClass={classes.loadingWrapper} />
                   )}
                   {!tableBodyLoading && (
-                    <NoData text="Sorry, there is no matching user." />
+                    <NoData text={`Sorry, there is no matching ${type}.`} />
                   )}
                 </TableCell>
               </TableRow>
