@@ -10,6 +10,20 @@ const useStyles = makeStyles(theme => ({
   },
   userImageContainer: {
     marginBottom: "2rem"
+  },
+  vendorGroupText: {
+    margin: "1.5rem 0 1rem"
+  },
+  fieldGroup: {
+    display: "flex"
+  },
+  fieldActionItems: {
+    display: "flex"
+  },
+  fieldActionIcon: {
+    "&:hover": {
+      background: "inherit"
+    }
   }
 }));
 

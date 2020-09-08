@@ -10,16 +10,23 @@ import ImageViewer from "react-simple-image-viewer";
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
+
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
+import RemoveCircleOutlineRoundedIcon from "@material-ui/icons/RemoveCircleOutlineRounded";
 
 import TextField from "components/TextField";
+import SelectField from "components/SelectField";
 import Button from "components/Button";
 import Loader from "components/Loader";
 import ImageHolder from "components/ImageHolder";
 
 import checkValidEmail from "utils/checkValidEmail";
 
+import { getClockData } from "containers/LoginPage/actions";
 import {
   postProfileInfo,
   clearMessage,
@@ -35,7 +42,9 @@ const AddVendor = ({
   getProfileInfo,
   match,
   onClearUserInfo,
-  history
+  history,
+  fetchClockData,
+  globalData: { clockDataLoading, clockData }
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -57,10 +66,15 @@ const AddVendor = ({
     emailAddress: "",
     credit: 0,
     userPhoto: "",
-    newPassword: ""
+    newPassword: "",
+    phone: ""
   }));
   const [viewPhotoUrl, setViewPhotoUrl] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
+  const [startPeriod, setStartPeriod] = useState(null);
+  const [endPeriod, setEndPeriod] = useState(null);
+  const [price, setPrice] = useState(1);
+  const [fields, setFields] = useState([{ name: "" }]);
 
   const updateUserInfo = (key, value) => {
     setUserInfo({ ...userInfo, [key]: value });
@@ -71,14 +85,18 @@ const AddVendor = ({
     username,
     location,
     emailAddress,
-    credit,
     userPhoto,
-    newPassword
+    newPassword,
+    phone
   } = userInfo;
 
   useEffect(() => {
     if (selectedUserId) {
       getProfileInfo({ userId: selectedUserId });
+    }
+
+    if (!clockData.length) {
+      fetchClockData();
     }
 
     return () => {
@@ -93,14 +111,14 @@ const AddVendor = ({
         username,
         location,
         emailAddress,
-        credit,
-        photoUri
+        photoUri,
+        phone
       }) => ({
         fullName,
         username,
         location,
         emailAddress,
-        credit,
+        phone,
         userPhoto: photoUri,
         newPassword: ""
       }))(profileInfo);
@@ -144,8 +162,139 @@ const AddVendor = ({
         onClose: () => onClearMessage()
       });
     }
-    saveProfileInfo({ ...userInfo, userId: selectedUserId });
+    saveProfileInfo({
+      ...userInfo,
+      userId: selectedUserId,
+      startPeriod,
+      endPeriod,
+      price,
+      fields
+    });
   };
+
+  const getFieldAction = index => {
+    const isLastIndex = index + 1 === fields.length;
+    const hideRemove = index === 0 && fields.length === 1;
+    return (
+      <>
+        {!hideRemove && (
+          <Tooltip title="Remove">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={() => {
+                const updatedField = [...fields];
+                updatedField.splice(index, 1);
+                setFields(updatedField);
+              }}
+              className={classes.fieldActionIcon}
+              edge="end"
+            >
+              <RemoveCircleOutlineRoundedIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+        {isLastIndex && (
+          <Tooltip title="Add">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={() => {
+                const updatedField = [...fields];
+                updatedField.push({ name: "" });
+                setFields(updatedField);
+              }}
+              className={classes.fieldActionIcon}
+              edge="end"
+            >
+              <AddRoundedIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </>
+    );
+  };
+
+  const fieldListMemo = useMemo(
+    () => (
+      <Grid container spacing={3}>
+        {(fields || []).map((field, index) => (
+          <Grid item lg={5} md={6} xs={12} key={index + 1}>
+            <div className={classes.fieldGroup}>
+              <TextField
+                id={`field-${index + 1}`}
+                label="Field Name"
+                value={field.name}
+                handleChange={val => {
+                  const updatedField = [...fields];
+                  updatedField[index].name = val;
+                  setFields(updatedField);
+                }}
+                required
+                fullWidth
+              />
+              <div className={classes.fieldActionItems}>
+                {getFieldAction(index)}
+              </div>
+            </div>
+          </Grid>
+        ))}
+      </Grid>
+    ),
+    [fields]
+  );
+
+  const workingHourPriceMemo = useMemo(
+    () => (
+      <Grid container spacing={3}>
+        <Grid item md={4} sm={6} xs={12}>
+          <SelectField
+            options={clockData}
+            getOptionLabel={option => option.name}
+            label="First Game at"
+            value={startPeriod}
+            handleChange={opt => setStartPeriod(opt)}
+            getOptionSelected={(option, value) => option.name === value.name}
+            isLoading={clockDataLoading}
+            disableClearable
+            required
+          />
+        </Grid>
+        <Grid item md={4} sm={6} xs={12}>
+          <SelectField
+            options={clockData}
+            getOptionLabel={option => option.name}
+            label="Last game at"
+            value={endPeriod}
+            handleChange={opt => setEndPeriod(opt)}
+            getOptionSelected={(option, value) => option.name === value.name}
+            isLoading={clockDataLoading}
+            disableClearable
+            required
+          />
+        </Grid>
+        <Grid item md={4} sm={6} xs={12}>
+          <TextField
+            id="price"
+            label="Hourly Price ($)"
+            value={price}
+            handleChange={val => {
+              let updatedVal = val;
+              if (+val % 1 !== 0) {
+                const decimalIndex = updatedVal.indexOf(".");
+                updatedVal =
+                  updatedVal.substr(0, decimalIndex) +
+                  updatedVal.substr(decimalIndex, 3);
+              }
+              setPrice(Math.abs(+updatedVal));
+            }}
+            required
+            type="number"
+            fullWidth
+          />
+        </Grid>
+      </Grid>
+    ),
+    [clockData, startPeriod, endPeriod, price]
+  );
 
   if (getProfileInfoLoading) {
     return <Loader wrapperClass={classes.infoLoadingWrapper} />;
@@ -197,21 +346,21 @@ const AddVendor = ({
           </Grid>
           <Grid item lg={5} md={6} xs={12}>
             <TextField
-              id="email"
-              label="Email"
-              value={emailAddress}
-              handleChange={val => updateUserInfo("emailAddress", val)}
+              id="phone"
+              label="Phone"
+              value={phone}
+              handleChange={val => updateUserInfo("phone", val)}
               required
               fullWidth
             />
           </Grid>
           <Grid item lg={5} md={6} xs={12}>
             <TextField
-              id="credit"
-              label="Credit"
-              value={credit}
-              type="number"
-              handleChange={val => updateUserInfo("credit", Math.ceil(val))}
+              id="email"
+              label="Email"
+              value={emailAddress}
+              handleChange={val => updateUserInfo("emailAddress", val)}
+              required
               fullWidth
             />
           </Grid>
@@ -242,6 +391,29 @@ const AddVendor = ({
             </Grid>
           )}
         </Grid>
+        {!selectedUserId && (
+          <>
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              className={classes.vendorGroupText}
+            >
+              Please add required number of fields with name.
+            </Typography>
+            {fieldListMemo}
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              className={classes.vendorGroupText}
+            >
+              Please select the most common start and end game time with hourly
+              price.
+              <br />
+              You can later change it according to day and time.
+            </Typography>
+            {workingHourPriceMemo}
+          </>
+        )}
         <Button
           variant="contained"
           size="large"
@@ -274,17 +446,21 @@ AddVendor.propTypes = {
   getProfileInfo: PropTypes.func,
   match: PropTypes.object,
   onClearUserInfo: PropTypes.func,
-  history: PropTypes.object
+  history: PropTypes.object,
+  globalData: PropTypes.object,
+  fetchClockData: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  addUserData: state.AddVendorReducer
+  addUserData: state.AddVendorReducer,
+  globalData: state.LoginReducer
 });
 
 const mapDispatchToProps = dispatch => ({
   saveProfileInfo: data => dispatch(postProfileInfo(data)),
   getProfileInfo: data => dispatch(getProfileInfo(data)),
   onClearMessage: () => dispatch(clearMessage()),
+  fetchClockData: () => dispatch(getClockData()),
   onClearUserInfo: () => dispatch(clearUserInfo())
 });
 

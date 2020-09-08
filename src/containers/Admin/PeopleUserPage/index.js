@@ -94,7 +94,7 @@ const PeopleUserPage = ({
         actions={actions}
       />
     ),
-    [userListLoading, userList]
+    [userListLoading]
   );
 
   return (

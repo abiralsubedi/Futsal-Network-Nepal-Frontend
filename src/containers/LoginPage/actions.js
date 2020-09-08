@@ -14,7 +14,11 @@ import {
   POST_FORGOT_PASSWORD_SUCCESS,
   POST_FORGOT_PASSWORD_ERROR,
   UPDATE_CREDIT_AMOUNT,
-  TOGGLE_ADD_CREDIT_MODAL
+  TOGGLE_ADD_CREDIT_MODAL,
+  GET_CLOCK_DATA,
+  GET_CLOCK_DATA_SUCCESS,
+  GET_WEEK_DATA,
+  GET_WEEK_DATA_SUCCESS
 } from "./constants";
 
 export const login = payload => {
@@ -73,3 +77,15 @@ export const toggleAddCreditModal = data => {
 };
 
 export const clearLoginMessage = () => ({ type: CLEAR_LOGIN_MESSAGE });
+
+export const getClockData = () => ({ type: GET_CLOCK_DATA });
+export const getClockDataSuccess = payload => ({
+  type: GET_CLOCK_DATA_SUCCESS,
+  payload
+});
+
+export const getWeekData = () => ({ type: GET_WEEK_DATA });
+export const getWeekDataSuccess = payload => ({
+  type: GET_WEEK_DATA_SUCCESS,
+  payload
+});

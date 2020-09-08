@@ -14,7 +14,11 @@ import {
   POST_FORGOT_PASSWORD_SUCCESS,
   POST_FORGOT_PASSWORD_ERROR,
   UPDATE_CREDIT_AMOUNT,
-  TOGGLE_ADD_CREDIT_MODAL
+  TOGGLE_ADD_CREDIT_MODAL,
+  GET_CLOCK_DATA,
+  GET_CLOCK_DATA_SUCCESS,
+  GET_WEEK_DATA,
+  GET_WEEK_DATA_SUCCESS
 } from "./constants";
 
 export const initialState = {
@@ -27,7 +31,11 @@ export const initialState = {
   postForgotPasswordLoading: false,
   postForgotPasswordSuccess: "",
   postForgotPasswordError: "",
-  addCreditModalActive: false
+  addCreditModalActive: false,
+  clockDataLoading: false,
+  clockData: [],
+  weekDataLoading: false,
+  weekData: []
 };
 
 export default (state = initialState, action) => {
@@ -118,6 +126,18 @@ export default (state = initialState, action) => {
         postForgotPasswordSuccess: "",
         postForgotPasswordError: ""
       };
+
+    case GET_CLOCK_DATA:
+      return { ...state, clockDataLoading: true };
+
+    case GET_CLOCK_DATA_SUCCESS:
+      return { ...state, clockData: action.payload, clockDataLoading: false };
+
+    case GET_WEEK_DATA:
+      return { ...state, weekDataLoading: true };
+
+    case GET_WEEK_DATA_SUCCESS:
+      return { ...state, weekData: action.payload, weekDataLoading: false };
 
     default:
       return state;

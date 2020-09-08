@@ -94,7 +94,7 @@ const PeopleVendorPage = ({
         actions={actions}
       />
     ),
-    [userListLoading, userList]
+    [userListLoading]
   );
 
   return (

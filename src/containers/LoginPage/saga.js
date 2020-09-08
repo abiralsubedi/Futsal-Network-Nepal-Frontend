@@ -1,14 +1,22 @@
 import { call, put, takeLatest, select } from "redux-saga/effects";
 import request from "utils/request";
 
-import { LOGIN, GET_PROFILE_INFO, POST_FORGOT_PASSWORD } from "./constants";
+import {
+  LOGIN,
+  GET_PROFILE_INFO,
+  POST_FORGOT_PASSWORD,
+  GET_CLOCK_DATA,
+  GET_WEEK_DATA
+} from "./constants";
 import {
   loginSuccess,
   loginError,
   getProfileInfoSuccess,
   getProfileInfoError,
   postForgotPasswordSuccess,
-  postForgotPasswordError
+  postForgotPasswordError,
+  getClockDataSuccess,
+  getWeekDataSuccess
 } from "./actions";
 
 import { getGlobalData } from "./selectors";
@@ -83,8 +91,40 @@ export function* uploadFile() {
   }
 }
 
+export function* getClockData() {
+  try {
+    const token = localStorage.getItem("token");
+    const response = yield call(request, "/common/clock", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    yield put(getClockDataSuccess(response));
+  } catch (error) {
+    // clock error
+  }
+}
+
+export function* getWeekData() {
+  try {
+    const token = localStorage.getItem("token");
+    const response = yield call(request, "/common/clock", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    yield put(getWeekDataSuccess(response));
+  } catch (error) {
+    // clock error
+  }
+}
+
 export default function* mySaga() {
   yield takeLatest(LOGIN, login);
   yield takeLatest(GET_PROFILE_INFO, getProfileData);
   yield takeLatest(POST_FORGOT_PASSWORD, postForgotPassword);
+  yield takeLatest(GET_CLOCK_DATA, getClockData);
+  yield takeLatest(GET_WEEK_DATA, getWeekData);
 }

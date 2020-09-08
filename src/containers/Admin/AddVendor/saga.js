@@ -38,7 +38,7 @@ function* postProfileInfo({ payload }) {
     const { userPhoto, userId } = payload;
 
     let photoUri = userPhoto;
-    console.log(userPhoto, 'photo saga')
+
     if (typeof userPhoto === "object") {
       yield put(setFileUploadData(userPhoto));
       const uploadResponse = yield call(uploadFile);
