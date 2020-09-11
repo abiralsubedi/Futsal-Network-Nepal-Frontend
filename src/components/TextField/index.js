@@ -10,6 +10,7 @@ const CustomTextField = ({
   type,
   handleChange,
   endAdornment,
+  maxDecimalValue = 0,
   ...rest
 }) => {
   const classes = useStyles();
@@ -23,7 +24,18 @@ const CustomTextField = ({
       }}
       variant="outlined"
       type={type || "text"}
-      onChange={({ target: { value } }) => handleChange(value)}
+      onChange={({ target: { value } }) => {
+        let updatedVal = value;
+        if (type === "number" && +value % 1 !== 0) {
+          const decimalIndex = updatedVal.indexOf(".");
+          updatedVal =
+            updatedVal.substr(0, decimalIndex) +
+            updatedVal.substr(decimalIndex, maxDecimalValue + 1);
+
+          updatedVal = Math.abs(+updatedVal);
+        }
+        handleChange(updatedVal);
+      }}
       className={`${customClasses} ${classes.primaryField}`}
       {...rest}
     />
@@ -33,6 +45,7 @@ const CustomTextField = ({
 CustomTextField.propTypes = {
   customClasses: PropTypes.string,
   type: PropTypes.string,
+  maxDecimalValue: PropTypes.number,
   handleChange: PropTypes.func,
   endAdornment: PropTypes.node
 };

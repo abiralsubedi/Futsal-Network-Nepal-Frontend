@@ -20,7 +20,7 @@ import GetCommonIcon from "utils/getCommonIcon.js";
 
 import useStyles from "./style";
 
-let userLinks = [
+const userLinks = [
   {
     value: "Home",
     url: "/",
@@ -29,6 +29,32 @@ let userLinks = [
   {
     value: "Profile",
     url: "/profile",
+    icon: <GetCommonIcon type="filledProfile" />
+  }
+];
+
+const vendorLinks = [
+  {
+    value: "Home",
+    url: "/",
+    icon: <GetCommonIcon type="filledHome" />
+  },
+  {
+    value: "Schedule",
+    url: "/schedule",
+    icon: <GetCommonIcon type="filledSchedule" />
+  }
+];
+
+const adminLinks = [
+  {
+    value: "Home",
+    url: "/",
+    icon: <GetCommonIcon type="filledHome" />
+  },
+  {
+    value: "People",
+    url: "/people",
     icon: <GetCommonIcon type="filledProfile" />
   }
 ];
@@ -42,22 +68,7 @@ const Header = ({ globalData }) => {
   } = globalData;
 
   const [navBarDrawerShow, setNavBarDrawerShow] = useState(false);
-  const [stateChange, setStateChange] = useState(false);
 
-  useEffect(() => {
-    if (role === "Admin") {
-      userLinks.push({
-        value: "People",
-        url: "/people",
-        icon: <GetCommonIcon type="filledProfile" />
-      });
-      setStateChange(prev => !prev);
-    }
-
-    return () => {
-      userLinks = userLinks.slice(0, 2);
-    };
-  }, []);
   const toggleNavBarDrawer = event => {
     if (
       event &&
@@ -71,7 +82,16 @@ const Header = ({ globalData }) => {
   };
 
   const renderNavBar = () => {
-    return userLinks.map((link, index) => (
+    let navBarLinks;
+    if (role === "User") {
+      navBarLinks = userLinks;
+    } else if (role === "Vendor") {
+      navBarLinks = vendorLinks;
+    } else if (role === "Admin") {
+      navBarLinks = adminLinks;
+    }
+
+    return navBarLinks.map((link, index) => (
       <li key={link.value}>
         <NavLink
           to={link.url}

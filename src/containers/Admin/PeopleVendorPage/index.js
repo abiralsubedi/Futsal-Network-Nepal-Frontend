@@ -78,7 +78,17 @@ const PeopleVendorPage = ({
     { label: "Location", key: "location" }
   ];
 
-  const actions = [{ type: "Edit", pushUrl: "/people/vendors/edit" }];
+  const actions = [
+    {
+      type: "Edit",
+      handleClick: item => history.push(`/people/vendors/edit/${item._id}`)
+    }
+  ];
+
+  const addButton = {
+    label: "Add Vendor",
+    handleClick: () => history.push("/people/vendors/add")
+  };
 
   const peopleTableMemo = useMemo(
     () => (
@@ -92,6 +102,7 @@ const PeopleVendorPage = ({
         currentPage={currentPage}
         handlePaginationChange={handlePaginationChange}
         actions={actions}
+        addButton={addButton}
       />
     ),
     [userListLoading]

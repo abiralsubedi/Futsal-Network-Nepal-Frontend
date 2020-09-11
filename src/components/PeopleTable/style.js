@@ -17,7 +17,9 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "flex-end",
     "&.highlight": {
       backgroundColor: `${theme.palette.primary.main}20 !important`,
-      justifyContent: "start"
+      justifyContent: "start",
+      borderTopRightRadius: "5px",
+      borderTopLeftRadius: "5px"
     }
   },
   tableTitle: {

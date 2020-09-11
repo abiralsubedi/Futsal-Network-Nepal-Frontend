@@ -276,18 +276,10 @@ const AddVendor = ({
             id="price"
             label="Hourly Price ($)"
             value={price}
-            handleChange={val => {
-              let updatedVal = val;
-              if (+val % 1 !== 0) {
-                const decimalIndex = updatedVal.indexOf(".");
-                updatedVal =
-                  updatedVal.substr(0, decimalIndex) +
-                  updatedVal.substr(decimalIndex, 3);
-              }
-              setPrice(Math.abs(+updatedVal));
-            }}
+            handleChange={val => setPrice(val)}
             required
             type="number"
+            maxDecimalValue={2}
             fullWidth
           />
         </Grid>

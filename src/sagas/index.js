@@ -14,6 +14,7 @@ import PeopleUserPageSagas from "containers/Admin/PeopleUserPage/saga.js";
 import AddUserSagas from "containers/Admin/AddUser/saga.js";
 import PeopleVendorPageSagas from "containers/Admin/PeopleVendorPage/saga.js";
 import AddVendorSagas from "containers/Admin/AddVendor/saga.js";
+import GameHourSagas from "containers/Vendor/GameHour/saga.js";
 
 export default function* rootSaga() {
   yield all(
@@ -31,7 +32,8 @@ export default function* rootSaga() {
       PeopleUserPageSagas,
       AddUserSagas,
       PeopleVendorPageSagas,
-      AddVendorSagas
+      AddVendorSagas,
+      GameHourSagas
     ].map(fork)
   );
 }

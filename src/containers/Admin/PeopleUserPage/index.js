@@ -78,7 +78,17 @@ const PeopleUserPage = ({
     { label: "Location", key: "location" }
   ];
 
-  const actions = [{ type: "Edit", pushUrl: "/people/users/edit" }];
+  const actions = [
+    {
+      type: "Edit",
+      handleClick: item => history.push(`/people/users/edit/${item._id}`)
+    }
+  ];
+
+  const addButton = {
+    label: "Add User",
+    handleClick: () => history.push("/people/users/add")
+  };
 
   const peopleTableMemo = useMemo(
     () => (
@@ -92,6 +102,7 @@ const PeopleUserPage = ({
         currentPage={currentPage}
         handlePaginationChange={handlePaginationChange}
         actions={actions}
+        addButton={addButton}
       />
     ),
     [userListLoading]

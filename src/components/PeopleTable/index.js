@@ -37,8 +37,8 @@ const PeopleTable = ({
   currentPage,
   handlePaginationChange,
   actions,
-  history,
-  type
+  type,
+  addButton
 }) => {
   const classes = useStyles();
 
@@ -71,17 +71,12 @@ const PeopleTable = ({
     setSelectedRow(newSelected);
   };
 
-  const getAction = (actionItem, userId) => {
-    const { type, pushUrl } = actionItem;
+  const getAction = (actionItem, rowItem) => {
+    const { type, handleClick } = actionItem;
     if (type === "Edit") {
       return (
-        <Tooltip title="Edit" key={userId}>
-          <IconButton
-            aria-label="edit"
-            onClick={() => {
-              history.push(`${pushUrl}/${userId}`);
-            }}
-          >
+        <Tooltip title="Edit" key={rowItem._id}>
+          <IconButton aria-label="edit" onClick={() => handleClick(rowItem)}>
             <EditRoundedIcon />
           </IconButton>
         </Tooltip>
@@ -101,16 +96,6 @@ const PeopleTable = ({
 
   const isRowSelected = id => selectedRow.indexOf(id) !== -1;
 
-  const getButtonType = () => {
-    if (type === "user") {
-      return { label: "Add User", pushUrl: "/people/users/add" };
-    }
-    if (type === "vendor") {
-      return { label: "Add Vendor", pushUrl: "/people/vendors/add" };
-    }
-    return {};
-  };
-
   const getColumnCount = () => {
     let count = tableHeader.length + 1;
     if (actions) {
@@ -118,8 +103,6 @@ const PeopleTable = ({
     }
     return count;
   };
-
-  const addButtonType = useMemo(() => getButtonType(), []);
 
   const columnCount = useMemo(() => getColumnCount(), []);
 
@@ -155,8 +138,8 @@ const PeopleTable = ({
             color="primary"
             fullWidth
             buttonRootClass={classes.peopleAddButton}
-            buttonText={addButtonType.label}
-            onClick={() => history.push(addButtonType.pushUrl)}
+            buttonText={addButton.label}
+            onClick={addButton.handleClick}
           />
         )}
       </Toolbar>
@@ -191,7 +174,7 @@ const PeopleTable = ({
                 </TableCell>
               ))}
               {actions && (
-                <TableCell classes={{ head: classes.tableHead }}>
+                <TableCell classes={{ head: classes.tableHead }} align="right">
                   Action
                 </TableCell>
               )}
@@ -229,16 +212,21 @@ const PeopleTable = ({
                         onChange={event => handleRowBoxClick(event, row._id)}
                       />
                     </TableCell>
-                    {(tableHeader || []).map(col => (
-                      <StyledTableCell key={col.key}>
-                        {row[col.key]}
-                      </StyledTableCell>
-                    ))}
+                    {(tableHeader || []).map(col => {
+                      const [first, second] = col.key.split(".");
+                      let colValue = row[first];
+                      if (second) {
+                        colValue = row[first][second];
+                      }
+                      return (
+                        <StyledTableCell key={col.key} align={col.align}>
+                          {colValue}
+                        </StyledTableCell>
+                      );
+                    })}
                     {actions && (
-                      <StyledTableCell>
-                        {(actions || []).map(action =>
-                          getAction(action, userId)
-                        )}
+                      <StyledTableCell align="right">
+                        {(actions || []).map(action => getAction(action, row))}
                       </StyledTableCell>
                     )}
                   </TableRow>
@@ -277,8 +265,8 @@ PeopleTable.propTypes = {
   currentPage: PropTypes.number,
   handlePaginationChange: PropTypes.func,
   actions: PropTypes.instanceOf(Array),
-  history: PropTypes.object,
-  type: PropTypes.string
+  type: PropTypes.string,
+  addButton: PropTypes.object
 };
 
 export default compose(withRouter)(PeopleTable);

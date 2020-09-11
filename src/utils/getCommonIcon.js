@@ -22,6 +22,15 @@ const GetCommonIcon = ({ type }) => {
     );
   }
 
+  if (type === "filledSchedule") {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125" style={{ width: "24px" }}>
+        <path fill={theme.palette.text.secondary} d="M50 5C26.155 5 6.756 25.187 6.756 50S26.155 95 50 95s43.244-20.187 43.244-45S73.845 5 50 5zm0 83.854c-20.456 0-37.098-17.43-37.098-38.854S29.544 11.146 50 11.146 87.098 28.576 87.098 50 70.456 88.854 50 88.854z" />
+        <path fill={theme.palette.text.secondary} d="M72.391 46.927H53.073V21.024a3.073 3.073 0 00-6.146 0V50A3.073 3.073 0 0050 53.073h22.391a3.073 3.073 0 000-6.146z" />
+      </svg>
+    );
+  }
+
   if (type === "filledProfile") {
     return (
       <svg

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
@@ -211,6 +211,7 @@ const AddUser = ({
               label="Credit"
               value={credit}
               type="number"
+              maxDecimalValue={2}
               handleChange={val => updateUserInfo("credit", Math.ceil(val))}
               fullWidth
             />

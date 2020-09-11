@@ -16,8 +16,12 @@ import LoginPage from "containers/LoginPage";
 import RegisterPage from "containers/RegisterPage";
 import SetPasswordPage from "containers/SetPasswordPage";
 import ProfilePage from "containers/ProfilePage";
-import AdminPeoplePage from "containers/Admin/PeoplePage";
 import DashboardPage from "containers/DashboardPage";
+
+import AdminPeoplePage from "containers/Admin/PeoplePage";
+
+import VendorSchedulePage from "containers/Vendor/SchedulePage";
+
 import PrivateRoute from "components/PrivateRoute";
 import PublicRoute from "components/PublicRoute";
 import NotFoundPage from "components/NotFoundPage";
@@ -70,6 +74,7 @@ const Main = () => {
               <Route path="/set-password" component={SetPasswordPage} exact />
               <PrivateRoute exact path="/" component={DashboardPage} />
               <PrivateRoute path="/profile" component={ProfilePage} />
+
               <PrivateRoute
                 path="/people/users/edit/:userId"
                 exact
@@ -84,6 +89,12 @@ const Main = () => {
                 path="/people"
                 component={{ Admin: AdminPeoplePage }}
               />
+
+              <PrivateRoute
+                path="/schedule"
+                component={{ Vendor: VendorSchedulePage }}
+              />
+
               <Route path="" component={NotFoundPage} />
             </Switch>
           </BrowserRouter>

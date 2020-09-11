@@ -109,7 +109,7 @@ export function* getClockData() {
 export function* getWeekData() {
   try {
     const token = localStorage.getItem("token");
-    const response = yield call(request, "/common/clock", {
+    const response = yield call(request, "/common/day", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
@@ -117,7 +117,7 @@ export function* getWeekData() {
     });
     yield put(getWeekDataSuccess(response));
   } catch (error) {
-    // clock error
+    // week error
   }
 }
 
