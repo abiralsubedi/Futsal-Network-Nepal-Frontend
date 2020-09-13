@@ -82,7 +82,7 @@ const AddGameHourModal = ({
             type="submit"
             buttonText="Save"
             variant="contained"
-            loading={loading}
+            actionLoading={loading}
             disabled={loading}
           />
         </form>

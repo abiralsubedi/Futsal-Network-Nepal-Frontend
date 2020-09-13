@@ -1,12 +1,14 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import request from "utils/request";
 
-import { GET_GAME_HOUR, POST_GAME_HOUR } from "./constants";
+import { GET_GAME_HOUR, POST_GAME_HOUR, REMOVE_GAME_HOUR } from "./constants";
 import {
   getGameHourSuccess,
   getGameHourError,
   postGameHourSuccess,
-  postGameHourError
+  postGameHourError,
+  removeGameHourError,
+  removeGameHourSuccess
 } from "./actions";
 
 function* getGameHour({ payload }) {
@@ -28,6 +30,26 @@ function* getGameHour({ payload }) {
   } catch (error) {
     const errorObj = yield error.response.json();
     yield put(getGameHourError(errorObj.message));
+  }
+}
+
+function* removeGameHour({ payload }) {
+  try {
+    const { vendorId } = payload;
+    const token = localStorage.getItem("token");
+
+    yield call(request, `/vendor/${vendorId}/working-hour`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+    yield put(removeGameHourSuccess("Game hour deleted successfully"));
+  } catch (error) {
+    const errorObj = yield error.response.json();
+    yield put(removeGameHourError(errorObj.message));
   }
 }
 
@@ -57,4 +79,5 @@ function* postGameHour({ payload }) {
 export default function* mySaga() {
   yield takeLatest(GET_GAME_HOUR, getGameHour);
   yield takeLatest(POST_GAME_HOUR, postGameHour);
+  yield takeLatest(REMOVE_GAME_HOUR, removeGameHour);
 }

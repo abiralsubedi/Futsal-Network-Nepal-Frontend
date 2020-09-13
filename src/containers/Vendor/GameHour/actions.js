@@ -5,6 +5,9 @@ import {
   POST_GAME_HOUR,
   POST_GAME_HOUR_ERROR,
   POST_GAME_HOUR_SUCCESS,
+  REMOVE_GAME_HOUR,
+  REMOVE_GAME_HOUR_ERROR,
+  REMOVE_GAME_HOUR_SUCCESS,
   CLEAR_GAME_HOUR_DATA,
   CLEAR_POST_DATA
 } from "./constants";
@@ -34,6 +37,20 @@ export const postGameHourSuccess = payload => ({
 });
 export const postGameHourError = error => ({
   type: POST_GAME_HOUR_ERROR,
+  error
+});
+
+export const removeGameHour = payload => ({
+  type: REMOVE_GAME_HOUR,
+  payload
+});
+
+export const removeGameHourSuccess = payload => ({
+  type: REMOVE_GAME_HOUR_SUCCESS,
+  payload
+});
+export const removeGameHourError = error => ({
+  type: REMOVE_GAME_HOUR_ERROR,
   error
 });
 

@@ -14,13 +14,15 @@ const ConfirmationModal = ({
   title,
   loading,
   confirmationText,
-  handleConfirm
+  handleConfirm,
+  confirmationBody
 }) => {
   const classes = useStyles();
 
   return (
     <Modal open={open} handleClose={handleClose} title={title}>
       <Typography variant="body1">{confirmationText}</Typography>
+      {confirmationBody}
       <div className={classes.confirmationAction}>
         <Button
           size="large"
@@ -53,6 +55,7 @@ ConfirmationModal.propTypes = {
   title: PropTypes.string,
   loading: PropTypes.bool,
   confirmationText: PropTypes.string,
+  confirmationBody: PropTypes.node,
   handleConfirm: PropTypes.func
 };
 

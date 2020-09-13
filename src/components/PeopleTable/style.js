@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
   tableToolbar: {
     display: "flex",
     justifyContent: "flex-end",
+    marginTop: "1.5rem",
     "&.highlight": {
       backgroundColor: `${theme.palette.primary.main}20 !important`,
       justifyContent: "start",

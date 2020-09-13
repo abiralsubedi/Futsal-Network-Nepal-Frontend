@@ -5,17 +5,22 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 
 import Grid from "@material-ui/core/Grid";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import { useSnackbar } from "notistack";
 
 import PeopleTable from "components/PeopleTable";
 import SelectField from "components/SelectField";
 import AddGameHourModal from "components/AddGameHourModal";
+import ConfirmationModal from "components/ConfirmationModal";
 
 import { getWeekData, getClockData } from "containers/LoginPage/actions";
 
 import {
   getGameHour,
   postGameHour,
+  removeGameHour,
   clearGameHourData,
   clearPostData
 } from "./actions";
@@ -30,7 +35,8 @@ const GameHour = ({
   match,
   fetchClockData,
   saveGameHour,
-  onClearPostData
+  onClearPostData,
+  onRemoveGameHour
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -40,12 +46,16 @@ const GameHour = ({
     gameHour,
     postGameHourError,
     postGameHourSuccess,
-    postGameHourLoading
+    postGameHourLoading,
+    removeGameHourLoading,
+    removeGameHourSuccess,
+    removeGameHourError
   } = gameHourData;
   const { weekData, weekDataLoading, profile, clockData } = globalData;
 
   const [weekDay, setWeekDay] = useState(null);
   const [addHourData, setAddHourData] = useState(false);
+  const [removeHourData, setRemoveHourData] = useState(false);
 
   const vendorId = match.params.vendorId || profile._id;
 
@@ -76,21 +86,27 @@ const GameHour = ({
   }, [weekDay]);
 
   useEffect(() => {
-    if (postGameHourError) {
-      enqueueSnackbar(postGameHourError, {
+    if (postGameHourError || removeGameHourError) {
+      enqueueSnackbar(postGameHourError || removeGameHourError, {
         variant: "error",
         onClose: () => onClearPostData()
       });
     }
-    if (postGameHourSuccess) {
-      enqueueSnackbar(postGameHourSuccess, {
+    if (postGameHourSuccess || removeGameHourSuccess) {
+      enqueueSnackbar(postGameHourSuccess || removeGameHourSuccess, {
         variant: "success",
         onClose: () => onClearPostData()
       });
       setAddHourData(false);
+      setRemoveHourData(false);
       fetchGameHour({ dayId: weekDay._id, vendorId });
     }
-  }, [postGameHourError, postGameHourSuccess]);
+  }, [
+    postGameHourError,
+    postGameHourSuccess,
+    removeGameHourError,
+    removeGameHourSuccess
+  ]);
 
   const tableHeader = [
     { label: "Game Hour", key: "clock.fullName" },
@@ -102,9 +118,16 @@ const GameHour = ({
     label: "Add Hour",
     handleClick: () => setAddHourData({})
   };
+  const selectedActions = [
+    {
+      type: "Delete",
+      handleClick: items => setRemoveHourData(items)
+    }
+  ];
 
-  const gameHourTableMemo = useMemo(
-    () => (
+  const gameHourTableMemo = useMemo(() => {
+    (gameHour || []).sort((a, b) => a.clock.clockNo - b.clock.clockNo);
+    return (
       <PeopleTable
         type="game hour"
         tableHeader={tableHeader}
@@ -115,9 +138,24 @@ const GameHour = ({
         currentPage={0}
         actions={actions}
         addButton={addButton}
+        selectedActions={selectedActions}
       />
+    );
+  }, [gameHourLoading]);
+
+  const removeHourContentMemo = useMemo(
+    () => (
+      <List>
+        {(removeHourData || [])
+          .sort((a, b) => a.clock.clockNo - b.clock.clockNo)
+          .map(item => (
+            <ListItem key={item._id}>
+              <ListItemText primary={item.clock.fullName} />
+            </ListItem>
+          ))}
+      </List>
     ),
-    [gameHourLoading]
+    [removeHourData]
   );
 
   return (
@@ -130,6 +168,17 @@ const GameHour = ({
           saveGameHour({ ...data, vendorId, dayId: weekDay._id })
         }
         loading={postGameHourLoading}
+      />
+      <ConfirmationModal
+        open={!!removeHourData}
+        handleClose={() => setRemoveHourData(false)}
+        title="Remove Game Hour"
+        confirmationText="Are you sure you want to remove following game hours?"
+        confirmationBody={removeHourContentMemo}
+        handleConfirm={() =>
+          onRemoveGameHour({ gameHours: removeHourData, vendorId })
+        }
+        loading={removeGameHourLoading}
       />
       <Grid container spacing={3}>
         <Grid item md={4} sm={6} xs={12}>
@@ -161,7 +210,8 @@ GameHour.propTypes = {
   match: PropTypes.object,
   fetchClockData: PropTypes.func,
   saveGameHour: PropTypes.func,
-  onClearPostData: PropTypes.func
+  onClearPostData: PropTypes.func,
+  onRemoveGameHour: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -175,7 +225,8 @@ const mapDispatchToProps = dispatch => ({
   onClearPostData: () => dispatch(clearPostData()),
   fetchWeekData: () => dispatch(getWeekData()),
   fetchClockData: () => dispatch(getClockData()),
-  saveGameHour: data => dispatch(postGameHour(data))
+  saveGameHour: data => dispatch(postGameHour(data)),
+  onRemoveGameHour: data => dispatch(removeGameHour(data))
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

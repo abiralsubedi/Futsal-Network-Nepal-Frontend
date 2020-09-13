@@ -38,7 +38,8 @@ const PeopleTable = ({
   handlePaginationChange,
   actions,
   type,
-  addButton
+  addButton,
+  selectedActions
 }) => {
   const classes = useStyles();
 
@@ -59,11 +60,11 @@ const PeopleTable = ({
   const paginationSize = Math.ceil(searchCount / pageSize);
   const selectedRowCount = selectedRow.length;
 
-  const handleRowBoxClick = (event, id) => {
-    const selectedIndex = selectedRow.indexOf(id);
+  const handleRowBoxClick = (event, rowData) => {
+    const selectedIndex = selectedRow.findIndex(row => row._id === rowData._id);
     const newSelected = JSON.parse(JSON.stringify(selectedRow));
     if (selectedIndex === -1) {
-      newSelected.push(id);
+      newSelected.push(rowData);
     } else {
       newSelected.splice(selectedIndex, 1);
     }
@@ -71,30 +72,45 @@ const PeopleTable = ({
     setSelectedRow(newSelected);
   };
 
+  const getActionIcon = type => {
+    if (type === "Edit") {
+      return <EditRoundedIcon />;
+    }
+    if (type === "Delete") {
+      return <DeleteIcon />;
+    }
+  };
+
   const getAction = (actionItem, rowItem) => {
     const { type, handleClick } = actionItem;
-    if (type === "Edit") {
-      return (
-        <Tooltip title="Edit" key={rowItem._id}>
-          <IconButton aria-label="edit" onClick={() => handleClick(rowItem)}>
-            <EditRoundedIcon />
-          </IconButton>
-        </Tooltip>
-      );
-    }
-    return null;
+
+    return (
+      <Tooltip title={type} key={rowItem._id}>
+        <IconButton aria-label={type} onClick={() => handleClick(rowItem)}>
+          {getActionIcon(type)}
+        </IconButton>
+      </Tooltip>
+    );
   };
+
+  const getSelectedAction = () =>
+    (selectedActions || []).map(({ type, handleClick }) => (
+      <Tooltip title={type} key={type}>
+        <IconButton aria-label={type} onClick={() => handleClick(selectedRow)}>
+          {getActionIcon(type)}
+        </IconButton>
+      </Tooltip>
+    ));
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelected = (tableBody || []).map(item => item._id);
-      setSelectedRow(newSelected);
+      setSelectedRow(tableBody || []);
       return;
     }
     setSelectedRow([]);
   };
 
-  const isRowSelected = id => selectedRow.indexOf(id) !== -1;
+  const isRowSelected = id => (selectedRow || []).some(row => row._id === id);
 
   const getColumnCount = () => {
     let count = tableHeader.length + 1;
@@ -122,14 +138,7 @@ const PeopleTable = ({
             >
               {selectedRowCount} selected
             </Typography>
-            <Tooltip title="Delete">
-              <IconButton
-                aria-label="delete"
-                onClick={() => console.log(selectedRow, "row")}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+            {getSelectedAction()}
           </>
         )}
         {!selectedRowCount && (
@@ -209,7 +218,7 @@ const PeopleTable = ({
                         checked={isSelected}
                         inputProps={{ "aria-labelledby": row._id }}
                         color="primary"
-                        onChange={event => handleRowBoxClick(event, row._id)}
+                        onChange={event => handleRowBoxClick(event, row)}
                       />
                     </TableCell>
                     {(tableHeader || []).map(col => {
@@ -266,7 +275,8 @@ PeopleTable.propTypes = {
   handlePaginationChange: PropTypes.func,
   actions: PropTypes.instanceOf(Array),
   type: PropTypes.string,
-  addButton: PropTypes.object
+  addButton: PropTypes.object,
+  selectedActions: PropTypes.instanceOf(Array)
 };
 
 export default compose(withRouter)(PeopleTable);
