@@ -2,29 +2,29 @@ import React, { useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
+import { withRouter } from "react-router-dom";
 
 import Typography from "@material-ui/core/Typography";
 
 import ArrowRightRoundedIcon from "@material-ui/icons/ArrowRightRounded";
 
 import GameHour from "containers/Vendor/GameHour";
-import ChangePassword from "containers/ChangePassword";
+import Fields from "containers/Vendor/Fields";
 
 import { Wrapper } from "components/Common";
 import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
-
-import { getProfileInfo } from "containers/LoginPage/actions";
 
 import { ThemeContext } from "context/themeContext";
 
 import useStyles from "./style";
 
-const SchedulePage = ({ location, history, globalData, fetchProfileInfo }) => {
+const SchedulePage = ({ location, history, globalData, match }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
   const {
     profile: { role }
   } = globalData;
+  const { vendorId } = match.params;
 
   const [tabIndexValue, setTabIndexValue] = React.useState(0);
 
@@ -37,13 +37,13 @@ const SchedulePage = ({ location, history, globalData, fetchProfileInfo }) => {
     }
   }, [location.pathname]);
 
-  const pushPathname = val => {
+  const getPushPathname = val => {
     switch (val) {
       case 0:
-        return history.push("/schedule/game-hour");
+        return "/schedule/game-hour";
 
       case 1:
-        return history.push("/schedule/fields");
+        return "/schedule/fields";
 
       default:
     }
@@ -53,7 +53,11 @@ const SchedulePage = ({ location, history, globalData, fetchProfileInfo }) => {
     value: tabIndexValue,
     handleChange: (event, newValue) => {
       if (tabIndexValue !== newValue) {
-        pushPathname(newValue);
+        let pathname = getPushPathname(newValue);
+        if (role === "Admin" && vendorId) {
+          pathname = `/vendor/${vendorId}${pathname}`;
+        }
+        history.push(pathname);
       }
     },
     items: [
@@ -65,7 +69,7 @@ const SchedulePage = ({ location, history, globalData, fetchProfileInfo }) => {
       {
         labelText: "Fields",
         labelIcon: <ArrowRightRoundedIcon />,
-        content: <ChangePassword />
+        content: <Fields />
       }
     ]
   };
@@ -100,17 +104,15 @@ SchedulePage.propTypes = {
   location: PropTypes.object,
   history: PropTypes.object,
   globalData: PropTypes.object,
-  fetchProfileInfo: PropTypes.func
+  match: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   globalData: state.LoginReducer
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchProfileInfo: () => dispatch(getProfileInfo())
-});
+const mapDispatchToProps = dispatch => ({});
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect)(SchedulePage);
+export default compose(withConnect, withRouter)(SchedulePage);

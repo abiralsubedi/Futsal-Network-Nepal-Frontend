@@ -16,10 +16,12 @@ import TableRow from "@material-ui/core/TableRow";
 import Checkbox from "@material-ui/core/Checkbox";
 import Tooltip from "@material-ui/core/Tooltip";
 import Toolbar from "@material-ui/core/Toolbar";
+import Chip from "@material-ui/core/Chip";
 import IconButton from "@material-ui/core/IconButton";
 import Pagination from "@material-ui/lab/Pagination";
 
 import DeleteIcon from "@material-ui/icons/Delete";
+import BlockIcon from "@material-ui/icons/Block";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 
 import Button from "components/Button";
@@ -39,7 +41,8 @@ const PeopleTable = ({
   actions,
   type,
   addButton,
-  selectedActions
+  selectedActions,
+  noMultiSelect
 }) => {
   const classes = useStyles();
 
@@ -79,6 +82,9 @@ const PeopleTable = ({
     if (type === "Delete") {
       return <DeleteIcon />;
     }
+    if (type === "Disable") {
+      return <BlockIcon />;
+    }
   };
 
   const getAction = (actionItem, rowItem) => {
@@ -102,6 +108,15 @@ const PeopleTable = ({
       </Tooltip>
     ));
 
+  const getChipContent = disabled => (
+    <Chip
+      variant="outlined"
+      label={disabled ? "Inactive" : "Active"}
+      classes={{ outlined: classes.chipOutline }}
+      className={disabled ? "disabled" : ""}
+    />
+  );
+
   const handleSelectAllClick = event => {
     if (event.target.checked) {
       setSelectedRow(tableBody || []);
@@ -113,8 +128,11 @@ const PeopleTable = ({
   const isRowSelected = id => (selectedRow || []).some(row => row._id === id);
 
   const getColumnCount = () => {
-    let count = tableHeader.length + 1;
+    let count = tableHeader.length;
     if (actions) {
+      count += 1;
+    }
+    if (!noMultiSelect) {
       count += 1;
     }
     return count;
@@ -160,19 +178,21 @@ const PeopleTable = ({
         >
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  indeterminate={
-                    selectedRowCount > 0 && selectedRowCount < itemsCount
-                  }
-                  checked={
-                    selectedRowCount > 0 && selectedRowCount === itemsCount
-                  }
-                  onChange={handleSelectAllClick}
-                  inputProps={{ "aria-label": "select all users" }}
-                  color="primary"
-                />
-              </TableCell>
+              {!noMultiSelect && (
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    indeterminate={
+                      selectedRowCount > 0 && selectedRowCount < itemsCount
+                    }
+                    checked={
+                      selectedRowCount > 0 && selectedRowCount === itemsCount
+                    }
+                    onChange={handleSelectAllClick}
+                    inputProps={{ "aria-label": "select all users" }}
+                    color="primary"
+                  />
+                </TableCell>
+              )}
               {(tableHeader || []).map(headCell => (
                 <TableCell
                   key={headCell.label}
@@ -202,17 +222,17 @@ const PeopleTable = ({
                 </TableCell>
               </TableRow>
             )}
-            {!!(tableBody || []).length &&
-              (tableBody || []).map(row => {
-                const isSelected = isRowSelected(row._id);
-                const userId = row._id;
-                return (
-                  <TableRow
-                    key={userId}
-                    hover
-                    selected={isSelected}
-                    classes={{ selected: classes.selectedRow }}
-                  >
+            {(tableBody || []).map(row => {
+              const isSelected = isRowSelected(row._id);
+              const userId = row._id;
+              return (
+                <TableRow
+                  key={userId}
+                  hover
+                  selected={isSelected}
+                  classes={{ selected: classes.selectedRow }}
+                >
+                  {!noMultiSelect && (
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
@@ -221,26 +241,34 @@ const PeopleTable = ({
                         onChange={event => handleRowBoxClick(event, row)}
                       />
                     </TableCell>
-                    {(tableHeader || []).map(col => {
-                      const [first, second] = col.key.split(".");
-                      let colValue = row[first];
-                      if (second) {
-                        colValue = row[first][second];
-                      }
+                  )}
+                  {(tableHeader || []).map(col => {
+                    if (col.type === "Bool") {
                       return (
                         <StyledTableCell key={col.key} align={col.align}>
-                          {colValue}
+                          {getChipContent(row[col.key])}
                         </StyledTableCell>
                       );
-                    })}
-                    {actions && (
-                      <StyledTableCell align="right">
-                        {(actions || []).map(action => getAction(action, row))}
+                    }
+                    const [first, second] = col.key.split(".");
+                    let colValue = row[first];
+                    if (second) {
+                      colValue = row[first][second];
+                    }
+                    return (
+                      <StyledTableCell key={col.key} align={col.align}>
+                        {colValue}
                       </StyledTableCell>
-                    )}
-                  </TableRow>
-                );
-              })}
+                    );
+                  })}
+                  {actions && (
+                    <StyledTableCell align="right">
+                      {(actions || []).map(action => getAction(action, row))}
+                    </StyledTableCell>
+                  )}
+                </TableRow>
+              );
+            })}
           </TableBody>
           {paginationSize > 1 && (
             <TableFooter>
@@ -276,7 +304,8 @@ PeopleTable.propTypes = {
   actions: PropTypes.instanceOf(Array),
   type: PropTypes.string,
   addButton: PropTypes.object,
-  selectedActions: PropTypes.instanceOf(Array)
+  selectedActions: PropTypes.instanceOf(Array),
+  noMultiSelect: PropTypes.bool
 };
 
 export default compose(withRouter)(PeopleTable);

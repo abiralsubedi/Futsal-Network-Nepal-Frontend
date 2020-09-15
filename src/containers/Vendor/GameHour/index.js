@@ -110,7 +110,8 @@ const GameHour = ({
 
   const tableHeader = [
     { label: "Game Hour", key: "clock.fullName" },
-    { label: "Price($)", key: "price", align: "right" }
+    { label: "Price($)", key: "price", align: "right" },
+    { label: "Status", key: "disabled", type: "Bool" }
   ];
 
   const actions = [{ type: "Edit", handleClick: item => setAddHourData(item) }];
@@ -120,7 +121,7 @@ const GameHour = ({
   };
   const selectedActions = [
     {
-      type: "Delete",
+      type: "Disable",
       handleClick: items => setRemoveHourData(items)
     }
   ];
@@ -133,9 +134,6 @@ const GameHour = ({
         tableHeader={tableHeader}
         tableBody={gameHour || []}
         tableBodyLoading={gameHourLoading}
-        pageSize={0}
-        searchCount={0}
-        currentPage={0}
         actions={actions}
         addButton={addButton}
         selectedActions={selectedActions}
@@ -172,8 +170,8 @@ const GameHour = ({
       <ConfirmationModal
         open={!!removeHourData}
         handleClose={() => setRemoveHourData(false)}
-        title="Remove Game Hour"
-        confirmationText="Are you sure you want to remove following game hours?"
+        title="Disable Game Hour"
+        confirmationText="Are you sure you want to disable following game hours?"
         confirmationBody={removeHourContentMemo}
         handleConfirm={() =>
           onRemoveGameHour({ gameHours: removeHourData, vendorId })

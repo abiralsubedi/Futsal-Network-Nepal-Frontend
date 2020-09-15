@@ -71,7 +71,8 @@ export const IOSSwitch = withStyles(theme => ({
   track: {
     borderRadius: 26 / 2,
     border: `1px solid ${theme.palette.grey[400]}`,
-    backgroundColor: theme.palette.grey[50],
+    // backgroundColor: theme.palette.grey[50],
+    background: 'inherit',
     opacity: 1,
     transition: theme.transitions.create(["background-color", "border"])
   },

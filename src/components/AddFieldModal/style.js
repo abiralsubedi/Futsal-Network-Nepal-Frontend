@@ -1,13 +1,13 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
-  addHourContent: {
+  addFieldContent: {
     marginTop: "1rem"
   },
-  addPriceField: {
-    margin: "2rem 0"
+  addFieldName: {
+    marginBottom: "2rem"
   },
-  addHourButtonRoot: {
+  addFieldButtonRoot: {
     maxWidth: "8rem",
     padding: "8px 16px"
   },

@@ -40,6 +40,16 @@ const useStyles = makeStyles(theme => ({
   peopleAddButton: {
     maxWidth: "8rem",
     padding: "0.5rem"
+  },
+  chipOutline: {
+    "&.disabled": {
+      color: theme.palette.error.light,
+      borderColor: theme.palette.error.light
+    },
+    fontWeight: 600,
+    borderWidth: '2px',
+    color: theme.palette.success.main,
+    borderColor: theme.palette.success.main
   }
 }));
 

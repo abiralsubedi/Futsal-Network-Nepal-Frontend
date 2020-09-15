@@ -7,7 +7,14 @@ import CancelIcon from "@material-ui/icons/Cancel";
 
 import useStyles from "./style";
 
-const CustomModal = ({ open, handleClose, title, children, ...rest }) => {
+const CustomModal = ({
+  open,
+  handleClose,
+  title,
+  children,
+  contentWrapperClass,
+  ...rest
+}) => {
   const classes = useStyles();
 
   return (
@@ -22,7 +29,7 @@ const CustomModal = ({ open, handleClose, title, children, ...rest }) => {
       }}
       {...rest}
     >
-      <div className={classes.dialogContent}>
+      <div className={`${classes.dialogContent} ${contentWrapperClass}`}>
         <div className={classes.dialogTitle}>
           <div>{title}</div>
           <div onClick={handleClose}>
@@ -40,7 +47,8 @@ CustomModal.propTypes = {
   open: PropTypes.bool,
   handleClose: PropTypes.func,
   title: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
+  contentWrapperClass: PropTypes.string
 };
 
 export default CustomModal;

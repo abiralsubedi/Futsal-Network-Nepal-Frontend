@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
-import Typography from "@material-ui/core/Typography";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { IOSSwitch } from "components/Common";
 
 import Modal from "components/Modal";
 import Button from "components/Button";
@@ -25,14 +26,16 @@ const AddGameHourModal = ({
   const { clockData, clockDataLoading } = globalData;
   const [gameHour, setGameHour] = useState(null);
   const [price, setPrice] = useState(0);
+  const [disabled, setDisabled] = useState(false);
 
   const { _id: gameHourId } = addHourData;
 
   useEffect(() => {
     if (addHourData) {
-      const { clock, price } = addHourData;
+      const { clock, price, disabled } = addHourData;
       setGameHour(clock || null);
       setPrice(price || 0);
+      setDisabled(disabled || false);
     }
   }, [addHourData]);
 
@@ -46,7 +49,7 @@ const AddGameHourModal = ({
         <form
           onSubmit={e => {
             e.preventDefault();
-            handleSubmit({ gameHour, price, gameHourId });
+            handleSubmit({ gameHour, price, gameHourId, disabled });
           }}
         >
           <SelectField
@@ -73,6 +76,23 @@ const AddGameHourModal = ({
             fullWidth
             customClasses={classes.addPriceField}
           />
+          <div>
+            <FormControlLabel
+              label="Disable Hour:"
+              labelPlacement="start"
+              classes={{
+                label: classes.controlLabel,
+                root: classes.controlLabelRoot
+              }}
+              control={
+                <IOSSwitch
+                  checked={disabled}
+                  name="game-hour-switch"
+                  onChange={({ target }) => setDisabled(target.checked)}
+                />
+              }
+            />
+          </div>
 
           <Button
             size="large"
