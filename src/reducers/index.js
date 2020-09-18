@@ -16,6 +16,7 @@ import PeopleVendorPageReducer from "containers/Admin/PeopleVendorPage/reducer.j
 import AddVendorReducer from "containers/Admin/AddVendor/reducer.js";
 import GameHourReducer from "containers/Vendor/GameHour/reducer.js";
 import FieldReducer from "containers/Vendor/Fields/reducer.js";
+import DescriptionReducer from "containers/Vendor/Description/reducer.js";
 
 export default combineReducers({
   LoginReducer,
@@ -33,5 +34,6 @@ export default combineReducers({
   PeopleVendorPageReducer,
   AddVendorReducer,
   GameHourReducer,
-  FieldReducer
+  FieldReducer,
+  DescriptionReducer
 });

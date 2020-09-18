@@ -74,6 +74,7 @@ const AddFieldModal = ({
             required
             fullWidth
             customClasses={classes.addFieldName}
+            autoFocus
           />
           <div>{switchMemo}</div>
 

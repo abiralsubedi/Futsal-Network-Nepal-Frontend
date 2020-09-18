@@ -8,7 +8,14 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import useStyles from "./style";
 
-const SelectField = ({ handleChange, isLoading, label, required, ...rest }) => {
+const SelectField = ({
+  handleChange,
+  isLoading,
+  label,
+  required,
+  autoFocus,
+  ...rest
+}) => {
   const classes = useStyles();
   return (
     <Autocomplete
@@ -26,6 +33,7 @@ const SelectField = ({ handleChange, isLoading, label, required, ...rest }) => {
           variant="outlined"
           className={classes.primaryField}
           required={required}
+          autoFocus={autoFocus}
           InputProps={{
             ...params.InputProps,
             classes: {
@@ -50,7 +58,8 @@ SelectField.propTypes = {
   isLoading: PropTypes.bool,
   handleChange: PropTypes.func,
   label: PropTypes.string.isRequired,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  autoFocus: PropTypes.bool
 };
 
 export default SelectField;

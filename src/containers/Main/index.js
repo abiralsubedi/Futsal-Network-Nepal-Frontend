@@ -21,6 +21,7 @@ import DashboardPage from "containers/DashboardPage";
 import AdminPeoplePage from "containers/Admin/PeoplePage";
 
 import VendorSchedulePage from "containers/Vendor/SchedulePage";
+import VendorSitePage from "containers/Vendor/SitePage";
 
 import PrivateRoute from "components/PrivateRoute";
 import PublicRoute from "components/PublicRoute";
@@ -101,6 +102,13 @@ const Main = () => {
                 path="/vendor/:vendorId/schedule"
                 component={{
                   Admin: VendorSchedulePage
+                }}
+              />
+
+              <PrivateRoute
+                path="/site"
+                component={{
+                  Vendor: VendorSitePage
                 }}
               />
 

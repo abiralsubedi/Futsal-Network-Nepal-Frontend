@@ -63,6 +63,7 @@ const AddGameHourModal = ({
             disableClearable
             className={classes.gameHourFilter}
             required
+            autoFocus
           />
 
           <TextField

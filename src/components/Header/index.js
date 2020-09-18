@@ -43,6 +43,11 @@ const vendorLinks = [
     value: "Schedule",
     url: "/schedule",
     icon: <GetCommonIcon type="filledSchedule" />
+  },
+  {
+    value: "Site",
+    url: "/site",
+    icon: <GetCommonIcon type="filledFootball" />
   }
 ];
 
