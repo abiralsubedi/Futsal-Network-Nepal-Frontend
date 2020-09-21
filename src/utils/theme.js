@@ -10,6 +10,7 @@ const getTheme = darkMode => {
         primaryDarkColor: darkMode ? "#333333" : "#2196f3",
         lightDarkColor: darkMode ? "#333333" : "#ffffff",
         darkLightColor: darkMode ? "#ffffff" : "#333333",
+        cardLightDarkColor: darkMode ? "#424242" : "#ffffff",
 
         darkLightShadow: darkMode
           ? "rgba(255, 255, 255, 0.06)"

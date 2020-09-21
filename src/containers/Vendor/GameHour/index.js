@@ -156,8 +156,6 @@ const GameHour = ({
     [removeHourData]
   );
 
-  const sample = "<p>Hey this <strong>editor</strong> rocks 😀</p>";
-
   return (
     <div className={classes.GameHourContent}>
       <AddGameHourModal
@@ -169,7 +167,6 @@ const GameHour = ({
         }
         loading={postGameHourLoading}
       />
-      <div dangerouslySetInnerHTML={{ __html: sample }} />
       <ConfirmationModal
         open={!!removeHourData}
         handleClose={() => setRemoveHourData(false)}

@@ -14,7 +14,7 @@ function* getDescriptionInfo({ payload }) {
     const { vendorId } = payload;
     const token = localStorage.getItem("token");
 
-    const response = yield call(request, `/vendor/${vendorId}/field`, {
+    const response = yield call(request, `/vendor/${vendorId}/info`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
@@ -29,18 +29,18 @@ function* getDescriptionInfo({ payload }) {
 
 function* postDescriptionInfo({ payload }) {
   try {
-    const { vendorId, fieldId } = payload;
     const token = localStorage.getItem("token");
+    const { vendorId } = payload;
 
-    yield call(request, `/vendor/${vendorId}/field`, {
-      method: fieldId ? "PUT" : "POST",
+    yield call(request, `/vendor/${vendorId}/description`, {
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify(payload)
     });
-    const response = `Field ${fieldId ? "updated" : "created"} successfully.`;
+    const response = "Description saved successfully";
     yield put(postDescriptionInfoSuccess(response));
   } catch (error) {
     const errorObj = yield error.response.json();

@@ -71,3 +71,7 @@ html ::-webkit-scrollbar-corner {
 .react-simple-image-viewer__close {
   opacity: 0.5;
 }
+
+.rdw-option-active {
+  background: #eee;
+}

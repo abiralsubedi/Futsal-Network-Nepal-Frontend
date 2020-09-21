@@ -5,8 +5,12 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 import { useSnackbar } from "notistack";
 
-import PeopleTable from "components/PeopleTable";
-import AddFieldModal from "components/AddFieldModal";
+import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+
+import TextEditor from "components/TextEditor";
+import Button from "components/Button";
+import Loader from "components/Loader";
 
 import {
   getDescriptionInfo,
@@ -28,19 +32,28 @@ const DescriptionPage = ({
 
   const {
     descriptionInfoLoading,
-    descriptionInfo,
+    descriptionInfo: { description },
     postDescriptionInfoLoading,
     postDescriptionInfoSuccess,
     postDescriptionInfoError
   } = descriptionInfoData;
 
-  const [addFieldData, setAddFieldData] = useState(false);
-
   const vendorId = match.params.vendorId || profile._id;
+  const isUser = profile.role === "User";
+
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   useEffect(() => {
     fetchDescriptionInfo({ vendorId });
   }, []);
+
+  useEffect(() => {
+    if (description) {
+      setEditorState(
+        EditorState.createWithContent(convertFromRaw(JSON.parse(description)))
+      );
+    }
+  }, [description]);
 
   useEffect(() => {
     if (postDescriptionInfoError) {
@@ -54,21 +67,49 @@ const DescriptionPage = ({
         variant: "success",
         onClose: () => onClearDescriptionData()
       });
-      setAddFieldData(false);
-      fetchDescriptionInfo({ vendorId });
     }
   }, [postDescriptionInfoError, postDescriptionInfoSuccess]);
 
+  const htmlContent = useMemo(() => {
+    if (description) {
+      return draftToHtml(JSON.parse(description));
+    }
+    return "";
+  }, [description]);
+
+  if (descriptionInfoLoading) {
+    return <Loader wrapperClass={classes.loadingWrapper} />;
+  }
+
   return (
-    <div className={classes.GameHourContent}>
-      <AddFieldModal
-        open={!!addFieldData}
-        handleClose={() => setAddFieldData(false)}
-        addFieldData={addFieldData}
-        handleSubmit={data => saveDescriptionInfo({ ...data, vendorId })}
-        loading={postDescriptionInfoLoading}
-      />
-      Hello
+    <div className={classes.descriptionContent}>
+      {!isUser && (
+        <>
+          <TextEditor
+            value={editorState}
+            handleChange={newState => setEditorState(newState)}
+            placeholder="Enter your description"
+          />
+          <Button
+            variant="contained"
+            size="large"
+            color="primary"
+            onClick={() => {
+              const rawContent = convertToRaw(editorState.getCurrentContent());
+              saveDescriptionInfo({
+                description: JSON.stringify(rawContent),
+                vendorId
+              });
+            }}
+            fullWidth
+            disabled={postDescriptionInfoLoading}
+            buttonRootClass={classes.descriptionButtonRoot}
+            actionLoading={postDescriptionInfoLoading}
+            buttonText="Save Changes"
+          />
+        </>
+      )}
+      {isUser && <div dangerouslySetInnerHTML={{ __html: htmlContent }} />}
     </div>
   );
 };

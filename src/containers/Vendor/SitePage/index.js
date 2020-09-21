@@ -82,7 +82,7 @@ const SitePage = ({ location, history, globalData, match }) => {
           color="textSecondary"
           className={classes.pageTitle}
         >
-          Schedule Page
+          Site Page
         </Typography>
         {isMobile ? (
           <HorizontalTabs

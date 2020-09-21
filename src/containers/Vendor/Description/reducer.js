@@ -11,7 +11,7 @@ import {
 export default (
   state = {
     descriptionInfoLoading: false,
-    descriptionInfo: [],
+    descriptionInfo: false,
     descriptionInfoError: "",
     postDescriptionInfoLoading: false,
     postDescriptionInfoSuccess: "",
@@ -24,7 +24,7 @@ export default (
       return {
         ...state,
         descriptionInfoLoading: true,
-        descriptionInfo: [],
+        descriptionInfo: false,
         descriptionInfoError: ""
       };
     case GET_DESCRIPTION_INFO_SUCCESS:
