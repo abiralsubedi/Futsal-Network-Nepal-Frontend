@@ -163,6 +163,7 @@ const AddUser = ({
             updateUserInfo("userPhoto", imageFormData)
           }
           handleImageRemove={() => updateUserInfo("userPhoto", "")}
+          index={1}
         />
         <Grid container spacing={3}>
           <Grid item lg={5} md={6} xs={12}>

@@ -54,7 +54,7 @@ const SitePage = ({ location, history, globalData, match }) => {
     handleChange: (event, newValue) => {
       if (tabIndexValue !== newValue) {
         let pathname = getPushPathname(newValue);
-        if (role === "Admin" && vendorId) {
+        if (role !== "Vendor" && vendorId) {
           pathname = `/vendor/${vendorId}${pathname}`;
         }
         history.push(pathname);

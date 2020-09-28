@@ -24,7 +24,8 @@ const ImageHolder = ({
   handleImageEdit,
   handleImageRemove,
   noCaption,
-  handleCaptionChange
+  handleCaptionChange,
+  index
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -65,7 +66,7 @@ const ImageHolder = ({
                 <IconButton
                   aria-label="edit"
                   onClick={() =>
-                    document.querySelector("#uploadProfilePicture").click()
+                    document.querySelector(`#upload-picture-${index}`).click()
                   }
                 >
                   <EditRoundedIcon fontSize="small" />
@@ -102,7 +103,7 @@ const ImageHolder = ({
       </Grid>
       <input
         accept="image/*"
-        id="uploadProfilePicture"
+        id={`upload-picture-${index}`}
         type="file"
         onChange={({ target }) => {
           const file = target.files[0];
@@ -148,7 +149,8 @@ ImageHolder.propTypes = {
   handleImageEdit: PropTypes.func,
   handleImageRemove: PropTypes.func,
   handleCaptionChange: PropTypes.func,
-  noCaption: PropTypes.bool
+  noCaption: PropTypes.bool,
+  index: PropTypes.number
 };
 
 export default ImageHolder;

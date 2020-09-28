@@ -97,7 +97,6 @@ const Main = () => {
                   Vendor: VendorSchedulePage
                 }}
               />
-
               <PrivateRoute
                 path="/vendor/:vendorId/schedule"
                 component={{
@@ -109,6 +108,13 @@ const Main = () => {
                 path="/site"
                 component={{
                   Vendor: VendorSitePage
+                }}
+              />
+              <PrivateRoute
+                path="/vendor/:vendorId/site"
+                component={{
+                  Admin: VendorSitePage,
+                  User: VendorSitePage
                 }}
               />
 

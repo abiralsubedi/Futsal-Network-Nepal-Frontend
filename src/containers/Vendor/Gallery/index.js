@@ -8,10 +8,18 @@ import { useSnackbar } from "notistack";
 import Gallery from "react-grid-gallery";
 import ImageViewer from "react-simple-image-viewer";
 
+import {
+  SortableContainer,
+  SortableElement,
+  sortableHandle
+} from "react-sortable-hoc";
+import arrayMove from "array-move";
+
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
+import DragHandleRoundedIcon from "@material-ui/icons/DragHandleRounded";
 
 import Loader from "components/Loader";
 import Button from "components/Button";
@@ -75,6 +83,29 @@ const GalleryPage = ({
     }
   }, [postGalleryInfoError, postGalleryInfoSuccess]);
 
+  const DragHandle = sortableHandle(() => (
+    <span className={classes.dragHandler}>
+      <DragHandleRoundedIcon fontSize="large" />
+    </span>
+  ));
+
+  const SortableItem = SortableElement(({ value }) => (
+    <li>
+      <DragHandle />
+      {value}
+    </li>
+  ));
+
+  const SortableList = SortableContainer(({ items }) => {
+    return (
+      <ul>
+        {items.map((value, index) => (
+          <SortableItem key={`item-${index}`} index={index} value={value} />
+        ))}
+      </ul>
+    );
+  });
+
   const galleryImagesMemo = useMemo(() => {
     return (galleryInfo || []).map(({ photoUri, caption }) => ({
       src: getImageUrl(photoUri),
@@ -119,12 +150,48 @@ const GalleryPage = ({
     [editImages.length]
   );
 
+  const galleryEditImagesMemo = useMemo(
+    () =>
+      (editImages || []).map((item, index) => (
+        <ImageHolder
+          image={item.photoUri}
+          captionValue={item.caption}
+          wrapperClass={classes.galleryImageContainer}
+          handleImageClick={url => setViewPhotoUrl(url)}
+          handleCaptionChange={val => {
+            const newImages = [...editImages];
+            newImages[index].caption = val;
+            setEditImages(newImages);
+          }}
+          handleImageEdit={imageFormData => {
+            const newImages = [...editImages];
+            newImages[index].photoUri = imageFormData;
+            setEditImages(newImages);
+          }}
+          handleImageRemove={() => {
+            const newImages = [...editImages];
+            newImages.splice(index, 1);
+            setEditImages(newImages);
+          }}
+          index={index}
+          key={index + 1}
+        />
+      )),
+    [editImages]
+  );
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    let newImages = [...editImages];
+    newImages = arrayMove(newImages, oldIndex, newIndex);
+    setEditImages(newImages);
+  };
+
   if (galleryInfoLoading) {
     return <Loader wrapperClass={classes.loadingWrapper} />;
   }
 
   return (
-    <div className={classes.GameHourContent}>
+    <div className={classes.galleryContent}>
       <div className={classes.toggleButtonWrapper}>
         {!isUser && (
           <Button
@@ -140,30 +207,11 @@ const GalleryPage = ({
       {!editMode && galleryMemo}
       {editMode && (
         <div>
-          {(editImages || []).map((item, index) => (
-            <ImageHolder
-              image={item.photoUri}
-              captionValue={item.caption}
-              wrapperClass={classes.galleryImageContainer}
-              handleImageClick={url => setViewPhotoUrl(url)}
-              handleCaptionChange={val => {
-                const newImages = [...editImages];
-                newImages[index].caption = val;
-                setEditImages(newImages);
-              }}
-              handleImageEdit={imageFormData => {
-                const newImages = [...editImages];
-                newImages[index].photoUri = imageFormData;
-                setEditImages(newImages);
-              }}
-              handleImageRemove={() => {
-                const newImages = [...editImages];
-                newImages.splice(index, 1);
-                setEditImages(newImages);
-              }}
-              key={index + 1}
-            />
-          ))}
+          <SortableList
+            items={galleryEditImagesMemo}
+            onSortEnd={onSortEnd}
+            useDragHandle
+          />
           {(editImages || []).length < 5 && addImageMemo}
           <Button
             variant="contained"

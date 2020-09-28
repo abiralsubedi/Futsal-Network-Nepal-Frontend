@@ -4,6 +4,12 @@ const useStyles = makeStyles(theme => ({
   loadingWrapper: {
     height: "18rem"
   },
+  galleryContent: {
+    "& ul": {
+      listStyle: "none",
+      paddingLeft: 0
+    }
+  },
   toggleButtonWrapper: {
     display: "flex",
     justifyContent: "flex-end",
@@ -18,6 +24,10 @@ const useStyles = makeStyles(theme => ({
   },
   postGalleryButton: {
     maxWidth: "12rem"
+  },
+  dragHandler: {
+    cursor: "pointer",
+    color: theme.palette.text.secondary
   }
 }));
 
