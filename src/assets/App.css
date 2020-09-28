@@ -73,5 +73,11 @@ html ::-webkit-scrollbar-corner {
 }
 
 .rdw-option-active {
-  background: #eee;
+  background: #d0cccc;
+}
+
+.rdw-dropdown-wrapper,
+.rdw-colorpicker-modal,
+.rdw-link-modal {
+  color: #212121;
 }

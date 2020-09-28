@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import ArrowRightRoundedIcon from "@material-ui/icons/ArrowRightRounded";
 
 import Description from "containers/Vendor/Description";
-import Fields from "containers/Vendor/Fields";
+import Gallery from "containers/Vendor/Gallery";
 
 import { Wrapper } from "components/Common";
 import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
@@ -69,7 +69,7 @@ const SitePage = ({ location, history, globalData, match }) => {
       {
         labelText: "Gallery",
         labelIcon: <ArrowRightRoundedIcon />,
-        content: <Fields />
+        content: <Gallery />
       }
     ]
   };

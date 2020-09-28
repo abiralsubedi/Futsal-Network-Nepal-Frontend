@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import IconButton from "@material-ui/core/IconButton";
@@ -18,17 +18,19 @@ import useStyles from "./style";
 
 const ImageHolder = ({
   image,
+  captionValue,
   wrapperClass,
   handleImageClick,
   handleImageEdit,
   handleImageRemove,
-  noCaption
+  noCaption,
+  handleCaptionChange
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [caption, setCaption] = useState("");
   const [confirmModalActive, setConfirmModalActive] = useState(false);
+  const [caption, setCaption] = useState(captionValue);
 
   const getImage = () => {
     if (typeof image === "string") {
@@ -37,6 +39,10 @@ const ImageHolder = ({
       return window.URL.createObjectURL(image.get("file"));
     }
   };
+
+  useEffect(() => {
+    setCaption(captionValue);
+  }, [captionValue]);
 
   const imageUrl = useMemo(() => getImage(), [image]);
 
@@ -88,6 +94,7 @@ const ImageHolder = ({
                 multiline={true}
                 rows={4}
                 inputProps={{ maxLength: 200 }}
+                onBlur={() => handleCaptionChange(caption)}
               />
             </div>
           </Grid>
@@ -99,15 +106,22 @@ const ImageHolder = ({
         type="file"
         onChange={({ target }) => {
           const file = target.files[0];
-          if (file.size <= 1024 ** 2) {
-            const imageFormData = new FormData();
-            imageFormData.append("file", file, file.name);
-            handleImageEdit(imageFormData);
+          if (/(jpg|jpeg|png|gif|svg)$/.test(file.type)) {
+            if (file.size <= 1024 ** 2) {
+              const imageFormData = new FormData();
+              imageFormData.append("file", file, file.name);
+              handleImageEdit(imageFormData);
+            } else {
+              enqueueSnackbar("Sorry, image needs to be less than 1 MB.", {
+                variant: "error"
+              });
+            }
           } else {
-            enqueueSnackbar("Sorry, the image needs to be less than 1 MB.", {
+            enqueueSnackbar("Sorry, only images are allowed.", {
               variant: "error"
             });
           }
+
           target.value = "";
         }}
         hidden
@@ -115,8 +129,8 @@ const ImageHolder = ({
       <ConfirmationModal
         open={confirmModalActive}
         handleClose={() => setConfirmModalActive(false)}
-        title="Remove Profile Picture"
-        confirmationText="Are you sure you want to remove the profile picture?"
+        title="Remove Picture"
+        confirmationText="Are you sure you want to remove the picture?"
         handleConfirm={() => {
           setConfirmModalActive(false);
           handleImageRemove();
@@ -128,10 +142,12 @@ const ImageHolder = ({
 
 ImageHolder.propTypes = {
   image: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  captionValue: PropTypes.string,
   wrapperClass: PropTypes.string,
   handleImageClick: PropTypes.func,
   handleImageEdit: PropTypes.func,
   handleImageRemove: PropTypes.func,
+  handleCaptionChange: PropTypes.func,
   noCaption: PropTypes.bool
 };
 

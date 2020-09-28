@@ -11,18 +11,18 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "5px",
     padding: "0 1rem"
   },
-  blockTypeRoot: {
-    color: theme.palette.grey[900]
-  },
-  fontSizeRoot: {
-    color: theme.palette.grey[900]
-  },
-  colorPickerPopupRoot: {
-    color: theme.palette.grey[900]
-  },
-  linkPopupRoot: {
-    color: theme.palette.grey[900]
-  }
+  // blockTypeRoot: {
+  //   color: theme.palette.grey[900]
+  // },
+  // fontSizeRoot: {
+  //   color: theme.palette.grey[900]
+  // },
+  // colorPickerPopupRoot: {
+  //   color: theme.palette.grey[900]
+  // },
+  // linkPopupRoot: {
+  //   color: theme.palette.grey[900]
+  // }
 }));
 
 export default useStyles;
