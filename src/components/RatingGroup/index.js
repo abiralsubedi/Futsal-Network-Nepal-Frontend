@@ -16,7 +16,7 @@ const RatingGroup = ({ reviewDetail }) => {
 
   const getVendorReview = () => {
     if (vendorReview) {
-      return { ...vendorReview, rating: vendorReview.rating.toFixed(1) };
+      return { ...vendorReview, rating: +vendorReview.rating.toFixed(1) };
     }
     return { rating: 0, totalReview: 0 };
   };
@@ -41,7 +41,7 @@ const RatingGroup = ({ reviewDetail }) => {
 
   const getRatingBar = () => {
     return ratingListMemo.map(item => (
-      <div className={classes.ratingBarWrapper}>
+      <div className={classes.ratingBarWrapper} key={item._id}>
         <div>
           <Typography color="textSecondary" variant="body2">
             {item._id}

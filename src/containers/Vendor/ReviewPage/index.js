@@ -8,6 +8,8 @@ import { useSnackbar } from "notistack";
 
 import Loader from "components/Loader";
 import RatingGroup from "components/RatingGroup";
+import CommentBox from "components/CommentBox";
+import ConfirmationModal from "components/ConfirmationModal";
 
 import {
   getReview,
@@ -47,6 +49,9 @@ const ReviewPage = ({
   } = reviewData;
 
   const vendorId = match.params.vendorId || profile._id;
+  const isAdmin = profile.role !== "Admin";
+
+  const [removeReview, setRemoveReview] = useState(false);
 
   useEffect(() => {
     fetchReview({ vendorId });
@@ -78,11 +83,47 @@ const ReviewPage = ({
     [reviewDetailLoading]
   );
 
+  const reviewListMemo = useMemo(() => {
+    return (review || []).map(item => (
+      <CommentBox
+        {...item}
+        handleDelete={isAdmin ? () => setRemoveReview(item) : false}
+        key={item._id}
+      />
+    ));
+  }, [reviewLoading]);
+
   if (reviewLoading || reviewDetailLoading) {
     return <Loader wrapperClass={classes.loadingWrapper} />;
   }
 
-  return <div className={classes.ReviewContent}>{ratingGroupMemo}</div>;
+  return (
+    <div className={classes.ReviewContent}>
+      {ratingGroupMemo}
+      {reviewListMemo}
+      <ConfirmationModal
+        open={!!removeReview}
+        handleClose={() => setRemoveReview(false)}
+        title="Remove Review"
+        confirmationText={
+          removeReview && (
+            <span>
+              Are you sure you want to remove
+              <strong>
+                {` ${removeReview.user.fullName}'s` || "your"}
+              </strong>{" "}
+              review?
+            </span>
+          )
+        }
+        handleConfirm={() => {
+          console.log("hello");
+        }}
+        transitionDuration={{ exit: 0 }}
+        loading={removeReviewLoading}
+      />
+    </div>
+  );
 };
 
 ReviewPage.propTypes = {
