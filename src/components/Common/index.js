@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 import { Paper } from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/core/styles";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 import useStyles from "./style";
 
-export const Wrapper = ({ className, style, children, ...props }) => {
+export const Wrapper = ({ style, children, ...props }) => {
   const classes = useStyles();
   return (
     <Paper
@@ -17,14 +18,13 @@ export const Wrapper = ({ className, style, children, ...props }) => {
       classes={{
         root: classes.paperRoot
       }}
-      className={["container", classes.random, className || ""].join(" ")}
       style={{
         flex: 1,
         minHeight: "calc(100vh - 64px)",
         ...(style || {})
       }}
     >
-      {children}
+      <div className={classes.paperRootContainer}>{children}</div>
     </Paper>
   );
 };
@@ -40,6 +40,21 @@ export const OuterLogo = () => {
     </Link>
   );
 };
+
+export const BorderLinearProgress = withStyles(theme => ({
+  root: {
+    height: 8,
+    borderRadius: 5
+  },
+  colorPrimary: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.type === "light" ? 200 : 700]
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: "#1a90ff"
+  }
+}))(LinearProgress);
 
 export const IOSSwitch = withStyles(theme => ({
   root: {
@@ -72,7 +87,7 @@ export const IOSSwitch = withStyles(theme => ({
     borderRadius: 26 / 2,
     border: `1px solid ${theme.palette.grey[400]}`,
     // backgroundColor: theme.palette.grey[50],
-    background: 'inherit',
+    background: "inherit",
     opacity: 1,
     transition: theme.transitions.create(["background-color", "border"])
   },

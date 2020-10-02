@@ -18,6 +18,7 @@ import GameHourSagas from "containers/Vendor/GameHour/saga.js";
 import FieldSagas from "containers/Vendor/Fields/saga.js";
 import DescriptionSagas from "containers/Vendor/Description/saga.js";
 import GallerySagas from "containers/Vendor/Gallery/saga.js";
+import ReviewPageSagas from "containers/Vendor/ReviewPage/saga.js";
 
 export default function* rootSaga() {
   yield all(
@@ -39,7 +40,8 @@ export default function* rootSaga() {
       GameHourSagas,
       FieldSagas,
       DescriptionSagas,
-      GallerySagas
+      GallerySagas,
+      ReviewPageSagas
     ].map(fork)
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useMemo } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import PropTypes from "prop-types";
@@ -63,12 +63,19 @@ const SetPasswordPage = ({
     unlink_email: unLinkEmail
   } = queryString.parse(location.search);
 
-  const getPageLabel = () => {
+  const pageLabelMemo = useMemo(() => {
     if (confirmEmail) {
       return "Enter your password to confirm email";
     }
     return "Set new password";
-  };
+  }, []);
+
+  const buttonTextMemo = useMemo(() => {
+    if (confirmEmail) {
+      return "Confirm Email";
+    }
+    return "Set Password";
+  }, []);
 
   const onFormSubmit = () => {
     if (confirmEmail) {
@@ -90,7 +97,7 @@ const SetPasswordPage = ({
           }}
         >
           {isMobile && <OuterLogo />}
-          <Typography variant="h6">{getPageLabel()}</Typography>
+          <Typography variant="h6">{pageLabelMemo}</Typography>
           <TextField
             id="set-new-password"
             label="Password"
@@ -120,7 +127,7 @@ const SetPasswordPage = ({
             fullWidth
             disabled={setPasswordLoading}
             actionLoading={setPasswordLoading}
-            buttonText="Set Password"
+            buttonText={buttonTextMemo}
           />
         </form>
       </div>

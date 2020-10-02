@@ -10,6 +10,7 @@ import ArrowRightRoundedIcon from "@material-ui/icons/ArrowRightRounded";
 
 import Description from "containers/Vendor/Description";
 import Gallery from "containers/Vendor/Gallery";
+import ReviewPage from "containers/Vendor/ReviewPage";
 
 import { Wrapper } from "components/Common";
 import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
@@ -35,6 +36,9 @@ const SitePage = ({ location, history, globalData, match }) => {
     if (location.pathname.includes("gallery")) {
       setTabIndexValue(1);
     }
+    if (location.pathname.includes("review")) {
+      setTabIndexValue(2);
+    }
   }, [location.pathname]);
 
   const getPushPathname = val => {
@@ -44,6 +48,9 @@ const SitePage = ({ location, history, globalData, match }) => {
 
       case 1:
         return "/site/gallery";
+
+      case 2:
+        return "/site/review";
 
       default:
     }
@@ -70,6 +77,11 @@ const SitePage = ({ location, history, globalData, match }) => {
         labelText: "Gallery",
         labelIcon: <ArrowRightRoundedIcon />,
         content: <Gallery />
+      },
+      {
+        labelText: "Review",
+        labelIcon: <ArrowRightRoundedIcon />,
+        content: <ReviewPage />
       }
     ]
   };

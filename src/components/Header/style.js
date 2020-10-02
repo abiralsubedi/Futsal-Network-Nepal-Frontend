@@ -12,7 +12,9 @@ const useStyles = makeStyles(theme => ({
   },
   toolBarGutters: {
     [theme.breakpoints.up("lg")]: {
-      padding: "0 10rem"
+      padding: "0",
+      width: "1200px",
+      margin: "auto"
     }
   },
   primaryHeaderBar: {
@@ -23,7 +25,9 @@ const useStyles = makeStyles(theme => ({
   },
   primaryNavBar: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+
+    margin: "auto"
   },
   navLinkList: {
     display: "-webkit-box,",

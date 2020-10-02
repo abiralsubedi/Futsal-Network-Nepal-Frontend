@@ -18,6 +18,7 @@ import GameHourReducer from "containers/Vendor/GameHour/reducer.js";
 import FieldReducer from "containers/Vendor/Fields/reducer.js";
 import DescriptionReducer from "containers/Vendor/Description/reducer.js";
 import GalleryReducer from "containers/Vendor/Gallery/reducer.js";
+import ReviewPageReducer from "containers/Vendor/ReviewPage/reducer.js";
 
 export default combineReducers({
   LoginReducer,
@@ -37,5 +38,6 @@ export default combineReducers({
   GameHourReducer,
   FieldReducer,
   DescriptionReducer,
-  GalleryReducer
+  GalleryReducer,
+  ReviewPageReducer
 });
