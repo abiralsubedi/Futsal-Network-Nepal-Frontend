@@ -77,7 +77,7 @@ const ProfilePage = ({
       });
     }
     if (postChangeEmailSuccess) {
-      enqueueSnackbar("You will shortly receive confirmation email.", {
+      enqueueSnackbar("An email has been sent to you.", {
         variant: "success",
         onClose: () => onClearInformationMessage()
       });
@@ -185,8 +185,8 @@ const ProfilePage = ({
         title="Change your Email Address"
       >
         <Typography>
-          Please fill your new email address and you will shortly receive
-          confirmation email.
+          Please fill your new email address and you will receive confirmation
+          email.
         </Typography>
         <form
           onSubmit={e => {

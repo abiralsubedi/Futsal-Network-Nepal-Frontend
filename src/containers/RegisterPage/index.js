@@ -45,7 +45,7 @@ const RegisterPage = ({
     }
 
     if (registerSuccess) {
-      enqueueSnackbar("You will shortly receive email to set password.", {
+      enqueueSnackbar("An email has been sent to set password.", {
         variant: "success",
         onClose: () => onClearRegisterMessage()
       });

@@ -90,7 +90,7 @@ const ChangePassword = ({
           open={linkAccountActive}
           handleClose={() => setLinkAccountActive(false)}
           title="Unlink your Google Account"
-          confirmationText="If you proceed, you will shortly receive a email to reset password for your account. Do you want to continue?"
+          confirmationText="If you proceed, you will receive a email to reset password for your account. Do you want to continue?"
           handleConfirm={() => onUnLinkEmail()}
           loading={postPasswordLoading}
         />

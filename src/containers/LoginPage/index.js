@@ -73,7 +73,7 @@ const LoginPage = ({
       });
     }
     if (postForgotPasswordSuccess) {
-      enqueueSnackbar("You will shortly receive email to set password.", {
+      enqueueSnackbar("An email has been sent to set password.", {
         variant: "success",
         onClose: () => onClearLoginMessage()
       });
@@ -196,8 +196,7 @@ const LoginPage = ({
           title="Reset your Password"
         >
           <Typography>
-            Please fill your email address and you will shortly receive reset
-            link.
+            Please fill your email address and you will receive reset link.
           </Typography>
           <form
             onSubmit={e => {

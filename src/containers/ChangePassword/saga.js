@@ -32,7 +32,7 @@ function* unLinkEmail() {
       }
     });
     yield put(
-      postPasswordSuccess("You will shortly receive email to set password.")
+      postPasswordSuccess("An email has been sent to set your password.")
     );
   } catch (error) {
     const errorObj = yield error.response.json();
