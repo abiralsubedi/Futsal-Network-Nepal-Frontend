@@ -1,18 +1,50 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Rating from "@material-ui/lab/Rating";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 import { BorderLinearProgress } from "components/Common";
 
 import useStyles from "./style";
 
-const RatingGroup = ({ reviewDetail }) => {
+const RatingGroup = ({ reviewDetail, loading }) => {
   const classes = useStyles();
 
   const { vendorReview, ratingList } = reviewDetail;
+
+  const ratingGroupSkeletonMemo = useMemo(() => {
+    return (
+      <div className={classes.ratingSkeletonWrapper}>
+        <Grid container spacing={3}>
+          <Grid item md={3} sm={4} xs={8}>
+            <Skeleton
+              variant="rect"
+              height={118}
+              animation="wave"
+              classes={{ root: classes.skeletonRoot }}
+            />
+          </Grid>
+          <Grid item md={5} sm={5} xs={8}>
+            {[1, 2, 3, 4, 5].map(item => (
+              <Skeleton
+                variant="text"
+                animation="wave"
+                key={item}
+                classes={{ root: classes.skeletonRoot }}
+              />
+            ))}
+          </Grid>
+        </Grid>
+      </div>
+    );
+  }, []);
+
+  if (loading) {
+    return ratingGroupSkeletonMemo;
+  }
 
   const getVendorReview = () => {
     if (vendorReview) {
@@ -89,7 +121,8 @@ const RatingGroup = ({ reviewDetail }) => {
 };
 
 RatingGroup.propTypes = {
-  reviewDetail: PropTypes.object
+  reviewDetail: PropTypes.object,
+  loading: PropTypes.bool
 };
 
 export default RatingGroup;

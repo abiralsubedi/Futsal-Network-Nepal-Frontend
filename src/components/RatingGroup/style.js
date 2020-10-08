@@ -14,6 +14,11 @@ const useStyles = makeStyles(theme => ({
   ratingBar: {
     width: "100%",
     marginLeft: "1rem"
+  },
+  skeletonRoot: {
+    borderRadius: "5px",
+    width: "100%",
+    marginBottom: "5px !important"
   }
 }));
 

@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   commentWrapper: {
-    margin: "2rem 0"
+    marginBottom: "2rem"
   },
   commentHeader: {
     display: "flex",
@@ -48,10 +48,12 @@ const useStyles = makeStyles(theme => ({
   },
   commentBody: {
     marginTop: "1rem",
-    cursor: "pointer",
     "& p": {
       fontSize: "0.95rem",
       lineHeight: 1.7
+    },
+    "&.more": {
+      cursor: "pointer"
     }
   },
   commentContent: {

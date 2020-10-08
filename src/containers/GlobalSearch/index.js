@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
@@ -73,7 +73,7 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
     fetchGlobalSearch(val);
   };
 
-  const renderSearchSkeleton = () => {
+  const searchSkeletonMemo = useMemo(() => {
     return [1, 2].map(item => (
       <div className={classes.skeletonWrapper} key={item}>
         <div className={classes.skeletonAvatar}>
@@ -90,7 +90,7 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
         </div>
       </div>
     ));
-  };
+  }, []);
 
   const renderSearchList = () => {
     return (
@@ -144,7 +144,7 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
       );
     }
     if (globalSearchLoading) {
-      return renderSearchSkeleton();
+      return searchSkeletonMemo;
     }
     if (globalSearch.length) {
       return renderSearchList();

@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 
 import useStyles from "./style";
 
-const Loader = ({ wrapperClass, text }) => {
+const NoData = ({ wrapperClass, text }) => {
   const classes = useStyles();
   return (
     <div className={`${classes.noDataWrapper} ${wrapperClass}`}>
@@ -15,10 +15,9 @@ const Loader = ({ wrapperClass, text }) => {
   );
 };
 
-Loader.propTypes = {
+NoData.propTypes = {
   text: PropTypes.string,
-  wrapperClass: PropTypes.string,
-  circularRootClass: PropTypes.string
+  wrapperClass: PropTypes.string
 };
 
-export default Loader;
+export default NoData;

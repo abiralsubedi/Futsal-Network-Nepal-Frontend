@@ -34,7 +34,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "start": "serve -s build",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "heroku-postbuild": "npm run build",
     "eject": "react-scripts eject",
     "test:clean": "rimraf ./coverage",

@@ -23,13 +23,13 @@ function* getReview({ payload }) {
     const { vendorId } = payload;
     const token = localStorage.getItem("token");
 
-    yield call(request, `/profile`, {
+    const response = yield call(request, `/vendor/${vendorId}/review`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
-    const response = [
+    const response1 = [
       {
         _id: 123,
         user: {
@@ -47,7 +47,7 @@ function* getReview({ payload }) {
           photoUri: "",
           fullName: "Poonam Rai"
         },
-        reviewDate: new Date("2020-08-02T10:13:55.945Z"),
+        reviewDate: new Date("2020-06-06T10:13:55.945Z"),
         rating: 5,
         comment:
           "Nice! Really fun game, never gets old. It's pretty popular, and I completely see why. It's a great time killer and I adore the looks of everything in it. I would think that it would be extremely laggy on - my device in general, which is an android."
@@ -65,14 +65,20 @@ function* getReviewDetail({ payload }) {
     const { vendorId } = payload;
     const token = localStorage.getItem("token");
 
-    yield call(request, `/profile`, {
+    const response = yield call(request, `/vendor/${vendorId}/review-detail`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
-    const response = {
-      selfReview: {},
+    const response1 = {
+      selfReview: {
+        _id: 123,
+        reviewDate: new Date("2020-10-02T10:13:55.945Z"),
+        rating: 4,
+        comment:
+          "Nice! Really fun game, never gets old. It's pretty popular, and I completely see why. It's a great time killer and I adore the looks of everything in it. I would think that it would be extremely laggy on - my device in general, which is an android - but.. I was clearly wrong! I find it cool that it's free, but a few quick requests, is it possible to make the PC version of Among us free? And, it would be even more awesome if you could add the Friends option, so you can add others and join them"
+      },
       vendorReview: {
         rating: 3.4,
         totalReview: 20
@@ -92,10 +98,10 @@ function* getReviewDetail({ payload }) {
 
 function* removeReview({ payload }) {
   try {
-    const { vendorId } = payload;
+    const { vendorId, reviewId } = payload;
     const token = localStorage.getItem("token");
 
-    yield call(request, `/vendor/${vendorId}/working-hour`, {
+    yield call(request, `/vendor/${vendorId}/review`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -103,7 +109,9 @@ function* removeReview({ payload }) {
       },
       body: JSON.stringify(payload)
     });
-    yield put(removeReviewSuccess("Game hour deleted successfully"));
+    yield put(
+      removeReviewSuccess({ message: "Review Deleted successfully", reviewId })
+    );
   } catch (error) {
     const errorObj = yield error.response.json();
     yield put(removeReviewError(errorObj.message));
@@ -112,19 +120,19 @@ function* removeReview({ payload }) {
 
 function* postReview({ payload }) {
   try {
-    const { vendorId, ReviewId } = payload;
+    const { vendorId, reviewId } = payload;
     const token = localStorage.getItem("token");
 
-    yield call(request, `/vendor/${vendorId}/working-hour`, {
-      method: ReviewId ? "PUT" : "POST",
+    yield call(request, `/vendor/${vendorId}/review`, {
+      method: reviewId ? "PUT" : "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify(payload)
     });
-    const response = `Game hour ${
-      ReviewId ? "updated" : "created"
+    const response = `Review ${
+      reviewId ? "updated" : "submitted"
     } successfully.`;
     yield put(postReviewSuccess(response));
   } catch (error) {

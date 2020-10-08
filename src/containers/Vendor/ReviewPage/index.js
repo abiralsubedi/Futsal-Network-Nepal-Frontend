@@ -5,11 +5,15 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 
 import { useSnackbar } from "notistack";
+import Box from "@material-ui/core/Box";
 
 import Loader from "components/Loader";
+import Button from "components/Button";
 import RatingGroup from "components/RatingGroup";
 import CommentBox from "components/CommentBox";
 import ConfirmationModal from "components/ConfirmationModal";
+import AddReviewModal from "components/AddReviewModal";
+import NoData from "components/NoData";
 
 import {
   getReview,
@@ -20,6 +24,7 @@ import {
   getReviewDetail
 } from "./actions";
 import useStyles from "./style";
+import { Typography } from "@material-ui/core";
 
 const ReviewPage = ({
   onClearReviewData,
@@ -48,10 +53,13 @@ const ReviewPage = ({
     removeReviewError
   } = reviewData;
 
+  const { selfReview } = reviewDetail;
   const vendorId = match.params.vendorId || profile._id;
-  const isAdmin = profile.role !== "Admin";
+  const isAdmin = profile.role === "Admin";
+  const isUser = profile.role === "User";
 
   const [removeReview, setRemoveReview] = useState(false);
+  const [addReview, setAddReview] = useState(false);
 
   useEffect(() => {
     fetchReview({ vendorId });
@@ -70,6 +78,9 @@ const ReviewPage = ({
         variant: "success",
         onClose: () => onClearPostData()
       });
+      setAddReview(false);
+      setRemoveReview(false);
+      fetchReviewDetail({ vendorId });
     }
   }, [
     postReviewError,
@@ -78,29 +89,84 @@ const ReviewPage = ({
     removeReviewSuccess
   ]);
 
-  const ratingGroupMemo = useMemo(
-    () => <RatingGroup reviewDetail={reviewDetail} />,
-    [reviewDetailLoading]
-  );
+  const ratingGroupMemo = useMemo(() => {
+    return (
+      <RatingGroup reviewDetail={reviewDetail} loading={reviewDetailLoading} />
+    );
+  }, [reviewDetailLoading]);
+
+  const selfReviewMemo = useMemo(() => {
+    if (!selfReview) {
+      return <div />;
+    }
+    const { _id: reviewId } = selfReview;
+    return (
+      <div className={classes.selfReviewWrapper}>
+        {!reviewId && (
+          <Button
+            variant="outlined"
+            buttonRootClass={classes.writeReviewButtonRoot}
+            onClick={() => setAddReview({})}
+          >
+            Write a Review
+          </Button>
+        )}
+
+        {reviewId && (
+          <>
+            <Typography className={classes.reviewTitle}>MY REVIEW</Typography>
+            <CommentBox
+              {...selfReview}
+              user={{
+                photoUri: profile.photoUri,
+                fullName: profile.fullName,
+                _id: profile._id
+              }}
+              handleDelete={() => setRemoveReview(selfReview)}
+              handleEdit={() => setAddReview(selfReview)}
+            />
+          </>
+        )}
+      </div>
+    );
+  }, [reviewDetailLoading]);
 
   const reviewListMemo = useMemo(() => {
+    if (reviewLoading) {
+      return <Loader wrapperClass={classes.loadingWrapper} />;
+    }
+    if (!review.length) {
+      return <NoData text="There is no review yet." />;
+    }
+    const showDelete = isAdmin;
     return (review || []).map(item => (
       <CommentBox
         {...item}
-        handleDelete={isAdmin ? () => setRemoveReview(item) : false}
+        handleDelete={showDelete ? () => setRemoveReview(item) : false}
         key={item._id}
       />
     ));
-  }, [reviewLoading]);
-
-  if (reviewLoading || reviewDetailLoading) {
-    return <Loader wrapperClass={classes.loadingWrapper} />;
-  }
+  }, [review]);
 
   return (
-    <div className={classes.ReviewContent}>
+    <div className={classes.reviewContent}>
       {ratingGroupMemo}
-      {reviewListMemo}
+
+      <div>
+        {isUser && !reviewDetailLoading ? selfReviewMemo : <Box mt={4} />}
+        <div>
+          <Typography className={classes.reviewTitle}>REVIEWS</Typography>
+          {reviewListMemo}
+        </div>
+      </div>
+
+      <AddReviewModal
+        open={!!addReview}
+        handleClose={() => setAddReview(false)}
+        addReviewData={addReview}
+        handleSubmit={updatedVal => saveReview({ ...updatedVal, vendorId })}
+        loading={postReviewLoading}
+      />
       <ConfirmationModal
         open={!!removeReview}
         handleClose={() => setRemoveReview(false)}
@@ -110,14 +176,18 @@ const ReviewPage = ({
             <span>
               Are you sure you want to remove
               <strong>
-                {` ${removeReview.user.fullName}'s` || "your"}
+                {` ${
+                  removeReview.user.fullName
+                    ? removeReview.user.fullName
+                    : "your"
+                }`}
               </strong>{" "}
               review?
             </span>
           )
         }
         handleConfirm={() => {
-          console.log("hello");
+          onRemoveReview({ reviewId: removeReview._id, vendorId });
         }}
         transitionDuration={{ exit: 0 }}
         loading={removeReviewLoading}

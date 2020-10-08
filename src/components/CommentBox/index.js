@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import Avatar from "@material-ui/core/Avatar";
@@ -25,12 +25,24 @@ const CommentBox = ({
   handleEdit
 }) => {
   const classes = useStyles();
-
   const [showMore, setShowMore] = useState(false);
+  const [moreAvailable, setMoreAvailable] = useState(false);
 
-  const { photoUri, fullName } = user;
+  useEffect(() => {
+    setTimeout(() => setMoreAvailable(hasMoreComment()), 500);
+  }, []);
+  const { photoUri, fullName, _id: userId } = user;
 
   const userPhoto = getImageUrl(photoUri);
+
+  const hasMoreComment = () => {
+    const commentEl = document.querySelector(`#uc-${userId}`);
+    let lines = 1;
+    if (commentEl) {
+      lines = commentEl.offsetHeight / 25;
+    }
+    return lines >= 3;
+  };
 
   return (
     <div className={classes.commentWrapper}>
@@ -86,7 +98,7 @@ const CommentBox = ({
           {handleEdit && (
             <Tooltip title="Edit">
               <IconButton
-                onClick={() => console.log("yes")}
+                onClick={handleEdit}
                 className={classes.commentActionButton}
               >
                 <EditRoundedIcon
@@ -99,14 +111,15 @@ const CommentBox = ({
         </div>
       </div>
       <div
-        className={classes.commentBody}
-        onClick={() => setShowMore(prev => !prev)}
+        className={`${classes.commentBody} ${moreAvailable ? "more" : ""}`}
+        onClick={() => (moreAvailable ? setShowMore(prev => !prev) : null)}
       >
         <Typography
           variant="body1"
           className={`${classes.commentContent} ${
             showMore ? "fullReview" : ""
           }`}
+          id={`uc-${userId}`}
         >
           {comment}
         </Typography>
@@ -117,7 +130,7 @@ const CommentBox = ({
 
 CommentBox.propTypes = {
   user: PropTypes.object,
-  reviewDate: PropTypes.instanceOf(Date),
+  reviewDate: PropTypes.string,
   rating: PropTypes.number,
   comment: PropTypes.string,
   handleDelete: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),

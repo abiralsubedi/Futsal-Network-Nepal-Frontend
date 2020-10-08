@@ -101,10 +101,15 @@ export default (
         removeReviewError: ""
       };
     case REMOVE_REVIEW_SUCCESS:
+      const { reviewId } = action.payload;
+      const updatedReview = (state.review || []).filter(
+        item => item._id !== reviewId
+      );
       return {
         ...state,
+        review: updatedReview,
         removeReviewLoading: false,
-        removeReviewSuccess: action.payload
+        removeReviewSuccess: action.payload.message
       };
     case REMOVE_REVIEW_ERROR:
       return {
@@ -126,8 +131,6 @@ export default (
         ...state,
         postReviewSuccess: "",
         postReviewError: "",
-        postReviewLoading: false,
-        removeReviewLoading: false,
         removeReviewSuccess: "",
         removeReviewError: ""
       };
