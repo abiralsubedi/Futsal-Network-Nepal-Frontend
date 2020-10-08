@@ -6,6 +6,7 @@ import { compose } from "redux";
 
 import { useSnackbar } from "notistack";
 import Box from "@material-ui/core/Box";
+import LazyLoad from "react-lazyload";
 
 import Loader from "components/Loader";
 import Button from "components/Button";
@@ -140,11 +141,12 @@ const ReviewPage = ({
     }
     const showDelete = isAdmin;
     return (review || []).map(item => (
-      <CommentBox
-        {...item}
-        handleDelete={showDelete ? () => setRemoveReview(item) : false}
-        key={item._id}
-      />
+      <LazyLoad height={150} key={item._id} once>
+        <CommentBox
+          {...item}
+          handleDelete={showDelete ? () => setRemoveReview(item) : false}
+        />
+      </LazyLoad>
     ));
   }, [review]);
 
