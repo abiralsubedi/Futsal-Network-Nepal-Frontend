@@ -6,7 +6,8 @@ import { compose } from "redux";
 
 import { useSnackbar } from "notistack";
 import Box from "@material-ui/core/Box";
-import LazyLoad from "react-lazyload";
+import LazyLoad, { forceCheck } from "react-lazyload";
+import { useBottomScrollListener } from "react-bottom-scroll-listener";
 
 import Loader from "components/Loader";
 import Button from "components/Button";
@@ -51,21 +52,19 @@ const ReviewPage = ({
     postReviewLoading,
     removeReviewLoading,
     removeReviewSuccess,
-    removeReviewError
+    removeReviewError,
+    clearReviewFetch
   } = reviewData;
 
   const { selfReview } = reviewDetail;
   const vendorId = match.params.vendorId || profile._id;
   const isAdmin = profile.role === "Admin";
   const isUser = profile.role === "User";
+  const pageSize = 7;
 
   const [removeReview, setRemoveReview] = useState(false);
   const [addReview, setAddReview] = useState(false);
-
-  useEffect(() => {
-    fetchReview({ vendorId });
-    fetchReviewDetail({ vendorId });
-  }, []);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (postReviewError || removeReviewError) {
@@ -82,6 +81,7 @@ const ReviewPage = ({
       setAddReview(false);
       setRemoveReview(false);
       fetchReviewDetail({ vendorId });
+      forceCheck();
     }
   }, [
     postReviewError,
@@ -89,6 +89,31 @@ const ReviewPage = ({
     removeReviewError,
     removeReviewSuccess
   ]);
+
+  useEffect(() => {
+    fetchReviewDetail({ vendorId });
+
+    return () => {
+      onClearReviewData();
+    };
+  }, []);
+
+  useEffect(() => {
+    fetchReview({ vendorId, query: getUrlParam() });
+  }, [currentPage]);
+
+  const getUrlParam = () => {
+    const pageQuery = `currentPage=${currentPage}`;
+    const sizeQuery = `&pageSize=${pageSize}`;
+
+    return pageQuery + sizeQuery;
+  };
+
+  useBottomScrollListener(() => {
+    if (!reviewLoading && !clearReviewFetch) {
+      setCurrentPage(prev => prev + 1);
+    }
+  }, 300);
 
   const ratingGroupMemo = useMemo(() => {
     return (
@@ -133,14 +158,14 @@ const ReviewPage = ({
   }, [reviewDetailLoading]);
 
   const reviewListMemo = useMemo(() => {
-    if (reviewLoading) {
+    if (reviewLoading && currentPage === 1) {
       return <Loader wrapperClass={classes.loadingWrapper} />;
     }
     if (!review.length) {
       return <NoData text="There is no review yet." />;
     }
     const showDelete = isAdmin;
-    return (review || []).map(item => (
+    const reviewList = (review || []).map(item => (
       <LazyLoad height={150} key={item._id} once>
         <CommentBox
           {...item}
@@ -148,7 +173,11 @@ const ReviewPage = ({
         />
       </LazyLoad>
     ));
-  }, [review]);
+    if (reviewLoading) {
+      reviewList.push(<Loader wrapperClass={classes.loadingWrapper} />);
+    }
+    return reviewList;
+  }, [review, reviewLoading]);
 
   return (
     <div className={classes.reviewContent}>

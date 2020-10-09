@@ -12,7 +12,8 @@ import {
   REMOVE_REVIEW_ERROR,
   REMOVE_REVIEW_SUCCESS,
   CLEAR_REVIEW_DATA,
-  CLEAR_POST_DATA
+  CLEAR_POST_DATA,
+  CLEAR_REVIEW_FETCH
 } from "./constants";
 
 export default (
@@ -28,7 +29,8 @@ export default (
     postReviewError: "",
     removeReviewLoading: false,
     removeReviewSuccess: "",
-    removeReviewError: ""
+    removeReviewError: "",
+    clearReviewFetch: false
   },
   action
 ) => {
@@ -37,14 +39,14 @@ export default (
       return {
         ...state,
         reviewLoading: true,
-        review: [],
         reviewError: ""
       };
     case GET_REVIEW_SUCCESS:
+      const newReview = state.review.concat(action.payload);
       return {
         ...state,
         reviewLoading: false,
-        review: action.payload
+        review: newReview
       };
     case GET_REVIEW_ERROR:
       return {
@@ -118,12 +120,16 @@ export default (
         removeReviewError: action.error
       };
 
+    case CLEAR_REVIEW_FETCH:
+      return { ...state, clearReviewFetch: true };
+
     case CLEAR_REVIEW_DATA:
       return {
         ...state,
         review: [],
         reviewLoading: false,
-        reviewError: ""
+        reviewError: "",
+        clearReviewFetch: false
       };
 
     case CLEAR_POST_DATA:

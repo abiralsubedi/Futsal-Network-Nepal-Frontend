@@ -12,7 +12,8 @@ import {
   REMOVE_REVIEW_ERROR,
   REMOVE_REVIEW_SUCCESS,
   CLEAR_REVIEW_DATA,
-  CLEAR_POST_DATA
+  CLEAR_POST_DATA,
+  CLEAR_REVIEW_FETCH
 } from "./constants";
 
 export const getReview = payload => ({
@@ -77,4 +78,8 @@ export const clearReviewData = () => ({
 
 export const clearPostData = () => ({
   type: CLEAR_POST_DATA
+});
+
+export const clearReviewFetch = () => ({
+  type: CLEAR_REVIEW_FETCH
 });

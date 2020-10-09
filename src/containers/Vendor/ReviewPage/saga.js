@@ -15,44 +15,28 @@ import {
   postReviewSuccess,
   postReviewError,
   removeReviewError,
-  removeReviewSuccess
+  removeReviewSuccess,
+  clearReviewFetch
 } from "./actions";
 
 function* getReview({ payload }) {
   try {
-    const { vendorId } = payload;
+    const { vendorId, query } = payload;
     const token = localStorage.getItem("token");
 
-    const response = yield call(request, `/vendor/${vendorId}/review`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    const response1 = [
+    const response = yield call(
+      request,
+      `/vendor/${vendorId}/review?${query}`,
       {
-        _id: 123,
-        user: {
-          photoUri: "/images/toh-1601039140949.jpg",
-          fullName: "Bishal Rana"
-        },
-        reviewDate: new Date("2020-10-02T10:13:55.945Z"),
-        rating: 4,
-        comment:
-          "Nice! Really fun game, never gets old. It's pretty popular, and I completely see why. It's a great time killer and I adore the looks of everything in it. I would think that it would be extremely laggy on - my device in general, which is an android - but.. I was clearly wrong! I find it cool that it's free, but a few quick requests, is it possible to make the PC version of Among us free? And, it would be even more awesome if you could add the Friends option, so you can add others and join them"
-      },
-      {
-        _id: 456,
-        user: {
-          photoUri: "",
-          fullName: "Poonam Rai"
-        },
-        reviewDate: new Date("2020-06-06T10:13:55.945Z"),
-        rating: 5,
-        comment:
-          "Nice! Really fun game, never gets old. It's pretty popular, and I completely see why. It's a great time killer and I adore the looks of everything in it. I would think that it would be extremely laggy on - my device in general, which is an android."
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
-    ];
+    );
+    if (!response.length) {
+      yield put(clearReviewFetch());
+    }
     yield put(getReviewSuccess(response));
   } catch (error) {
     const errorObj = yield error.response.json();
@@ -71,25 +55,10 @@ function* getReviewDetail({ payload }) {
         Authorization: `Bearer ${token}`
       }
     });
-    const response1 = {
-      selfReview: {
-        _id: 123,
-        reviewDate: new Date("2020-10-02T10:13:55.945Z"),
-        rating: 4,
-        comment:
-          "Nice! Really fun game, never gets old. It's pretty popular, and I completely see why. It's a great time killer and I adore the looks of everything in it. I would think that it would be extremely laggy on - my device in general, which is an android - but.. I was clearly wrong! I find it cool that it's free, but a few quick requests, is it possible to make the PC version of Among us free? And, it would be even more awesome if you could add the Friends option, so you can add others and join them"
-      },
-      vendorReview: {
-        rating: 3.4,
-        totalReview: 20
-      },
-      ratingList: [
-        { _id: 5, totalNumber: 3 },
-        { _id: 4, totalNumber: 12 },
-        { _id: 1, totalNumber: 5 }
-      ]
-    };
     yield put(getReviewDetailSuccess(response));
+    if (!response.length) {
+      yield put;
+    }
   } catch (error) {
     const errorObj = yield error.response.json();
     yield put(getReviewDetailError(errorObj.message));
