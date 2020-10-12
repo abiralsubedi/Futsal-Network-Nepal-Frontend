@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useRef } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
@@ -28,6 +28,9 @@ const SitePage = ({ location, history, globalData, match }) => {
   const { vendorId } = match.params;
 
   const [tabIndexValue, setTabIndexValue] = React.useState(0);
+  const [vendorChanged, setVendorChanged] = React.useState(false);
+
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
     if (location.pathname.includes("description")) {
@@ -40,6 +43,15 @@ const SitePage = ({ location, history, globalData, match }) => {
       setTabIndexValue(2);
     }
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      setTimeout(() => setVendorChanged(false), 0);
+      setVendorChanged(true);
+    }
+  }, [vendorId]);
 
   const getPushPathname = val => {
     switch (val) {
@@ -86,6 +98,26 @@ const SitePage = ({ location, history, globalData, match }) => {
     ]
   };
 
+  const getTabContent = () => {
+    if (vendorChanged) {
+      return <span />;
+    }
+    if (isMobile) {
+      return (
+        <HorizontalTabs
+          {...scheduleTabContent}
+          customRootClass={classes.customHorizontalTabHeight}
+        />
+      );
+    }
+    return (
+      <VerticalTabs
+        {...scheduleTabContent}
+        customRootClass={classes.customVerticalTabHeight}
+      />
+    );
+  };
+
   return (
     <Wrapper>
       <div className={classes.profileContainer}>
@@ -96,17 +128,7 @@ const SitePage = ({ location, history, globalData, match }) => {
         >
           Site Page
         </Typography>
-        {isMobile ? (
-          <HorizontalTabs
-            {...scheduleTabContent}
-            customRootClass={classes.customHorizontalTabHeight}
-          />
-        ) : (
-          <VerticalTabs
-            {...scheduleTabContent}
-            customRootClass={classes.customVerticalTabHeight}
-          />
-        )}
+        {getTabContent()}
       </div>
     </Wrapper>
   );

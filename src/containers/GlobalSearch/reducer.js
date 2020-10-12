@@ -18,7 +18,8 @@ export default (
       return {
         ...state,
         globalSearchLoading: true,
-        globalSearchError: ""
+        globalSearchError: "",
+        globalSearch: []
       };
     case GET_GLOBAL_SEARCH_SUCCESS:
       return {

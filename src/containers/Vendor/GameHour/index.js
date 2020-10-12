@@ -133,13 +133,13 @@ const GameHour = ({
         type="game hour"
         tableHeader={tableHeader}
         tableBody={gameHour || []}
-        tableBodyLoading={gameHourLoading}
+        tableBodyLoading={gameHourLoading || weekDataLoading}
         actions={actions}
         addButton={addButton}
         selectedActions={selectedActions}
       />
     );
-  }, [gameHourLoading]);
+  }, [gameHourLoading, weekDataLoading]);
 
   const removeHourContentMemo = useMemo(
     () => (

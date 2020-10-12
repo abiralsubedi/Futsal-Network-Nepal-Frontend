@@ -32,7 +32,7 @@ const DescriptionPage = ({
 
   const {
     descriptionInfoLoading,
-    descriptionInfo: { description },
+    descriptionInfo,
     postDescriptionInfoLoading,
     postDescriptionInfoSuccess,
     postDescriptionInfoError
@@ -48,12 +48,16 @@ const DescriptionPage = ({
   }, []);
 
   useEffect(() => {
-    if (description) {
+    if (descriptionInfo) {
       setEditorState(
-        EditorState.createWithContent(convertFromRaw(JSON.parse(description)))
+        EditorState.createWithContent(
+          convertFromRaw(JSON.parse(descriptionInfo))
+        )
       );
+    } else {
+      setEditorState(EditorState.createEmpty());
     }
-  }, [description]);
+  }, [descriptionInfo]);
 
   useEffect(() => {
     if (postDescriptionInfoError) {
@@ -71,11 +75,11 @@ const DescriptionPage = ({
   }, [postDescriptionInfoError, postDescriptionInfoSuccess]);
 
   const htmlContent = useMemo(() => {
-    if (description) {
-      return draftToHtml(JSON.parse(description));
+    if (descriptionInfo) {
+      return draftToHtml(JSON.parse(descriptionInfo));
     }
-    return "";
-  }, [description]);
+    return `<p style="color: #989393; text-align: center; font-size: 1rem">There is no description.</p>`;
+  }, [descriptionInfo]);
 
   if (descriptionInfoLoading) {
     return <Loader wrapperClass={classes.loadingWrapper} />;

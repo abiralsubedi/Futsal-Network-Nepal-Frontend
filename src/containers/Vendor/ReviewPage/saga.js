@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest, takeEvery } from "redux-saga/effects";
 import request from "utils/request";
 
 import {
@@ -79,7 +79,7 @@ function* removeReview({ payload }) {
       body: JSON.stringify(payload)
     });
     yield put(
-      removeReviewSuccess({ message: "Review Deleted successfully", reviewId })
+      removeReviewSuccess({ message: "Review deleted successfully", reviewId })
     );
   } catch (error) {
     const errorObj = yield error.response.json();
@@ -111,7 +111,7 @@ function* postReview({ payload }) {
 }
 
 export default function* mySaga() {
-  yield takeLatest(GET_REVIEW, getReview);
+  yield takeEvery(GET_REVIEW, getReview);
   yield takeLatest(GET_REVIEW_DETAIL, getReviewDetail);
   yield takeLatest(POST_REVIEW, postReview);
   yield takeLatest(REMOVE_REVIEW, removeReview);

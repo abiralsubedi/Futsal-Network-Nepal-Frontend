@@ -174,7 +174,9 @@ const ReviewPage = ({
       </LazyLoad>
     ));
     if (reviewLoading) {
-      reviewList.push(<Loader wrapperClass={classes.loadingWrapper} />);
+      reviewList.push(
+        <Loader wrapperClass={classes.loadingWrapper} key="loading-last" />
+      );
     }
     return reviewList;
   }, [review, reviewLoading]);

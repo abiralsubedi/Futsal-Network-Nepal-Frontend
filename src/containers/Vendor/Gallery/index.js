@@ -24,6 +24,7 @@ import DragHandleRoundedIcon from "@material-ui/icons/DragHandleRounded";
 import Loader from "components/Loader";
 import Button from "components/Button";
 import ImageHolder from "components/ImageHolder";
+import NoData from "components/NoData";
 
 import getImageUrl from "utils/getImageUrl";
 
@@ -116,17 +117,19 @@ const GalleryPage = ({
     }));
   }, [galleryInfoLoading]);
 
-  const galleryMemo = useMemo(
-    () => (
+  const galleryMemo = useMemo(() => {
+    if (!galleryImagesMemo.length) {
+      return <NoData text="There is no available image." />;
+    }
+    return (
       <Gallery
         images={galleryImagesMemo}
         enableImageSelection={false}
         margin={3}
         backdropClosesModal
       />
-    ),
-    [galleryInfoLoading]
-  );
+    );
+  }, [galleryInfoLoading]);
 
   const addImageMemo = useMemo(
     () => (

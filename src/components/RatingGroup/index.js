@@ -19,7 +19,7 @@ const RatingGroup = ({ reviewDetail, loading }) => {
     return (
       <div className={classes.ratingSkeletonWrapper}>
         <Grid container spacing={3}>
-          <Grid item md={3} sm={4} xs={8}>
+          <Grid item md={3} sm={4} xs={11}>
             <Skeleton
               variant="rect"
               height={118}
@@ -27,7 +27,7 @@ const RatingGroup = ({ reviewDetail, loading }) => {
               classes={{ root: classes.skeletonRoot }}
             />
           </Grid>
-          <Grid item md={5} sm={5} xs={8}>
+          <Grid item md={5} sm={5} xs={11}>
             {[1, 2, 3, 4, 5].map(item => (
               <Skeleton
                 variant="text"
@@ -94,7 +94,7 @@ const RatingGroup = ({ reviewDetail, loading }) => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item md={3} sm={4} xs={8}>
+      <Grid item md={3} sm={4} xs={11}>
         <div className={classes.avgReviewWrapper}>
           <Typography variant="h3" color="textSecondary">
             {vendorReviewMemo.rating}
@@ -113,7 +113,7 @@ const RatingGroup = ({ reviewDetail, loading }) => {
           </div>
         </div>
       </Grid>
-      <Grid item md={5} sm={5} xs={8}>
+      <Grid item md={5} sm={5} xs={11}>
         <div className={classes.multipleRatingWrapper}>{ratingBarMemo}</div>
       </Grid>
     </Grid>

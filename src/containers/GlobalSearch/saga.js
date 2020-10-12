@@ -16,30 +16,34 @@ function* getGlobalSearch({ payload }) {
     oldController = new AbortController();
     const signal = oldController.signal;
 
-    yield call(request, `/profile`, {
-      signal,
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`
+    const response = yield call(
+      request,
+      `/vendor/search?searchText=${payload}`,
+      {
+        signal,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
-    });
-    const response = [
-      {
-        photoUri: "/images/saala-saanp-ko-paal-raha-tha-1596536736441.jpg",
-        name: "KTM Model Futsal",
-        address: "Sinamangal, Kathmandu"
-      },
-      {
-        photoUri: "",
-        name: "Baneswor Recreation Futsal",
-        address: "Baneswor, Kathmandu"
-      },
-      {
-        photoUri: "",
-        name: "Dhuku Futsal",
-        address: "Baluwatar, Kathmandu"
-      }
-    ];
+    );
+    // const response = [
+    //   {
+    //     photoUri: "/images/saala-saanp-ko-paal-raha-tha-1596536736441.jpg",
+    //     fullName: "KTM Model Futsal",
+    //     location: "Sinamangal, Kathmandu"
+    //   },
+    //   {
+    //     photoUri: "",
+    //     fullName: "Baneswor Recreation Futsal",
+    //     location: "Baneswor, Kathmandu"
+    //   },
+    //   {
+    //     photoUri: "",
+    //     fullName: "Dhuku Futsal",
+    //     location: "Baluwatar, Kathmandu"
+    //   }
+    // ];
     yield put(getGlobalSearchSuccess(response));
   } catch (error) {
     if (error.name === "AbortError") {

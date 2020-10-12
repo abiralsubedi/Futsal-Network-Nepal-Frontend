@@ -98,10 +98,10 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
         {(globalSearch || []).map(item => (
           <ListItem
             button
-            key={item.name}
+            key={item._id}
             onClick={() => {
               setGlobalSearchAnchorEl(null);
-              history.push("/profile/basic-information");
+              history.push(`/vendor/${item._id}/site`);
             }}
           >
             <ListItemAvatar>
@@ -116,11 +116,11 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
                 primary: classes.listItemText,
                 secondary: classes.listItemText
               }}
-              primary={item.name}
+              primary={item.fullName}
               secondary={
                 <span className={classes.searchItemSecondary}>
                   <RoomOutlinedIcon fontSize="small" />
-                  <span className={classes.listItemText}>{item.address}</span>
+                  <span className={classes.listItemText}>{item.location}</span>
                 </span>
               }
             />
@@ -138,7 +138,7 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
     if (!globalSearchText) {
       return (
         <NoData
-          text="Please enter a name"
+          text="Please enter a futsal name"
           wrapperClass={classes.globalSearchNoData}
         />
       );
@@ -192,7 +192,7 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
                 root: classes.searchBaseRoot,
                 input: classes.searchInputRoot
               }}
-              placeholder="Search App"
+              placeholder="Search futsal in App"
               id="global-search-field"
               inputProps={{ "aria-label": "Search App" }}
               autoFocus

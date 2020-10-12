@@ -149,7 +149,7 @@ const Header = ({ globalData }) => {
               </div>
             )}
             <div className={classes.profileMenuBar}>
-              <GlobalSearch />
+              {role !== "Vendor" && <GlobalSearch />}
               <ProfileMenu />
             </div>
           </div>

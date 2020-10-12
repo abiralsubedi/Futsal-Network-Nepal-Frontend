@@ -14,13 +14,14 @@ function* getDescriptionInfo({ payload }) {
     const { vendorId } = payload;
     const token = localStorage.getItem("token");
 
-    const response = yield call(request, `/vendor/${vendorId}/info`, {
+    const { description } = yield call(request, `/vendor/${vendorId}/info`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
-    yield put(getDescriptionInfoSuccess(response));
+    console.log(description, "saga");
+    yield put(getDescriptionInfoSuccess(description));
   } catch (error) {
     const errorObj = yield error.response.json();
     yield put(getDescriptionInfoError(errorObj.message));
