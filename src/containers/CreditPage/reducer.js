@@ -18,7 +18,8 @@ export default (
       return {
         ...state,
         creditHistoryLoading: true,
-        creditHistoryError: ""
+        creditHistoryError: "",
+        creditHistory: []
       };
     case GET_CREDIT_HISTORY_SUCCESS:
       return {

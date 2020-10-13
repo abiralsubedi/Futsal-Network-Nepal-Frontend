@@ -132,6 +132,7 @@ const ReviewPage = ({
           <Button
             variant="outlined"
             buttonRootClass={classes.writeReviewButtonRoot}
+            buttonLabelClass={classes.writeReviewButtonLabel}
             onClick={() => setAddReview({})}
           >
             Write a Review

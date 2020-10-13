@@ -25,6 +25,8 @@ const SelectField = ({
       limitTags={3}
       loading={isLoading}
       onChange={(e, option) => handleChange(option)}
+      blurOnSelect
+      disableClearable
       {...rest}
       renderInput={params => (
         <TextField

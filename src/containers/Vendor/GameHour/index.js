@@ -188,7 +188,6 @@ const GameHour = ({
             handleChange={opt => setWeekDay(opt)}
             getOptionSelected={(option, value) => option.name === value.name}
             isLoading={weekDataLoading}
-            disableClearable
             className={classes.gameHourFilter}
           />
         </Grid>

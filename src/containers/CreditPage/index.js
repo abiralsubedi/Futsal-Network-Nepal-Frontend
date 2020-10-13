@@ -164,7 +164,6 @@ const CreditPage = ({
             color="primary"
             fullWidth
             disabled={creditHistoryLoading}
-            actionLoading={creditHistoryLoading}
             onClick={handleHistorySearch}
             buttonRootClass={classes.creditButtonRoot}
             buttonText="Search"

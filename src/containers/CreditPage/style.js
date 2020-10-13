@@ -11,7 +11,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   creditButtonRoot: {
-    maxWidth: "8rem"
+    maxWidth: "8rem",
+    padding: "0.5rem"
   },
   tableContainer: {
     maxHeight: "25.125rem"
