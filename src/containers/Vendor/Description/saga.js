@@ -20,7 +20,6 @@ function* getDescriptionInfo({ payload }) {
         Authorization: `Bearer ${token}`
       }
     });
-    console.log(description, "saga");
     yield put(getDescriptionInfoSuccess(description));
   } catch (error) {
     const errorObj = yield error.response.json();

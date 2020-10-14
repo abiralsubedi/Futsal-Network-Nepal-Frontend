@@ -56,9 +56,6 @@ function* getReviewDetail({ payload }) {
       }
     });
     yield put(getReviewDetailSuccess(response));
-    if (!response.length) {
-      yield put;
-    }
   } catch (error) {
     const errorObj = yield error.response.json();
     yield put(getReviewDetailError(errorObj.message));

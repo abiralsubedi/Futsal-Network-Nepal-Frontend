@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -17,7 +17,7 @@ import useStyles from "./style";
 
 const { REACT_APP_STRIPE_PUBLIC_KEY } = process.env;
 
-const AddCreditModal = ({ globalData, onToggleCreditModal }) => {
+const AddCreditModal = ({ globalData, onToggleCreditModal, topUpAmount }) => {
   const classes = useStyles();
   const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLIC_KEY || "");
 
@@ -25,6 +25,7 @@ const AddCreditModal = ({ globalData, onToggleCreditModal }) => {
 
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState(true);
+  const [notEnoughMessage, setNotEnoughMessage] = useState(false);
   const [isPaymentScreen, setIsPaymentScreen] = useState(false);
 
   useEffect(() => {
@@ -33,13 +34,28 @@ const AddCreditModal = ({ globalData, onToggleCreditModal }) => {
       setAmountError(true);
       setIsPaymentScreen(false);
     }
+    if (addCreditModalActive && topUpAmount) {
+      setAmountError(false);
+      setNotEnoughMessage(true);
+      setAmount(topUpAmount);
+    }
   }, [addCreditModalActive]);
 
   const handleContinue = () => {
-    if (amount >= 5) {
+    if (amount >= 5 && amount <= 30000) {
       setIsPaymentScreen(prev => !prev);
     }
   };
+
+  const errorMessageMemo = useMemo(() => {
+    if (notEnoughMessage) {
+      return "You do not have enough balance. Please top up given amount.";
+    }
+    if (amountError) {
+      return "Amount should be between 5 and 30000";
+    }
+    return "";
+  }, [amountError, notEnoughMessage]);
 
   return (
     <Modal
@@ -63,6 +79,7 @@ const AddCreditModal = ({ globalData, onToggleCreditModal }) => {
               } else {
                 setAmountError(true);
               }
+              setNotEnoughMessage(false);
             }}
             autoFocus
             required
@@ -73,7 +90,7 @@ const AddCreditModal = ({ globalData, onToggleCreditModal }) => {
                 handleContinue();
               }
             }}
-            helperText={amountError && "Amount should be between 5 and 30000"}
+            helperText={errorMessageMemo}
           />
         )}
         {isPaymentScreen && (
@@ -100,7 +117,8 @@ const AddCreditModal = ({ globalData, onToggleCreditModal }) => {
 
 AddCreditModal.propTypes = {
   globalData: PropTypes.object,
-  onToggleCreditModal: PropTypes.func
+  onToggleCreditModal: PropTypes.func,
+  topUpAmount: PropTypes.number
 };
 
 const mapStateToProps = state => ({

@@ -11,6 +11,7 @@ import ArrowRightRoundedIcon from "@material-ui/icons/ArrowRightRounded";
 import Description from "containers/Vendor/Description";
 import Gallery from "containers/Vendor/Gallery";
 import ReviewPage from "containers/Vendor/ReviewPage";
+import BookingPage from "containers/Vendor/BookingPage";
 
 import { Wrapper } from "components/Common";
 import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
@@ -31,6 +32,7 @@ const SitePage = ({ location, history, globalData, match }) => {
   const [vendorChanged, setVendorChanged] = React.useState(false);
 
   const isInitialMount = useRef(true);
+  const isUser = role === "User";
 
   useEffect(() => {
     if (location.pathname.includes("description")) {
@@ -42,14 +44,17 @@ const SitePage = ({ location, history, globalData, match }) => {
     if (location.pathname.includes("review")) {
       setTabIndexValue(2);
     }
+    if (location.pathname.includes("booking")) {
+      setTabIndexValue(3);
+    }
   }, [location.pathname]);
 
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
-      setTimeout(() => setVendorChanged(false), 0);
       setVendorChanged(true);
+      setTimeout(() => setVendorChanged(false), 0);
     }
   }, [vendorId]);
 
@@ -63,6 +68,9 @@ const SitePage = ({ location, history, globalData, match }) => {
 
       case 2:
         return "/site/review";
+
+      case 3:
+        return "/site/booking";
 
       default:
     }
@@ -94,7 +102,16 @@ const SitePage = ({ location, history, globalData, match }) => {
         labelText: "Review",
         labelIcon: <ArrowRightRoundedIcon />,
         content: <ReviewPage />
-      }
+      },
+      ...(isUser
+        ? [
+            {
+              labelText: "Booking",
+              labelIcon: <ArrowRightRoundedIcon />,
+              content: <BookingPage />
+            }
+          ]
+        : [])
     ]
   };
 

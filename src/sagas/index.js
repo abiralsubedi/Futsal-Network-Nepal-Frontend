@@ -19,6 +19,7 @@ import FieldSagas from "containers/Vendor/Fields/saga.js";
 import DescriptionSagas from "containers/Vendor/Description/saga.js";
 import GallerySagas from "containers/Vendor/Gallery/saga.js";
 import ReviewPageSagas from "containers/Vendor/ReviewPage/saga.js";
+import BookingPageSagas from "containers/Vendor/BookingPage/saga.js";
 
 export default function* rootSaga() {
   yield all(
@@ -41,7 +42,8 @@ export default function* rootSaga() {
       FieldSagas,
       DescriptionSagas,
       GallerySagas,
-      ReviewPageSagas
+      ReviewPageSagas,
+      BookingPageSagas
     ].map(fork)
   );
 }

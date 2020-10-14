@@ -6,6 +6,7 @@ import { compose } from "redux";
 
 import { useSnackbar } from "notistack";
 import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 import LazyLoad, { forceCheck } from "react-lazyload";
 import { useBottomScrollListener } from "react-bottom-scroll-listener";
 
@@ -26,7 +27,6 @@ import {
   getReviewDetail
 } from "./actions";
 import useStyles from "./style";
-import { Typography } from "@material-ui/core";
 
 const ReviewPage = ({
   onClearReviewData,

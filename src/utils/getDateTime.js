@@ -7,6 +7,10 @@ const getDateTime = (interactionDate, type) => {
     return format(viewedDate, "MMM d, yyyy");
   }
 
+  if (type === "dashedDate") {
+    return format(viewedDate, "yyyy-MM-dd");
+  }
+
   return viewedDate;
 };
 export default getDateTime;

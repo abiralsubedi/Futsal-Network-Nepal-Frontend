@@ -19,6 +19,7 @@ import FieldReducer from "containers/Vendor/Fields/reducer.js";
 import DescriptionReducer from "containers/Vendor/Description/reducer.js";
 import GalleryReducer from "containers/Vendor/Gallery/reducer.js";
 import ReviewPageReducer from "containers/Vendor/ReviewPage/reducer.js";
+import BookingPageReducer from "containers/Vendor/BookingPage/reducer.js";
 
 export default combineReducers({
   LoginReducer,
@@ -39,5 +40,6 @@ export default combineReducers({
   FieldReducer,
   DescriptionReducer,
   GalleryReducer,
-  ReviewPageReducer
+  ReviewPageReducer,
+  BookingPageReducer
 });
