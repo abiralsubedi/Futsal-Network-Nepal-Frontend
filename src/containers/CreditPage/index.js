@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
-import { format } from "date-fns";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -19,8 +18,11 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Button from "components/Button";
 import NoData from "components/NoData";
 import Loader from "components/Loader";
-import DatePicker from "components/DatePicker";
+import TableDateFilter from "components/TableDateFilter";
 import AddCreditModal from "components/AddCreditModal";
+
+import getDateTime from "utils/getDateTime";
+import getFirstHourDate from "utils/getFirstHourDate";
 
 import { toggleAddCreditModal } from "containers/LoginPage/actions";
 import { getCreditHistory, clearCreditHistory } from "./actions";
@@ -44,30 +46,22 @@ const CreditPage = ({
   const [orderBy, setOrderBy] = useState("transactionDate");
   const [order, setOrder] = useState("desc");
   const [startDate, setStartDate] = useState(
-    new Date(new Date().setMonth(new Date().getMonth() - 3))
+    new Date(new Date().setDate(new Date().getDate() - 14))
   );
   const [endDate, setEndDate] = useState(new Date());
 
   useEffect(() => {
-    onClearCreditHistory();
+    return () => onClearCreditHistory();
   }, []);
 
   useEffect(() => {
     handleHistorySearch();
   }, [credit]);
 
-  const getFirstLastHourDate = (requiredDate, type) => {
-    let updatedDate = new Date(requiredDate);
-    if (type === "last") {
-      updatedDate.setDate(updatedDate.getDate() + 1);
-    }
-    return new Date(format(new Date(updatedDate), "yyyy/MM/dd")).toISOString();
-  };
-
   const handleHistorySearch = () => {
     fetchCreditHistory({
-      startDate: getFirstLastHourDate(startDate),
-      endDate: getFirstLastHourDate(endDate, "last")
+      startDate: getFirstHourDate(startDate),
+      endDate: getFirstHourDate(endDate, 1)
     });
   };
 
@@ -131,45 +125,29 @@ const CreditPage = ({
           />
         </Grid>
       </Grid>
+      <TableDateFilter
+        contentLoading={creditHistoryLoading}
+        dateField={[
+          {
+            label: "Start Date",
+            value: startDate,
+            handleChange: data => setStartDate(data),
+            maxDate: new Date(endDate)
+          },
+          {
+            label: "End Date",
+            value: endDate,
+            handleChange: data => setEndDate(data),
+            disableFuture: true,
+            minDate: new Date(startDate)
+          }
+        ]}
+        handleSearch={handleHistorySearch}
+      />
 
       <Typography className={classes.tableTitle} color="textSecondary">
         Credit History
       </Typography>
-      <Grid container spacing={3} alignItems="center">
-        <Grid item>
-          <div className={classes.dateRange}>
-            <DatePicker
-              label="Start Date"
-              value={startDate}
-              onChange={setStartDate}
-              autoOk
-              disableFuture
-              maxDate={new Date(endDate)}
-            />
-            <Typography className={classes.dateDivider}>to</Typography>
-            <DatePicker
-              label="End Date"
-              value={endDate}
-              onChange={setEndDate}
-              autoOk
-              disableFuture
-              minDate={new Date(startDate)}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            fullWidth
-            disabled={creditHistoryLoading}
-            onClick={handleHistorySearch}
-            buttonRootClass={classes.creditButtonRoot}
-            buttonText="Search"
-          />
-        </Grid>
-      </Grid>
       <TableContainer className={classes.tableContainer}>
         <Table
           className={classes.table}
@@ -217,7 +195,7 @@ const CreditPage = ({
               stableHistorySort().map(row => (
                 <StyledTableRow key={row.transactionDate} hover>
                   <StyledTableCell>
-                    {format(new Date(row.transactionDate), "MMM d, yyyy")}
+                    {getDateTime(row.transactionDate, "onlyDate")}
                   </StyledTableCell>
                   <StyledTableCell>{row.remark}</StyledTableCell>
                   <StyledTableCell align="right">

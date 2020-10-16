@@ -38,7 +38,6 @@ export default (
       return {
         ...state,
         creditHistory: [],
-        creditHistoryLoading: false,
         creditHistoryError: ""
       };
 

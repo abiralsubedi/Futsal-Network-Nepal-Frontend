@@ -114,6 +114,23 @@ const BookingPage = ({
     return onToggleCreditModal(true);
   };
 
+  const gameHourListMemo = useMemo(() => {
+    if (bookingDate.toDateString() !== new Date().toDateString()) {
+      return gameHour;
+    }
+    const updatedHour = [];
+    (gameHour || []).forEach(item => {
+      const bookingTime = new Date().setHours(item.clock.clockNo, 0, 0);
+      const isPassed =
+        Date.parse(new Date()) > Date.parse(new Date(bookingTime));
+
+      if (!isPassed) {
+        updatedHour.push(item);
+      }
+    });
+    return updatedHour;
+  }, [getGameHourLoading]);
+
   return (
     <div className={classes.bookingContent}>
       <AddCreditModal topUpAmount={topUpAmount} />
@@ -143,7 +160,7 @@ const BookingPage = ({
         </Grid>
         <Grid item md={4} sm={6} xs={12}>
           <SelectField
-            options={gameHour}
+            options={gameHourListMemo}
             getOptionLabel={option => option.clock.fullName}
             label="Available Hour"
             value={selectedGameHour}
@@ -151,6 +168,7 @@ const BookingPage = ({
             getOptionSelected={(option, value) => option._id === value._id}
             isLoading={getGameHourLoading}
             disabled={!selectedField}
+            noOptionsText="No game available"
           />
         </Grid>
       </Grid>

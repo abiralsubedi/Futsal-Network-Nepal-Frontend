@@ -43,13 +43,17 @@ const useStyles = makeStyles(theme => ({
   },
   chipOutline: {
     "&.disabled": {
-      color: theme.palette.error.light,
-      borderColor: theme.palette.error.light
+      color: theme.palette.grey[500],
+      borderColor: theme.palette.grey[500]
     },
     fontWeight: 600,
-    borderWidth: '2px',
+    minWidth: "90px",
+    borderWidth: "2px",
     color: theme.palette.success.main,
     borderColor: theme.palette.success.main
+  },
+  tableIcon: {
+    color: theme.palette.text.secondary
   }
 }));
 

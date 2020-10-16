@@ -8,10 +8,12 @@ import Typography from "@material-ui/core/Typography";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
+import SportsSoccerIcon from "@material-ui/icons/SportsSoccer";
 
 import BasicInformation from "containers/BasicInformation";
 import ChangePassword from "containers/ChangePassword";
 import CreditPage from "containers/CreditPage";
+import BookingDetailPage from "containers/User/BookingDetailPage";
 
 import { Wrapper } from "components/Common";
 import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
@@ -47,6 +49,9 @@ const ProfilePage = ({ location, history, globalData, fetchProfileInfo }) => {
     if (location.pathname.includes("credit") && isUser) {
       setTabIndexValue(2);
     }
+    if (location.pathname.includes("booking") && isUser) {
+      setTabIndexValue(3);
+    }
   }, [location.pathname]);
 
   const pushPathname = val => {
@@ -59,6 +64,9 @@ const ProfilePage = ({ location, history, globalData, fetchProfileInfo }) => {
 
       case 2:
         return history.push("/profile/credit");
+
+      case 3:
+        return history.push("/profile/booking");
 
       default:
     }
@@ -88,6 +96,11 @@ const ProfilePage = ({ location, history, globalData, fetchProfileInfo }) => {
               labelText: "Credit",
               labelIcon: <CreditCardIcon />,
               content: <CreditPage />
+            },
+            {
+              labelText: "Booking",
+              labelIcon: <SportsSoccerIcon />,
+              content: <BookingDetailPage />
             }
           ]
         : [])

@@ -90,23 +90,23 @@ const PeopleVendorPage = ({
     handleClick: () => history.push("/people/vendors/add")
   };
 
-  const peopleTableMemo = useMemo(
-    () => (
+  const peopleTableMemo = useMemo(() => {
+    const paginationSize = Math.ceil(searchCount / pageSize);
+    return (
       <PeopleTable
         type="vendor"
         tableHeader={tableHeader}
         tableBody={userList || []}
         tableBodyLoading={userListLoading}
-        pageSize={pageSize}
-        searchCount={searchCount}
+        paginationSize={paginationSize}
         currentPage={currentPage}
         handlePaginationChange={handlePaginationChange}
         actions={actions}
         addButton={addButton}
+        noMultiSelect
       />
-    ),
-    [userListLoading]
-  );
+    );
+  }, [userListLoading]);
 
   return (
     <div className={classes.PeopleVendorPageContent}>

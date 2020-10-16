@@ -127,7 +127,6 @@ const GameHour = ({
   ];
 
   const gameHourTableMemo = useMemo(() => {
-    (gameHour || []).sort((a, b) => a.clock.clockNo - b.clock.clockNo);
     return (
       <PeopleTable
         type="game hour"

@@ -23,10 +23,14 @@ import Pagination from "@material-ui/lab/Pagination";
 import DeleteIcon from "@material-ui/icons/Delete";
 import BlockIcon from "@material-ui/icons/Block";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
+import CancelIcon from "@material-ui/icons/Cancel";
+import PageviewRoundedIcon from "@material-ui/icons/PageviewRounded";
 
 import Button from "components/Button";
 import NoData from "components/NoData";
 import Loader from "components/Loader";
+
+import getDateTime from "utils/getDateTime";
 
 import useStyles from "./style";
 
@@ -34,8 +38,7 @@ const PeopleTable = ({
   tableHeader,
   tableBody,
   tableBodyLoading,
-  pageSize,
-  searchCount,
+  paginationSize,
   currentPage,
   handlePaginationChange,
   actions,
@@ -60,7 +63,6 @@ const PeopleTable = ({
   }, [tableBody]);
 
   const itemsCount = tableBody.length;
-  const paginationSize = Math.ceil(searchCount / pageSize);
   const selectedRowCount = selectedRow.length;
 
   const handleRowBoxClick = (event, rowData) => {
@@ -85,10 +87,20 @@ const PeopleTable = ({
     if (type === "Disable") {
       return <BlockIcon />;
     }
+    if (type === "Cancel") {
+      return <CancelIcon />;
+    }
+    if (type === "View") {
+      return <PageviewRoundedIcon className={classes.tableIcon} />;
+    }
   };
 
   const getAction = (actionItem, rowItem) => {
-    const { type, handleClick } = actionItem;
+    const { type, handleClick, check } = actionItem;
+
+    if (rowItem[check]) {
+      return null;
+    }
 
     return (
       <Tooltip title={type} key={rowItem._id}>
@@ -108,14 +120,20 @@ const PeopleTable = ({
       </Tooltip>
     ));
 
-  const getChipContent = disabled => (
-    <Chip
-      variant="outlined"
-      label={disabled ? "Inactive" : "Active"}
-      classes={{ outlined: classes.chipOutline }}
-      className={disabled ? "disabled" : ""}
-    />
-  );
+  const getChipContent = (disabled, label) => {
+    let updatedLabel = label;
+    if (!label) {
+      updatedLabel = disabled ? "Inactive" : "Active";
+    }
+    return (
+      <Chip
+        variant="outlined"
+        label={updatedLabel}
+        classes={{ outlined: classes.chipOutline }}
+        className={disabled ? "disabled" : ""}
+      />
+    );
+  };
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
@@ -142,34 +160,38 @@ const PeopleTable = ({
 
   return (
     <>
-      <Toolbar
-        className={`${classes.tableToolbar} ${selectedRowCount && "highlight"}`}
-      >
-        {!!selectedRowCount && (
-          <>
-            <Typography
-              className={classes.tableTitle}
-              variant="h6"
-              id="tableTitle"
-              component="div"
-              color="textSecondary"
-            >
-              {selectedRowCount} selected
-            </Typography>
-            {getSelectedAction()}
-          </>
-        )}
-        {!selectedRowCount && (
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            buttonRootClass={classes.peopleAddButton}
-            buttonText={addButton.label}
-            onClick={addButton.handleClick}
-          />
-        )}
-      </Toolbar>
+      {addButton && (
+        <Toolbar
+          className={`${classes.tableToolbar} ${
+            selectedRowCount && "highlight"
+          }`}
+        >
+          {!!selectedRowCount && (
+            <>
+              <Typography
+                className={classes.tableTitle}
+                variant="h6"
+                id="tableTitle"
+                component="div"
+                color="textSecondary"
+              >
+                {selectedRowCount} selected
+              </Typography>
+              {getSelectedAction()}
+            </>
+          )}
+          {!selectedRowCount && (
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              buttonRootClass={classes.peopleAddButton}
+              buttonText={addButton.label}
+              onClick={addButton.handleClick}
+            />
+          )}
+        </Toolbar>
+      )}
       <TableContainer className={classes.tableContainer}>
         <Table
           className={classes.table}
@@ -246,14 +268,17 @@ const PeopleTable = ({
                     if (col.type === "Bool") {
                       return (
                         <StyledTableCell key={col.key} align={col.align}>
-                          {getChipContent(row[col.key])}
+                          {getChipContent(row[col.key], row[col.status])}
                         </StyledTableCell>
                       );
                     }
-                    const [first, second] = col.key.split(".");
-                    let colValue = row[first];
-                    if (second) {
-                      colValue = row[first][second];
+                    const keyArray = col.key.split(".");
+                    let colValue = row;
+                    (keyArray || []).forEach(keyItem => {
+                      colValue = colValue[keyItem];
+                    });
+                    if (col.type === "Date") {
+                      colValue = getDateTime(colValue, "onlyDate");
                     }
                     return (
                       <StyledTableCell key={col.key} align={col.align}>
@@ -297,8 +322,7 @@ PeopleTable.propTypes = {
   tableHeader: PropTypes.instanceOf(Array),
   tableBody: PropTypes.instanceOf(Array),
   tableBodyLoading: PropTypes.bool,
-  pageSize: PropTypes.number,
-  searchCount: PropTypes.number,
+  paginationSize: PropTypes.number,
   currentPage: PropTypes.number,
   handlePaginationChange: PropTypes.func,
   actions: PropTypes.instanceOf(Array),

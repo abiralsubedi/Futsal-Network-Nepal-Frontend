@@ -25,17 +25,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1.125rem"
   },
   tableTitle: {
-    fontSize: "1.375rem",
-    marginTop: "1.5rem"
-  },
-  dateRange: {
-    display: "flex",
-    alignItems: "center",
-    marginTop: "0.25rem"
-  },
-  dateDivider: {
-    margin: "0 1rem",
-    fontWeight: "600"
+    fontSize: "1.375rem"
   },
   loadingWrapper: {
     height: "12rem"
