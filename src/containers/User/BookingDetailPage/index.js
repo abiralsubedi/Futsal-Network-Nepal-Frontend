@@ -156,7 +156,7 @@ const FieldsPage = ({
             minDate: new Date(startDate)
           }
         ]}
-        handleSearch={() => handleBookingSearch({})}
+        handleSearch={() => handleBookingSearch({ pageNum: 1 })}
       />
       {bookingDetailTableMemo}
     </div>

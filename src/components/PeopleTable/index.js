@@ -91,7 +91,7 @@ const PeopleTable = ({
       return <CancelIcon />;
     }
     if (type === "View") {
-      return <PageviewRoundedIcon className={classes.tableIcon} />;
+      return <PageviewRoundedIcon />;
     }
   };
 
@@ -103,8 +103,12 @@ const PeopleTable = ({
     }
 
     return (
-      <Tooltip title={type} key={rowItem._id}>
-        <IconButton aria-label={type} onClick={() => handleClick(rowItem)}>
+      <Tooltip title={type} key={type}>
+        <IconButton
+          aria-label={type}
+          onClick={() => handleClick(rowItem)}
+          className={classes.tableIcon}
+        >
           {getActionIcon(type)}
         </IconButton>
       </Tooltip>
@@ -246,10 +250,10 @@ const PeopleTable = ({
             )}
             {(tableBody || []).map(row => {
               const isSelected = isRowSelected(row._id);
-              const userId = row._id;
+              const rowId = row._id;
               return (
                 <TableRow
-                  key={userId}
+                  key={rowId}
                   hover
                   selected={isSelected}
                   classes={{ selected: classes.selectedRow }}

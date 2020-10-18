@@ -53,7 +53,9 @@ const useStyles = makeStyles(theme => ({
     borderColor: theme.palette.success.main
   },
   tableIcon: {
-    color: theme.palette.text.secondary
+    "& svg": {
+      color: theme.palette.text.secondary
+    }
   }
 }));
 
