@@ -10,9 +10,9 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import SportsSoccerIcon from "@material-ui/icons/SportsSoccer";
 
-import BasicInformation from "containers/BasicInformation";
-import ChangePassword from "containers/ChangePassword";
-import CreditPage from "containers/CreditPage";
+import BasicInformation from "containers/Common/BasicInformation";
+import ChangePassword from "containers/Common/ChangePassword";
+import CreditPage from "containers/User/CreditPage";
 import BookingDetailPage from "containers/User/BookingDetailPage";
 
 import { Wrapper } from "components/Common";

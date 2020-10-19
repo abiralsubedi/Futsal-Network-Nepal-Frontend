@@ -6,7 +6,7 @@ import { compose } from "redux";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
-import PaymentForm from "containers/PaymentForm";
+import PaymentForm from "containers/User/PaymentForm";
 import Modal from "components/Modal";
 import Button from "components/Button";
 import TextField from "components/TextField";

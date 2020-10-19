@@ -10,7 +10,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 
-import ImageField from "containers/ImageField";
+import ImageField from "containers/Common/ImageField";
 import TextField from "components/TextField";
 import Button from "components/Button";
 import Modal from "components/Modal";

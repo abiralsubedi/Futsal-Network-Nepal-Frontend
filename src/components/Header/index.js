@@ -12,7 +12,7 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 
 import MenuIcon from "@material-ui/icons/Menu";
 
-import GlobalSearch from "containers/GlobalSearch";
+import GlobalSearch from "containers/Common/GlobalSearch";
 import ProfileMenu from "components/ProfileMenu";
 
 import { ThemeContext } from "context/themeContext";
