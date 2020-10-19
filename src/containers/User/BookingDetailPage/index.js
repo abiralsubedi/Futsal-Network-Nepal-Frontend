@@ -5,8 +5,11 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 import { useSnackbar } from "notistack";
 
+import Typography from "@material-ui/core/Typography";
+
 import PeopleTable from "components/PeopleTable";
 import TableDateFilter from "components/TableDateFilter";
+import ConfirmationModal from "components/ConfirmationModal";
 
 import getDateTime from "utils/getDateTime";
 import getFirstHourDate from "utils/getFirstHourDate";
@@ -39,6 +42,7 @@ const FieldsPage = ({
 
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteBookingData, setDeleteBookingData] = useState(false);
+  const [viewBookingInfo, setViewBookingInfo] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(
     new Date(new Date().setDate(new Date().getDate() + 7))
@@ -57,6 +61,7 @@ const FieldsPage = ({
         onClose: () => onClearPostData()
       });
       handleBookingSearch({});
+      setDeleteBookingData(false);
     }
   }, [removeBookingError, removeBookingSuccess]);
 
@@ -99,7 +104,7 @@ const FieldsPage = ({
     },
     {
       type: "View",
-      handleClick: item => setDeleteBookingData(item)
+      handleClick: item => setViewBookingInfo(item)
     }
   ];
 
@@ -138,6 +143,22 @@ const FieldsPage = ({
     );
   }, [getBookingDetailLoading]);
 
+  const getConfirmationText = () => {
+    if (!deleteBookingData) {
+      return "";
+    }
+    return (
+      <Typography>
+        You are about to cancel game in {deleteBookingData.vendor.fullName} at{" "}
+        {deleteBookingData.workingHour.clock.fullName} on{" "}
+        {getDateTime(deleteBookingData.bookingDate, "onlyDate")}.
+        <br />
+        You will be refunded ${deleteBookingData.workingHour.price} as futsal
+        credit.
+      </Typography>
+    );
+  };
+
   return (
     <div className={classes.GameHourContent}>
       <TableDateFilter
@@ -159,6 +180,17 @@ const FieldsPage = ({
         handleSearch={() => handleBookingSearch({ pageNum: 1 })}
       />
       {bookingDetailTableMemo}
+      <ConfirmationModal
+        open={!!deleteBookingData}
+        handleClose={() => setDeleteBookingData(false)}
+        title="Cancel Booking"
+        confirmationBody={getConfirmationText()}
+        handleConfirm={() =>
+          onRemoveBooking({ bookingId: deleteBookingData._id })
+        }
+        transitionDuration={{ exit: 0 }}
+        loading={removeBookingLoading}
+      />
     </div>
   );
 };

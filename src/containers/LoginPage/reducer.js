@@ -86,7 +86,7 @@ export default (state = initialState, action) => {
         addCreditModalActive: false,
         profile: {
           ...state.profile,
-          credit: state.profile.credit + action.amount
+          credit: Math.round((state.profile.credit + action.amount) * 100) / 100
         }
       };
 

@@ -1,6 +1,8 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import request from "utils/request";
 
+import { updateCreditAmount } from "containers/LoginPage/actions";
+
 import { GET_BOOKING_DETAIL, REMOVE_BOOKING } from "./constants";
 import {
   getBookingDetailSuccess,
@@ -13,9 +15,9 @@ function* getBookingDetail({ payload }) {
   try {
     const { vendorId, query } = payload;
     const token = localStorage.getItem("token");
-    let reqAPI = `/vendor/booking-detail`;
+    let reqAPI = `/booking`;
     if (vendorId) {
-      reqAPI = `/vendor/${vendorId}/booking-detail`;
+      reqAPI = `/vendor/${vendorId}/booking`;
     }
 
     const response = yield call(request, `${reqAPI}?${query}`, {
@@ -33,18 +35,18 @@ function* getBookingDetail({ payload }) {
 
 function* removeBooking({ payload }) {
   try {
-    const { vendorId, fieldId } = payload;
+    const { bookingId } = payload;
     const token = localStorage.getItem("token");
 
-    yield call(request, `/vendor/${vendorId}/field`, {
-      method: fieldId ? "PUT" : "POST",
+    const { amount } = yield call(request, `/booking/${bookingId}`, {
+      method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
+      }
     });
-    const response = `Field ${fieldId ? "updated" : "created"} successfully.`;
+    yield put(updateCreditAmount(amount));
+    const response = `Booking cancelled successfully.`;
     yield put(removeBookingSuccess(response));
   } catch (error) {
     const errorObj = yield error.response.json();

@@ -131,6 +131,15 @@ const BookingPage = ({
     return updatedHour;
   }, [getGameHourLoading]);
 
+  const getConfirmationText = () => {
+    if (!bookingDetail) {
+      return "";
+    }
+    return `You are about to book game at ${
+      bookingDetail && bookingDetail.clock.fullName
+    } on ${getDateTime(bookingDate, "onlyDate")} for $${bookingDetail.price}`;
+  };
+
   return (
     <div className={classes.bookingContent}>
       <AddCreditModal topUpAmount={topUpAmount} />
@@ -191,11 +200,7 @@ const BookingPage = ({
         open={!!bookingDetail}
         handleClose={() => setBookingDetail(false)}
         title="Confirm Booking"
-        confirmationText={`You are about to book game at ${
-          bookingDetail && bookingDetail.clock.fullName
-        } on ${getDateTime(bookingDate, "onlyDate")} for $${
-          bookingDetail.price
-        }`}
+        confirmationText={getConfirmationText()}
         handleConfirm={() =>
           saveBooking({
             vendorId,

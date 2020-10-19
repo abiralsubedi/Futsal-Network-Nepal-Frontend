@@ -21,7 +21,13 @@ const ConfirmationModal = ({
   const classes = useStyles();
 
   return (
-    <Modal open={open} handleClose={handleClose} title={title} {...rest}>
+    <Modal
+      open={open}
+      handleClose={handleClose}
+      title={title}
+      contentWrapperClass={classes.confirmationModalContent}
+      {...rest}
+    >
       <Typography variant="body1">{confirmationText}</Typography>
       {confirmationBody}
       <div className={classes.confirmationAction}>

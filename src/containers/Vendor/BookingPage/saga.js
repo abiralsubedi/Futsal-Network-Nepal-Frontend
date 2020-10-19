@@ -59,10 +59,9 @@ function* getGameHour({ payload }) {
 
 function* postBooking({ payload }) {
   try {
-    const { vendorId } = payload;
     const token = localStorage.getItem("token");
 
-    const { amount } = yield call(request, `/vendor/${vendorId}/book-game`, {
+    const { amount } = yield call(request, `/booking`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

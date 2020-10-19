@@ -8,7 +8,13 @@ const useStyles = makeStyles(theme => ({
   },
   confirmationButtonRoot: {
     maxWidth: "8rem",
-    padding: "8px 16px"
+    padding: "8px 16px",
+    marginTop: "3rem"
+  },
+  confirmationModalContent: {
+    "& p": {
+      lineHeight: 2
+    }
   }
 }));
 
