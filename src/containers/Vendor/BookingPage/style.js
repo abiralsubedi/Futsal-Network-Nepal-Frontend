@@ -5,8 +5,13 @@ const useStyles = makeStyles(theme => ({
     height: "10rem"
   },
   bookingButtonRoot: {
-    marginTop: "2.5rem",
+    marginTop: "2rem",
     maxWidth: "8rem"
+  },
+  warningText: {
+    color: theme.palette.warning.main,
+    fontWeight: 600,
+    marginTop: "0.25rem"
   }
 }));
 

@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import PeopleTable from "components/PeopleTable";
 import TableDateFilter from "components/TableDateFilter";
 import ConfirmationModal from "components/ConfirmationModal";
+import BookingDetailModal from "components/BookingDetailModal";
 
 import getDateTime from "utils/getDateTime";
 import getFirstHourDate from "utils/getFirstHourDate";
@@ -38,7 +39,7 @@ const FieldsPage = ({
 
   const pageSize = 8;
   const isVendor = profile.role === "Vendor";
-  const vendorId = match.params.vendorId || isVendor ? profile._id : "";
+  const vendorId = match.params.vendorId || (isVendor ? profile._id : "");
 
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteBookingData, setDeleteBookingData] = useState(false);
@@ -90,7 +91,7 @@ const FieldsPage = ({
   };
 
   const tableHeader = [
-    { label: "Futsal", key: "vendor.fullName" },
+    ...(isVendor ? [] : [{ label: "Futsal", key: "vendor.fullName" }]),
     { label: "Booking Date", key: "bookingDate", type: "Date" },
     { label: "Time", key: "workingHour.clock.fullName" },
     { label: "Status", key: "inactive", type: "Bool", status: "status" }
@@ -100,7 +101,7 @@ const FieldsPage = ({
     {
       type: "Cancel",
       handleClick: item => setDeleteBookingData(item),
-      check: "inactive"
+      check: "disableCancel"
     },
     {
       type: "View",
@@ -111,22 +112,30 @@ const FieldsPage = ({
   const bookingDetailTableMemo = useMemo(() => {
     const paginationSize = Math.ceil(searchCount / pageSize);
     const updatedBookingDetail = (bookingDetailItems || []).map(item => {
-      const bookingTime = new Date(
-        new Date(item.bookingDate).setHours(
-          item.workingHour.clock.clockNo,
-          0,
-          0
-        )
-      );
-      const isPassed = Date.parse(new Date()) > Date.parse(bookingTime);
       let status = "Active";
+      let disableCancel = false;
       if (item.cancelled) {
         status = "Cancelled";
-      } else if (isPassed) {
-        status = "Completed";
+        disableCancel = true;
+      } else {
+        const bookingTime = new Date(
+          new Date(item.bookingDate).setHours(
+            item.workingHour.clock.clockNo,
+            0,
+            0
+          )
+        );
+        if (new Date() > bookingTime) {
+          status = "Completed";
+          disableCancel = true;
+        } else {
+          const updatedBookingTime = bookingTime.setHours(
+            bookingTime.getHours() - 2
+          );
+          disableCancel = new Date() > new Date(updatedBookingTime);
+        }
       }
-
-      return { ...item, status, inactive: status !== "Active" };
+      return { ...item, status, inactive: status !== "Active", disableCancel };
     });
     return (
       <PeopleTable
@@ -190,6 +199,11 @@ const FieldsPage = ({
         }
         transitionDuration={{ exit: 0 }}
         loading={removeBookingLoading}
+      />
+      <BookingDetailModal
+        open={!!viewBookingInfo}
+        handleClose={() => setViewBookingInfo(false)}
+        bookingDetail={viewBookingInfo}
       />
     </div>
   );

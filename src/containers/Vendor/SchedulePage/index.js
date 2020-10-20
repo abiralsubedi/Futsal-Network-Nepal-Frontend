@@ -10,6 +10,7 @@ import ArrowRightRoundedIcon from "@material-ui/icons/ArrowRightRounded";
 
 import GameHour from "containers/Vendor/GameHour";
 import Fields from "containers/Vendor/Fields";
+import BookingDetailPage from "containers/User/BookingDetailPage";
 
 import { Wrapper } from "components/Common";
 import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
@@ -38,6 +39,9 @@ const SchedulePage = ({ location, history, globalData, match }) => {
     if (location.pathname.includes("fields")) {
       setTabIndexValue(1);
     }
+    if (location.pathname.includes("booking-detail")) {
+      setTabIndexValue(2);
+    }
   }, [location.pathname]);
 
   useEffect(() => {
@@ -56,6 +60,9 @@ const SchedulePage = ({ location, history, globalData, match }) => {
 
       case 1:
         return "/schedule/fields";
+
+      case 2:
+        return "/schedule/booking-detail";
 
       default:
     }
@@ -82,6 +89,11 @@ const SchedulePage = ({ location, history, globalData, match }) => {
         labelText: "Fields",
         labelIcon: <ArrowRightRoundedIcon />,
         content: <Fields />
+      },
+      {
+        labelText: "Booking",
+        labelIcon: <ArrowRightRoundedIcon />,
+        content: <BookingDetailPage />
       }
     ]
   };

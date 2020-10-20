@@ -185,6 +185,9 @@ const BookingPage = ({
         <Typography variant="h6" color="textSecondary">
           Price($): {selectedGameHour ? selectedGameHour.price : "--"}
         </Typography>
+        <Typography variant="body2" className={classes.warningText}>
+          Note: Booking can be cancelled only before 2 hours of start time.
+        </Typography>
       </Box>
       <Button
         variant="contained"

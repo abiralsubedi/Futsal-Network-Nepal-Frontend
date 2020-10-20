@@ -49,7 +49,7 @@ const ProfilePage = ({ location, history, globalData, fetchProfileInfo }) => {
     if (location.pathname.includes("credit") && isUser) {
       setTabIndexValue(2);
     }
-    if (location.pathname.includes("booking") && isUser) {
+    if (location.pathname.includes("booking-detail") && isUser) {
       setTabIndexValue(3);
     }
   }, [location.pathname]);
@@ -66,7 +66,7 @@ const ProfilePage = ({ location, history, globalData, fetchProfileInfo }) => {
         return history.push("/profile/credit");
 
       case 3:
-        return history.push("/profile/booking");
+        return history.push("/profile/booking-detail");
 
       default:
     }
