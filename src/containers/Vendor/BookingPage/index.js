@@ -186,7 +186,9 @@ const BookingPage = ({
           Price($): {selectedGameHour ? selectedGameHour.price : "--"}
         </Typography>
         <Typography variant="body2" className={classes.warningText}>
-          Note: Booking can be cancelled only before 2 hours of start time.
+          Note: On booking cancellation, you will be refunded with in-app futsal
+          credit.
+          <br /> Booking can be cancelled only up to 2 hours of start time.
         </Typography>
       </Box>
       <Button

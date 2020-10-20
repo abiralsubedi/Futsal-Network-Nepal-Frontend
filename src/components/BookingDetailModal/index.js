@@ -10,10 +10,11 @@ import getDateTime from "utils/getDateTime";
 
 import useStyles from "./style";
 
-const AddFieldModal = ({ open, handleClose, bookingDetail }) => {
+const AddFieldModal = ({ open, handleClose, bookingDetail, role }) => {
   const classes = useStyles();
 
-  const contentKey = [{ label: "Futsal Name", key: "vendor.f" }];
+  const isUser = role === "User";
+  const isVendor = role === "Vendor";
 
   const getContent = () => {
     if (!bookingDetail) {
@@ -22,8 +23,17 @@ const AddFieldModal = ({ open, handleClose, bookingDetail }) => {
     return (
       <>
         <Typography>
-          Futsal Name: {bookingDetail.vendor.fullName}
-          <br />
+          {!isVendor && (
+            <>
+              Futsal Name: {bookingDetail.vendor.fullName}
+              <br />
+            </>
+          )}
+          {!isUser && (
+            <>
+              Booked by: {bookingDetail.user.fullName} <br />
+            </>
+          )}
           Booking Date: {getDateTime(bookingDetail.bookingDate, "onlyDate")}
           <br />
           Time: {bookingDetail.workingHour.clock.fullName}
@@ -63,7 +73,8 @@ const AddFieldModal = ({ open, handleClose, bookingDetail }) => {
 AddFieldModal.propTypes = {
   open: PropTypes.bool,
   handleClose: PropTypes.func,
-  addFieldData: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
+  addFieldData: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  role: PropTypes.string
 };
 
 export default AddFieldModal;

@@ -39,6 +39,7 @@ const FieldsPage = ({
 
   const pageSize = 8;
   const isVendor = profile.role === "Vendor";
+  const isUser = profile.role === "User";
   const vendorId = match.params.vendorId || (isVendor ? profile._id : "");
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -91,7 +92,9 @@ const FieldsPage = ({
   };
 
   const tableHeader = [
-    ...(isVendor ? [] : [{ label: "Futsal", key: "vendor.fullName" }]),
+    ...(isVendor
+      ? [{ label: "User", key: "user.fullName" }]
+      : [{ label: "Futsal", key: "vendor.fullName" }]),
     { label: "Booking Date", key: "bookingDate", type: "Date" },
     { label: "Time", key: "workingHour.clock.fullName" },
     { label: "Status", key: "inactive", type: "Bool", status: "status" }
@@ -160,10 +163,11 @@ const FieldsPage = ({
       <Typography>
         You are about to cancel game in {deleteBookingData.vendor.fullName} at{" "}
         {deleteBookingData.workingHour.clock.fullName} on{" "}
-        {getDateTime(deleteBookingData.bookingDate, "onlyDate")}.
+        {getDateTime(deleteBookingData.bookingDate, "onlyDate")}
+        {!isUser && ` for ${deleteBookingData.user.fullName}`}.
         <br />
-        You will be refunded ${deleteBookingData.workingHour.price} as futsal
-        credit.
+        {isUser ? "You" : "The user"} will be refunded $
+        {deleteBookingData.workingHour.price} as futsal credit.
       </Typography>
     );
   };
@@ -204,6 +208,7 @@ const FieldsPage = ({
         open={!!viewBookingInfo}
         handleClose={() => setViewBookingInfo(false)}
         bookingDetail={viewBookingInfo}
+        role={profile.role}
       />
     </div>
   );
