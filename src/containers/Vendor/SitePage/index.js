@@ -12,6 +12,7 @@ import Description from "containers/Vendor/Description";
 import Gallery from "containers/Vendor/Gallery";
 import ReviewPage from "containers/Vendor/ReviewPage";
 import BookingPage from "containers/Vendor/BookingPage";
+import MapPage from "containers/Vendor/MapPage";
 
 import { Wrapper } from "components/Common";
 import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
@@ -44,8 +45,11 @@ const SitePage = ({ location, history, globalData, match }) => {
     if (location.pathname.includes("review")) {
       setTabIndexValue(2);
     }
-    if (location.pathname.includes("booking")) {
+    if (location.pathname.includes("map")) {
       setTabIndexValue(3);
+    }
+    if (location.pathname.includes("booking")) {
+      setTabIndexValue(4);
     }
   }, [location.pathname]);
 
@@ -70,6 +74,9 @@ const SitePage = ({ location, history, globalData, match }) => {
         return "/site/review";
 
       case 3:
+        return "/site/map";
+
+      case 4:
         return "/site/booking";
 
       default:
@@ -102,6 +109,11 @@ const SitePage = ({ location, history, globalData, match }) => {
         labelText: "Review",
         labelIcon: <ArrowRightRoundedIcon />,
         content: <ReviewPage />
+      },
+      {
+        labelText: "Map",
+        labelIcon: <ArrowRightRoundedIcon />,
+        content: <MapPage />
       },
       ...(isUser
         ? [
