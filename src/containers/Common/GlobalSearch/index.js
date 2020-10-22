@@ -120,7 +120,9 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
               secondary={
                 <span className={classes.searchItemSecondary}>
                   <RoomOutlinedIcon fontSize="small" />
-                  <span className={classes.listItemText}>{item.location}</span>
+                  <span className={classes.listItemText}>
+                    {item.location.place}
+                  </span>
                 </span>
               }
             />

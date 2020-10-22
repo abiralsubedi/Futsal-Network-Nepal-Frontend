@@ -13,6 +13,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 
+import EditIcon from "@material-ui/icons/Edit";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
@@ -23,6 +24,7 @@ import SelectField from "components/SelectField";
 import Button from "components/Button";
 import Loader from "components/Loader";
 import ImageHolder from "components/ImageHolder";
+import ChangeLocationModal from "components/ChangeLocationModal";
 
 import checkValidEmail from "utils/checkValidEmail";
 
@@ -62,7 +64,7 @@ const AddVendor = ({
   const [userInfo, setUserInfo] = useState(() => ({
     fullName: "",
     username: "",
-    location: "",
+    location: { place: "" },
     emailAddress: "",
     credit: 0,
     userPhoto: "",
@@ -75,6 +77,7 @@ const AddVendor = ({
   const [endPeriod, setEndPeriod] = useState(null);
   const [price, setPrice] = useState(1);
   const [fields, setFields] = useState([{ name: "" }]);
+  const [changeLocation, setChangeLocation] = useState(false);
 
   const updateUserInfo = (key, value) => {
     setUserInfo({ ...userInfo, [key]: value });
@@ -332,9 +335,20 @@ const AddVendor = ({
             <TextField
               id="location"
               label="Location"
-              value={location}
-              handleChange={val => updateUserInfo("location", val)}
+              value={location.place}
               fullWidth
+              required
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setChangeLocation(true)}
+                    edge="end"
+                  >
+                    <EditIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              }
             />
           </Grid>
           <Grid item lg={5} md={6} xs={12}>
@@ -419,6 +433,12 @@ const AddVendor = ({
           buttonText="Save Changes"
         />
       </form>
+      <ChangeLocationModal
+        open={changeLocation}
+        handleClose={() => setChangeLocation(false)}
+        currentPlace={location}
+        handleConfirm={newLocation => updateUserInfo("location", newLocation)}
+      />
       <div className="custom-image-viewer single">
         {viewPhotoUrl && (
           <ImageViewer

@@ -82,3 +82,7 @@ html ::-webkit-scrollbar-corner {
 .rdw-link-modal {
   color: #212121;
 }
+
+.pac-container {
+  z-index: 1301 !important;
+}

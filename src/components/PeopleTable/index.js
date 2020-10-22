@@ -286,7 +286,7 @@ const PeopleTable = ({
                     }
                     return (
                       <StyledTableCell key={col.key} align={col.align}>
-                        {colValue}
+                        {colValue || "N/A"}
                       </StyledTableCell>
                     );
                   })}

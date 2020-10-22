@@ -1,9 +1,8 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
-  informationButtonRoot: {
-    marginTop: "2.5rem",
-    maxWidth: "12rem"
+  changeLocationField: {
+    margin: "2rem 0 1rem 0"
   }
 }));
 

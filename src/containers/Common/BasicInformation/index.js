@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import { useSnackbar } from "notistack";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
@@ -13,9 +12,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import ImageField from "containers/Common/ImageField";
 import TextField from "components/TextField";
 import Button from "components/Button";
-import Modal from "components/Modal";
-
-import checkValidEmail from "utils/checkValidEmail";
+import ChangeEmailModal from "components/ChangeEmailModal";
+import ChangeLocationModal from "components/ChangeLocationModal";
 
 import { postProfileInfo, clearMessage, postChangeEmail } from "./actions";
 import useStyles from "./style";
@@ -40,13 +38,15 @@ const ProfilePage = ({
   } = basicInformationData;
 
   const { profile, isLoading } = globalData;
+  const isVendor = profile.role === "Vendor";
 
   const [fullName, setFullName] = useState(profile.fullName);
   const [username, setUsername] = useState(profile.username);
   const [location, setLocation] = useState(profile.location);
+  const [phone, setPhone] = useState(profile.phone);
   const [emailAddress, setEmailAddress] = useState(profile.emailAddress);
   const [changeEmailActive, setChangeEmailActive] = useState(false);
-  const [newEmail, setNewEmail] = useState("");
+  const [changeLocation, setChangeLocation] = useState(false);
 
   useEffect(() => {
     if (!isLoading) {
@@ -54,6 +54,7 @@ const ProfilePage = ({
       setUsername(profile.username);
       setLocation(profile.location);
       setEmailAddress(profile.emailAddress);
+      setPhone(profile.phone);
     }
   }, [isLoading]);
 
@@ -82,7 +83,6 @@ const ProfilePage = ({
         onClose: () => onClearInformationMessage()
       });
       setChangeEmailActive(false);
-      setNewEmail("");
     }
   }, [
     postProfileError,
@@ -91,22 +91,12 @@ const ProfilePage = ({
     postChangeEmailSuccess
   ]);
 
-  const onSubmitChangeEmail = () => {
-    if (!checkValidEmail(newEmail)) {
-      return enqueueSnackbar("Email is invalid", {
-        variant: "error",
-        onClose: () => onClearInformationMessage()
-      });
-    }
-    saveChangeEmail({ newEmail });
-  };
-
   return (
     <div className={classes.basicInformationContent}>
       <form
         onSubmit={e => {
           e.preventDefault();
-          saveProfileInfo({ username, fullName, location });
+          saveProfileInfo({ username, fullName, location, phone });
         }}
       >
         <ImageField photoUri={profile.photoUri} />
@@ -134,14 +124,37 @@ const ProfilePage = ({
           </Grid>
           <Grid item lg={5} md={6} xs={12}>
             <TextField
-              id="location"
-              label="Location"
-              value={location}
-              handleChange={val => setLocation(val)}
+              id="phone"
+              label="Phone"
+              value={phone}
+              handleChange={val => setPhone(val)}
               required
               fullWidth
             />
           </Grid>
+          {isVendor && (
+            <Grid item lg={5} md={6} xs={12}>
+              <TextField
+                id="location"
+                label="Location"
+                value={location.place}
+                required
+                disabled
+                fullWidth
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setChangeLocation(true)}
+                      edge="end"
+                    >
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </Grid>
+          )}
           <Grid item lg={5} md={6} xs={12}>
             <TextField
               id="email"
@@ -159,7 +172,7 @@ const ProfilePage = ({
                       onClick={() => setChangeEmailActive(true)}
                       edge="end"
                     >
-                      <EditIcon />
+                      <EditIcon fontSize="small" />
                     </IconButton>
                   </InputAdornment>
                 )
@@ -179,44 +192,19 @@ const ProfilePage = ({
           buttonText="Save Changes"
         />
       </form>
-      <Modal
+
+      <ChangeEmailModal
         open={changeEmailActive}
         handleClose={() => setChangeEmailActive(false)}
-        title="Change your Email Address"
-      >
-        <Typography>
-          Please fill your new email address and you will receive confirmation
-          email.
-        </Typography>
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            onSubmitChangeEmail();
-          }}
-        >
-          <TextField
-            id="forgot-email"
-            label="New Email"
-            type="email"
-            value={newEmail}
-            handleChange={val => setNewEmail(val)}
-            autoFocus
-            required
-            fullWidth
-            customClasses={classes.changeEmailField}
-          />
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            type="submit"
-            fullWidth
-            disabled={postChangeEmailLoading}
-            actionLoading={postChangeEmailLoading}
-            buttonText="Confirm"
-          />
-        </form>
-      </Modal>
+        loading={postChangeEmailLoading}
+        handleConfirm={newEmail => saveChangeEmail({ newEmail })}
+      />
+      <ChangeLocationModal
+        open={changeLocation}
+        handleClose={() => setChangeLocation(false)}
+        currentPlace={location}
+        handleConfirm={newLocation => setLocation(newLocation)}
+      />
     </div>
   );
 };

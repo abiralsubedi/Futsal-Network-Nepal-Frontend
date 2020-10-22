@@ -30,7 +30,7 @@ const RegisterPage = ({
 
   const [fullName, setFullName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
-  const [location, setLocation] = useState("");
+  const [phone, setPhone] = useState("");
   const [reCaptchaValue, setReCaptchaValue] = useState("");
 
   const { isMobile } = useContext(ThemeContext);
@@ -51,7 +51,7 @@ const RegisterPage = ({
       });
       setFullName("");
       setEmailAddress("");
-      setLocation("");
+      setPhone("");
       reCaptchaRef.current.reset();
       setReCaptchaValue("");
     }
@@ -64,7 +64,7 @@ const RegisterPage = ({
         onClose: () => onClearRegisterMessage()
       });
     }
-    postRegister({ fullName, emailAddress, location, reCaptchaValue });
+    postRegister({ fullName, emailAddress, phone, reCaptchaValue });
   };
 
   return (
@@ -99,10 +99,10 @@ const RegisterPage = ({
             customClasses={classes.loginTextField}
           />
           <TextField
-            id="location"
-            label="Location"
-            value={location}
-            handleChange={val => setLocation(val)}
+            id="phone"
+            label="Phone"
+            value={phone}
+            handleChange={val => setPhone(val)}
             required
             fullWidth
             customClasses={classes.loginTextField}

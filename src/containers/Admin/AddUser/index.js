@@ -53,7 +53,7 @@ const AddUser = ({
   const [userInfo, setUserInfo] = useState(() => ({
     fullName: "",
     username: "",
-    location: "",
+    phone: "",
     emailAddress: "",
     credit: 0,
     userPhoto: "",
@@ -69,7 +69,7 @@ const AddUser = ({
   const {
     fullName,
     username,
-    location,
+    phone,
     emailAddress,
     credit,
     userPhoto,
@@ -91,14 +91,14 @@ const AddUser = ({
       const pickedInfo = (({
         fullName,
         username,
-        location,
+        phone,
         emailAddress,
         credit,
         photoUri
       }) => ({
         fullName,
         username,
-        location,
+        phone,
         emailAddress,
         credit,
         userPhoto: photoUri,
@@ -189,10 +189,10 @@ const AddUser = ({
           </Grid>
           <Grid item lg={5} md={6} xs={12}>
             <TextField
-              id="location"
-              label="Location"
-              value={location}
-              handleChange={val => updateUserInfo("location", val)}
+              id="phone"
+              label="Phone"
+              value={phone}
+              handleChange={val => updateUserInfo("phone", val)}
               fullWidth
             />
           </Grid>
@@ -213,7 +213,7 @@ const AddUser = ({
               value={credit}
               type="number"
               maxDecimalValue={2}
-              handleChange={val => updateUserInfo("credit", Math.ceil(val))}
+              handleChange={val => updateUserInfo("credit", val)}
               fullWidth
             />
           </Grid>

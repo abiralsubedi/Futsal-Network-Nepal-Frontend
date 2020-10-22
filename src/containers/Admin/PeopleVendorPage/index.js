@@ -75,7 +75,7 @@ const PeopleVendorPage = ({
   const tableHeader = [
     { label: "Full Name", key: "fullName" },
     { label: "Email", key: "emailAddress" },
-    { label: "Location", key: "location" }
+    { label: "Phone", key: "phone" }
   ];
 
   const actions = [

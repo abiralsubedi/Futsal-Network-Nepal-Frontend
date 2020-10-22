@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
@@ -10,6 +10,7 @@ import { ThemeContext } from "context/themeContext";
 
 // import { getMapPage } from "./actions";
 import useStyles from "./style";
+import { Typography } from "@material-ui/core";
 
 const MapPage = ({ mapPageData, history, google }) => {
   const classes = useStyles();
@@ -18,6 +19,12 @@ const MapPage = ({ mapPageData, history, google }) => {
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
   const [activeMarker, setActiveMarker] = useState({});
   const [selectedPlace, setSelectedPlace] = useState({});
+
+  useEffect(() => {
+    if (navigator) {
+      navigator.geolocation.getCurrentPosition(pos => console.log(pos, "pos"));
+    }
+  });
 
   const containerStyle = {
     width: isMobile ? "80%" : "100%",
@@ -52,7 +59,7 @@ const MapPage = ({ mapPageData, history, google }) => {
         <Marker onClick={onMarkerClick} name={"KaloLeni"} />
         <Marker
           title={"SOMA"}
-          name={"SOMA"}
+          name={"Baneswor Futsal Recreation center"}
           position={{ lat: 27.7272, lng: 85.324 }}
           onClick={onMarkerClick}
         />
@@ -62,7 +69,9 @@ const MapPage = ({ mapPageData, history, google }) => {
           onClose={onClose}
         >
           <div>
-            <h4>{selectedPlace.name}</h4>
+            <Typography variant="body1" className={classes.markerDescription}>
+              {selectedPlace.name}
+            </Typography>
           </div>
         </InfoWindow>
       </Map>
