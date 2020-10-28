@@ -27,23 +27,6 @@ function* getGlobalSearch({ payload }) {
         }
       }
     );
-    // const response = [
-    //   {
-    //     photoUri: "/images/saala-saanp-ko-paal-raha-tha-1596536736441.jpg",
-    //     fullName: "KTM Model Futsal",
-    //     location: "Sinamangal, Kathmandu"
-    //   },
-    //   {
-    //     photoUri: "",
-    //     fullName: "Baneswor Recreation Futsal",
-    //     location: "Baneswor, Kathmandu"
-    //   },
-    //   {
-    //     photoUri: "",
-    //     fullName: "Dhuku Futsal",
-    //     location: "Baluwatar, Kathmandu"
-    //   }
-    // ];
     yield put(getGlobalSearchSuccess(response));
   } catch (error) {
     if (error.name === "AbortError") {

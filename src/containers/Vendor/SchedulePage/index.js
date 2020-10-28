@@ -17,14 +17,23 @@ import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
 
 import { ThemeContext } from "context/themeContext";
 
+import { getVendorInfo } from "./actions";
 import useStyles from "./style";
 
-const SchedulePage = ({ location, history, globalData, match }) => {
+const SchedulePage = ({
+  location,
+  history,
+  globalData,
+  match,
+  fetchVendorInfo,
+  schedulePageData
+}) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
   const {
     profile: { role }
   } = globalData;
+  const { vendorProfile } = schedulePageData;
   const { vendorId } = match.params;
 
   const [tabIndexValue, setTabIndexValue] = React.useState(0);
@@ -50,6 +59,9 @@ const SchedulePage = ({ location, history, globalData, match }) => {
     } else {
       setVendorChanged(true);
       setTimeout(() => setVendorChanged(false), 0);
+    }
+    if (vendorId) {
+      fetchVendorInfo(vendorId);
     }
   }, [vendorId]);
 
@@ -126,7 +138,7 @@ const SchedulePage = ({ location, history, globalData, match }) => {
           color="textSecondary"
           className={classes.pageTitle}
         >
-          Schedule Page
+          Schedule{vendorProfile && ` - ${vendorProfile.fullName}`}
         </Typography>
         {getTabContent()}
       </div>
@@ -138,14 +150,19 @@ SchedulePage.propTypes = {
   location: PropTypes.object,
   history: PropTypes.object,
   globalData: PropTypes.object,
-  match: PropTypes.object
+  match: PropTypes.object,
+  schedulePageData: PropTypes.object,
+  fetchVendorInfo: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  globalData: state.LoginReducer
+  globalData: state.LoginReducer,
+  schedulePageData: state.SchedulePageReducer
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  fetchVendorInfo: data => dispatch(getVendorInfo(data))
+});
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

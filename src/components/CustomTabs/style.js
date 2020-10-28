@@ -22,6 +22,9 @@ const useStyles = makeStyles(theme => ({
   verticalTabPanel: {
     width: "calc(100% - 16rem)"
   },
+  horizontalTabPanel: {
+    minHeight: "28rem"
+  },
   horizontalRoot: {
     flexGrow: 1,
     width: "100%",

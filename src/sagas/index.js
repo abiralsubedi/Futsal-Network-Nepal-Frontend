@@ -20,6 +20,8 @@ import DescriptionSagas from "containers/Vendor/Description/saga.js";
 import GallerySagas from "containers/Vendor/Gallery/saga.js";
 import ReviewPageSagas from "containers/Vendor/ReviewPage/saga.js";
 import BookingPageSagas from "containers/Vendor/BookingPage/saga.js";
+import SitePageSagas from "containers/Vendor/SitePage/saga.js";
+import SchedulePageSagas from "containers/Vendor/SchedulePage/saga.js";
 import BookingDetailPageSagas from "containers/User/BookingDetailPage/saga.js";
 
 export default function* rootSaga() {
@@ -45,6 +47,8 @@ export default function* rootSaga() {
       GallerySagas,
       ReviewPageSagas,
       BookingPageSagas,
+      SitePageSagas,
+      SchedulePageSagas,
       BookingDetailPageSagas
     ].map(fork)
   );

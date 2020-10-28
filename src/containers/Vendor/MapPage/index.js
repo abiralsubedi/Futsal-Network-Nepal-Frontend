@@ -7,14 +7,16 @@ import { withRouter } from "react-router-dom";
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from "google-maps-react";
 
 import { ThemeContext } from "context/themeContext";
+import Loader from "components/Loader";
 
-// import { getMapPage } from "./actions";
 import useStyles from "./style";
 import { Typography } from "@material-ui/core";
 
-const MapPage = ({ mapPageData, history, google }) => {
+const MapPage = ({ sitePageData, google, globalData }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
+  const { vendorProfile, getVendorProfileLoading } = sitePageData;
+  const { profile } = globalData;
 
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
   const [activeMarker, setActiveMarker] = useState({});
@@ -45,6 +47,15 @@ const MapPage = ({ mapPageData, history, google }) => {
     }
   };
 
+  let updatedVendorProfile = vendorProfile;
+  if (profile.role === "Vendor") {
+    updatedVendorProfile = profile;
+  }
+
+  if (getVendorProfileLoading) {
+    return <Loader wrapperClass={classes.loadingWrapper} />;
+  }
+
   return (
     <div className={classes.mapWrapper}>
       <Map
@@ -52,16 +63,14 @@ const MapPage = ({ mapPageData, history, google }) => {
         zoom={14}
         containerStyle={containerStyle}
         initialCenter={{
-          lat: 27.7172,
-          lng: 85.324
+          ...updatedVendorProfile.location.coordinates
         }}
       >
-        <Marker onClick={onMarkerClick} name={"KaloLeni"} />
         <Marker
-          title={"SOMA"}
-          name={"Baneswor Futsal Recreation center"}
-          position={{ lat: 27.7272, lng: 85.324 }}
           onClick={onMarkerClick}
+          name={updatedVendorProfile.fullName}
+          title={updatedVendorProfile.fullName}
+          position={{ ...updatedVendorProfile.location.coordinates }}
         />
         <InfoWindow
           marker={activeMarker}
@@ -80,18 +89,15 @@ const MapPage = ({ mapPageData, history, google }) => {
 };
 
 MapPage.propTypes = {
-  // fetchMapPage: PropTypes.func,
-  mapPageData: PropTypes.object,
-  history: PropTypes.object
+  sitePageData: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  mapPageData: state.MapPageReducer
+  sitePageData: state.SitePageReducer,
+  globalData: state.LoginReducer
 });
 
-const mapDispatchToProps = dispatch => ({
-  // fetchMapPage: data => dispatch(getMapPage(data))
-});
+const mapDispatchToProps = dispatch => ({});
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

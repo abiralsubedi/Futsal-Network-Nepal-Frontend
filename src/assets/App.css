@@ -34,7 +34,11 @@
 }
 
 body {
-  font-family: "Proxima Nova";
+  font-family: "Proxima Nova" !important;
+}
+
+.MuiTypography-root {
+  font-family: "Proxima Nova" !important;
 }
 
 html {

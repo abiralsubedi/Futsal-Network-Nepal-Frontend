@@ -20,6 +20,8 @@ import DescriptionReducer from "containers/Vendor/Description/reducer.js";
 import GalleryReducer from "containers/Vendor/Gallery/reducer.js";
 import ReviewPageReducer from "containers/Vendor/ReviewPage/reducer.js";
 import BookingPageReducer from "containers/Vendor/BookingPage/reducer.js";
+import SitePageReducer from "containers/Vendor/SitePage/reducer.js";
+import SchedulePageReducer from "containers/Vendor/SchedulePage/reducer.js";
 import BookingDetailPageReducer from "containers/User/BookingDetailPage/reducer.js";
 
 export default combineReducers({
@@ -43,5 +45,7 @@ export default combineReducers({
   GalleryReducer,
   ReviewPageReducer,
   BookingPageReducer,
+  SitePageReducer,
+  SchedulePageReducer,
   BookingDetailPageReducer
 });

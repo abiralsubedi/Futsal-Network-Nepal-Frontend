@@ -1,9 +1,25 @@
-import { GET_TEST_DATA, GET_TEST_DATA_SUCCESS } from "./constants";
+import {
+  GET_VENDOR_INFO,
+  GET_VENDOR_INFO_SUCCESS,
+  GET_VENDOR_INFO_ERROR,
+  CLEAR_DATA
+} from "./constants";
 
-export const getTestData = () => {
-  return { type: GET_TEST_DATA };
-};
-export const getTestDataSuccess = data => ({
-  type: GET_TEST_DATA_SUCCESS,
-  data
+export const getVendorInfo = vendorId => ({
+  type: GET_VENDOR_INFO,
+  vendorId
+});
+
+export const getVendorInfoSuccess = payload => ({
+  type: GET_VENDOR_INFO_SUCCESS,
+  payload
+});
+export const getVendorInfoError = error => ({
+  type: GET_VENDOR_INFO_ERROR,
+  error
+});
+
+export const clearData = error => ({
+  type: CLEAR_DATA,
+  error
 });

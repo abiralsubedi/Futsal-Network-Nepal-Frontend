@@ -19,14 +19,23 @@ import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
 
 import { ThemeContext } from "context/themeContext";
 
+import { getVendorInfo } from "./actions";
 import useStyles from "./style";
 
-const SitePage = ({ location, history, globalData, match }) => {
+const SitePage = ({
+  location,
+  history,
+  globalData,
+  match,
+  fetchVendorInfo,
+  sitePageData
+}) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
   const {
     profile: { role }
   } = globalData;
+  const { vendorProfile } = sitePageData;
   const { vendorId } = match.params;
 
   const [tabIndexValue, setTabIndexValue] = React.useState(0);
@@ -59,6 +68,9 @@ const SitePage = ({ location, history, globalData, match }) => {
     } else {
       setVendorChanged(true);
       setTimeout(() => setVendorChanged(false), 0);
+    }
+    if (vendorId) {
+      fetchVendorInfo(vendorId);
     }
   }, [vendorId]);
 
@@ -155,7 +167,7 @@ const SitePage = ({ location, history, globalData, match }) => {
           color="textSecondary"
           className={classes.pageTitle}
         >
-          Site Page
+          Site{vendorProfile && ` - ${vendorProfile.fullName}`}
         </Typography>
         {getTabContent()}
       </div>
@@ -167,14 +179,19 @@ SitePage.propTypes = {
   location: PropTypes.object,
   history: PropTypes.object,
   globalData: PropTypes.object,
-  match: PropTypes.object
+  match: PropTypes.object,
+  sitePageData: PropTypes.object,
+  fetchVendorInfo: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  globalData: state.LoginReducer
+  globalData: state.LoginReducer,
+  sitePageData: state.SitePageReducer
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  fetchVendorInfo: data => dispatch(getVendorInfo(data))
+});
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

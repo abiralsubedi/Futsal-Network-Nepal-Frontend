@@ -23,7 +23,13 @@ const getTheme = darkMode => {
       type: darkMode ? "dark" : "light"
     },
     typography: {
-      fontFamily: "'Proxima Nova', 'Roboto', 'Helvetica', 'Arial', sans-serif"
+      fontFamily: [
+        "Proxima Nova",
+        "Roboto",
+        "Helvetica",
+        "Arial",
+        "sans-serif"
+      ].join(",")
     }
   });
 };
