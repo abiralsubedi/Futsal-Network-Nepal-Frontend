@@ -46,6 +46,10 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+a {
+  outline: none;
+}
+
 html ::-webkit-scrollbar {
   width: 6px !important;
   scroll-behavior: smooth !important;

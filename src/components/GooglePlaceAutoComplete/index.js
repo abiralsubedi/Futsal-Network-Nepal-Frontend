@@ -7,6 +7,7 @@ import Script from "react-load-script";
 
 import TextField from "components/TextField";
 
+const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 class GooglePlaceSearch extends Component {
   // Define Constructor
   constructor(props) {
@@ -67,7 +68,7 @@ class GooglePlaceSearch extends Component {
     return (
       <div>
         <Script
-          url={`https://maps.googleapis.com/maps/api/js?key=AIzaSyA_wvPi9ZsxJc-kA20-Um7EcMe1luts7zo&libraries=places`}
+          url={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&libraries=places`}
           onLoad={this.handleScriptLoad}
         />
         <TextField

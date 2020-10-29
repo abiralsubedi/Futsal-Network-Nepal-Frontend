@@ -61,7 +61,7 @@ ChangeLocationModal.propTypes = {
   open: PropTypes.bool,
   handleClose: PropTypes.func,
   handleConfirm: PropTypes.func,
-  currentPlace: PropTypes.string
+  currentPlace: PropTypes.object
 };
 
 export default ChangeLocationModal;

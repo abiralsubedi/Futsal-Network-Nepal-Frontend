@@ -12,6 +12,8 @@ import Loader from "components/Loader";
 import useStyles from "./style";
 import { Typography } from "@material-ui/core";
 
+const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
+
 const MapPage = ({ sitePageData, google, globalData }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
@@ -23,10 +25,20 @@ const MapPage = ({ sitePageData, google, globalData }) => {
   const [selectedPlace, setSelectedPlace] = useState({});
 
   useEffect(() => {
-    if (navigator) {
-      navigator.geolocation.getCurrentPosition(pos => console.log(pos, "pos"));
-    }
-  });
+    // getDirection();
+  }, []);
+
+  const getDirection = () => {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        console.log(position, "pos");
+      },
+      () => {
+        console.log("error");
+      },
+      { enableHighAccuracy: true, timeout: 5000 }
+    );
+  };
 
   const containerStyle = {
     width: isMobile ? "80%" : "100%",
@@ -72,6 +84,11 @@ const MapPage = ({ sitePageData, google, globalData }) => {
           title={updatedVendorProfile.fullName}
           position={{ ...updatedVendorProfile.location.coordinates }}
         />
+        <Marker
+          name="Test"
+          title="Test"
+          position={{ lat: 27.403449, lng: 85.0545096 }}
+        />
         <InfoWindow
           marker={activeMarker}
           visible={showingInfoWindow}
@@ -105,6 +122,6 @@ export default compose(
   withRouter,
   withConnect,
   GoogleApiWrapper({
-    apiKey: "AIzaSyA_wvPi9ZsxJc-kA20-Um7EcMe1luts7zo"
+    apiKey: GOOGLE_API_KEY
   })
 )(MapPage);
