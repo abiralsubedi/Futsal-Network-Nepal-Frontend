@@ -84,11 +84,6 @@ const MapPage = ({ sitePageData, google, globalData }) => {
           title={updatedVendorProfile.fullName}
           position={{ ...updatedVendorProfile.location.coordinates }}
         />
-        <Marker
-          name="Test"
-          title="Test"
-          position={{ lat: 27.403449, lng: 85.0545096 }}
-        />
         <InfoWindow
           marker={activeMarker}
           visible={showingInfoWindow}
