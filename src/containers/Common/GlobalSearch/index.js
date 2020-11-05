@@ -83,7 +83,7 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
           <Skeleton
             animation="wave"
             height={12}
-            width="50%"
+            width="70%"
             style={{ marginBottom: 6 }}
           />
           <Skeleton animation="wave" height={12} width="80%" />

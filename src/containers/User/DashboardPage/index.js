@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
 
 import Typography from "@material-ui/core/Typography";
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import { Wrapper } from "components/Common";
 import VendorCard from "components/VendorCard";
+import SlickSlider from "components/SlickSlider";
+import NoData from "components/NoData";
 
 import { getRatedVendor, getNearbyVendor } from "./actions";
 
@@ -16,7 +20,8 @@ const DashboardPage = ({
   globalData,
   dashboardPageData,
   fetchRatedVendor,
-  fetchNearbyVendor
+  fetchNearbyVendor,
+  history
 }) => {
   const classes = useStyles();
 
@@ -30,6 +35,11 @@ const DashboardPage = ({
     nearbyVendor
   } = dashboardPageData;
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [locationDisabled, setLocationDisabled] = useState(false);
+
   useEffect(() => {
     fetchRatedVendor();
     getDirection();
@@ -42,7 +52,7 @@ const DashboardPage = ({
         fetchNearbyVendor(getLocationParams(latitude, longitude));
       },
       () => {
-        console.error("error");
+        setLocationDisabled(true);
       },
       { enableHighAccuracy: true, timeout: 5000 }
     );
@@ -55,21 +65,79 @@ const DashboardPage = ({
     return latitude + longitude + radius;
   };
 
+  const getRatedFutsalCard = () => {
+    if (ratedVendorLoading) {
+      const loadingArray = isMobile ? [1] : [1, 2, 3];
+      return loadingArray.map(item => <VendorCard loading key={item} />);
+    }
+    if (ratedVendor.length) {
+      return ratedVendor.map((item, index) => {
+        const vendor = item.vendor[0];
+        return (
+          <VendorCard
+            fullName={vendor.fullName}
+            photoUri={vendor.photoUri}
+            place={vendor.location.place}
+            rating={item.rating}
+            totalReview={item.totalReview}
+            key={item._id}
+            handleClick={() => history.push(`/vendor/${item._id}/site`)}
+          />
+        );
+      });
+    }
+    return <NoData text="Sorry futsal are currently not available." />;
+  };
+
+  const getNearbyFutsalCard = () => {
+    if (locationDisabled) {
+      return <NoData text="Please allow access to location." />;
+    }
+    if (nearbyVendorLoading) {
+      const loadingArray = isMobile ? [1] : [1, 2, 3];
+      return loadingArray.map(item => <VendorCard loading key={item} />);
+    }
+    if (nearbyVendor.length) {
+      return nearbyVendor.map(item => {
+        return (
+          <VendorCard
+            fullName={item.fullName}
+            photoUri={item.photoUri}
+            place={item.location.place}
+            key={item._id}
+            handleClick={() => history.push(`/vendor/${item._id}/site`)}
+          />
+        );
+      });
+    }
+    return <NoData text="Sorry there is no nearby futsal" />;
+  };
+
   return (
     <Wrapper>
       <div className={classes.dashboardContainer}>
         <Typography variant="body1" className={classes.welcomeText}>
-          (From user) Hello <strong>{fullName}</strong>, Welcome to Futsal
-          Network Nepal App.
+          Hello <strong>{fullName}</strong>, Welcome to Futsal Network Nepal
+          App.
         </Typography>
-        <VendorCard
-          fullName="Baneswor Futsal and Recreation CenterBaneswor Futsal and Recreation
-          CenterBaneswor Futsal and Recreation Center"
-          place="Baneswor, KathmanduBaneswor, KathmanduBaneswor, KathmanduBaneswor,
-          KathmanduBaneswor, Kathmandu"
-          rating={3.6}
-          totalReview={1056}
-        />
+
+        <Typography
+          variant="h6"
+          color="textSecondary"
+          className={classes.sectionTitle}
+        >
+          Most Rated Futsal
+        </Typography>
+        <SlickSlider>{getRatedFutsalCard()}</SlickSlider>
+
+        <Typography
+          variant="h6"
+          color="textSecondary"
+          className={classes.sectionTitle}
+        >
+          Nearby Futsal
+        </Typography>
+        <SlickSlider>{getNearbyFutsalCard()}</SlickSlider>
       </div>
     </Wrapper>
   );
@@ -79,7 +147,8 @@ DashboardPage.propTypes = {
   globalData: PropTypes.object,
   dashboardPageData: PropTypes.object,
   fetchRatedVendor: PropTypes.func,
-  fetchNearbyVendor: PropTypes.func
+  fetchNearbyVendor: PropTypes.func,
+  history: PropTypes.object
 };
 
 const mapStateToProps = state => ({

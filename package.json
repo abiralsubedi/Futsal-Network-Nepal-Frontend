@@ -30,6 +30,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-simple-image-viewer": "0.0.4",
+    "react-slick": "^0.27.12",
     "react-sortable-hoc": "^1.11.0",
     "redux": "^4.0.5",
     "redux-saga": "^1.1.3",

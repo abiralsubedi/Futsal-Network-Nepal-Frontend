@@ -43,6 +43,7 @@ const SitePage = ({
 
   const isInitialMount = useRef(true);
   const isUser = role === "User";
+  const isAdmin = role === "Admin";
 
   useEffect(() => {
     if (location.pathname.includes("description")) {
@@ -167,7 +168,10 @@ const SitePage = ({
           color="textSecondary"
           className={classes.pageTitle}
         >
-          Site{vendorProfile && ` - ${vendorProfile.fullName}`}
+          {!isUser && "Site"}
+          {isAdmin && " - "}
+          {vendorProfile &&
+            `${vendorProfile.fullName} (${vendorProfile.phone})`}
         </Typography>
         {getTabContent()}
       </div>

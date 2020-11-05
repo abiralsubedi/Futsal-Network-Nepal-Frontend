@@ -6,6 +6,9 @@ const useStyles = makeStyles(theme => ({
     "& strong": {
       fontWeight: "600"
     }
+  },
+  sectionTitle: {
+    margin: "1rem 0 0.5rem"
   }
 }));
 
