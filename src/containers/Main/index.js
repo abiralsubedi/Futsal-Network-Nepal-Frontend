@@ -23,6 +23,8 @@ import AdminPeoplePage from "containers/Admin/PeoplePage";
 import VendorSchedulePage from "containers/Vendor/SchedulePage";
 import VendorSitePage from "containers/Vendor/SitePage";
 
+import UserDashboardPage from "containers/User/DashboardPage";
+
 import PrivateRoute from "components/PrivateRoute";
 import PublicRoute from "components/PublicRoute";
 import NotFoundPage from "components/NotFoundPage";
@@ -73,7 +75,15 @@ const Main = () => {
               <PublicRoute path="/login" component={LoginPage} exact />
               <PublicRoute path="/register" component={RegisterPage} exact />
               <Route path="/set-password" component={SetPasswordPage} exact />
-              <PrivateRoute exact path="/" component={DashboardPage} />
+              <PrivateRoute
+                exact
+                path="/"
+                component={{
+                  Admin: DashboardPage,
+                  Vendor: DashboardPage,
+                  User: UserDashboardPage
+                }}
+              />
               <PrivateRoute path="/profile" component={ProfilePage} />
 
               <PrivateRoute

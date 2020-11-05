@@ -12,8 +12,6 @@ import Loader from "components/Loader";
 import useStyles from "./style";
 import { Typography } from "@material-ui/core";
 
-const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
-
 const MapPage = ({ sitePageData, google, globalData }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
@@ -23,22 +21,6 @@ const MapPage = ({ sitePageData, google, globalData }) => {
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
   const [activeMarker, setActiveMarker] = useState({});
   const [selectedPlace, setSelectedPlace] = useState({});
-
-  useEffect(() => {
-    // getDirection();
-  }, []);
-
-  const getDirection = () => {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        console.log(position, "pos");
-      },
-      () => {
-        console.log("error");
-      },
-      { enableHighAccuracy: true, timeout: 5000 }
-    );
-  };
 
   const containerStyle = {
     width: isMobile ? "80%" : "100%",
@@ -84,6 +66,7 @@ const MapPage = ({ sitePageData, google, globalData }) => {
           title={updatedVendorProfile.fullName}
           position={{ ...updatedVendorProfile.location.coordinates }}
         />
+        <Marker position={{ lat: 27.164672, lng: 84.9707008 }} />
         <InfoWindow
           marker={activeMarker}
           visible={showingInfoWindow}

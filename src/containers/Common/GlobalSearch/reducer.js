@@ -38,7 +38,6 @@ export default (
       return {
         ...state,
         globalSearch: [],
-        globalSearchLoading: false,
         globalSearchError: ""
       };
 

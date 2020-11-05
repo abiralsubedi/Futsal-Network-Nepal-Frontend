@@ -26,10 +26,12 @@ const AuthenticationWrapper = ({ children }) => {
         <div className={classes.appScreen}>
           <OuterLogo />
           <div className={classes.appContent}>
-            <Typography variant="h5">Welcome to the app!</Typography>
+            <Typography variant="h5">
+              Welcome to Futsal Network Nepal App!
+            </Typography>
             <Typography variant="body1">
-              Here you are able to create account and surf through many learning
-              resources.
+              Here you are able to search, review and book the most suitable
+              futsal around you.
             </Typography>
           </div>
         </div>
