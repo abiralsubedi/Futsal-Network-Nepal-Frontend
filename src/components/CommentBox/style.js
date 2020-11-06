@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
       background: "inherit"
     }
   },
-  commentActionIcon: {
+  secondaryText: {
     color: theme.palette.text.secondary
   },
   commentBody: {

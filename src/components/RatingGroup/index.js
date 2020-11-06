@@ -75,7 +75,7 @@ const RatingGroup = ({ reviewDetail, loading }) => {
     return ratingListMemo.map(item => (
       <div className={classes.ratingBarWrapper} key={item._id}>
         <div>
-          <Typography color="textSecondary" variant="body2">
+          <Typography className={classes.secondaryText} variant="body2">
             {item._id}
           </Typography>
         </div>
@@ -96,7 +96,7 @@ const RatingGroup = ({ reviewDetail, loading }) => {
     <Grid container spacing={3}>
       <Grid item md={3} sm={4} xs={11}>
         <div className={classes.avgReviewWrapper}>
-          <Typography variant="h3" color="textSecondary">
+          <Typography variant="h3" className={classes.secondaryText}>
             {vendorReviewMemo.rating}
           </Typography>
           <Rating
@@ -107,7 +107,7 @@ const RatingGroup = ({ reviewDetail, loading }) => {
             classes={{ iconFilled: classes.ratingColor }}
           />
           <div>
-            <Typography color="textSecondary">
+            <Typography className={classes.secondaryText}>
               {vendorReviewMemo.totalReview.toLocaleString()} total
             </Typography>
           </div>

@@ -25,7 +25,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1.125rem"
   },
   tableTitle: {
-    fontSize: "1.375rem"
+    fontSize: "1.375rem",
+    color: theme.palette.text.secondary
   },
   loadingWrapper: {
     height: "12rem"

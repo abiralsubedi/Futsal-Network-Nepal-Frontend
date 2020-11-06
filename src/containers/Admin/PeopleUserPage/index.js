@@ -116,7 +116,6 @@ const PeopleUserPage = ({
             <Typography
               variant="body1"
               onClick={() => history.push("/people/users")}
-              color="textSecondary"
               className={classes.backText}
             >
               <KeyboardBackspaceIcon fontSize="small" /> Back to Listing

@@ -177,7 +177,6 @@ const PeopleTable = ({
                 variant="h6"
                 id="tableTitle"
                 component="div"
-                color="textSecondary"
               >
                 {selectedRowCount} selected
               </Typography>

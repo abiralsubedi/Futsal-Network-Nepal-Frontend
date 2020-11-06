@@ -400,19 +400,11 @@ const AddVendor = ({
         </Grid>
         {!selectedUserId && (
           <>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              className={classes.vendorGroupText}
-            >
+            <Typography variant="body2" className={classes.vendorGroupText}>
               Please add required number of fields with name.
             </Typography>
             {fieldListMemo}
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              className={classes.vendorGroupText}
-            >
+            <Typography variant="body2" className={classes.vendorGroupText}>
               Please select the most common start and end game time with hourly
               price.
               <br />

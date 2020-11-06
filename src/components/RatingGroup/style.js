@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "5px",
     width: "100%",
     marginBottom: "5px !important"
+  },
+  secondaryText: {
+    color: theme.palette.text.secondary
   }
 }));
 

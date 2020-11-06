@@ -10,6 +10,9 @@ const useStyles = makeStyles(theme => ({
   loginTextField: {
     margin: "1rem 0"
   },
+  secondaryText: {
+    color: theme.palette.text.secondary
+  },
   cursorPointer: {
     cursor: "pointer"
   },

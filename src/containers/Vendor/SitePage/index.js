@@ -163,11 +163,7 @@ const SitePage = ({
   return (
     <Wrapper>
       <div className={classes.profileContainer}>
-        <Typography
-          variant="h6"
-          color="textSecondary"
-          className={classes.pageTitle}
-        >
+        <Typography variant="h6" className={classes.pageTitle}>
           {!isUser && "Site"}
           {isAdmin && " - "}
           {vendorProfile &&

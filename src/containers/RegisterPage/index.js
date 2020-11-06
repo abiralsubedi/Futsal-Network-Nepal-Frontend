@@ -123,7 +123,7 @@ const RegisterPage = ({
           />
           <Typography
             variant="body1"
-            color="textSecondary"
+            className={classes.secondaryText}
             style={{ marginTop: "1rem" }}
           >
             Already have an account?{" "}

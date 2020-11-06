@@ -133,11 +133,7 @@ const SchedulePage = ({
   return (
     <Wrapper>
       <div className={classes.profileContainer}>
-        <Typography
-          variant="h6"
-          color="textSecondary"
-          className={classes.pageTitle}
-        >
+        <Typography variant="h6" className={classes.pageTitle}>
           Schedule{vendorProfile && ` - ${vendorProfile.fullName}`}
         </Typography>
         {getTabContent()}

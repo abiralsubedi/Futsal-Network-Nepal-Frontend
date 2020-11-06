@@ -145,9 +145,7 @@ const CreditPage = ({
         handleSearch={handleHistorySearch}
       />
 
-      <Typography className={classes.tableTitle} color="textSecondary">
-        Credit History
-      </Typography>
+      <Typography className={classes.tableTitle}>Credit History</Typography>
       <TableContainer className={classes.tableContainer}>
         <Table
           className={classes.table}

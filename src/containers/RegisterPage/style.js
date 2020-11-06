@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
       width: "100%"
     }
   },
+  secondaryText: {
+    color: theme.palette.text.secondary
+  },
   loginTextField: {
     margin: "1rem 0"
   },

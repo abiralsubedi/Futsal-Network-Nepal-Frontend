@@ -183,7 +183,7 @@ const LoginPage = ({
           >
             Forgot your password?
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography variant="body1" className={classes.secondaryText}>
             Don't have an account?{" "}
             <Link to="/register" className={classes.textLink}>
               Sign up

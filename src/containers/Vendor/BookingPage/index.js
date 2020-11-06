@@ -182,7 +182,7 @@ const BookingPage = ({
         </Grid>
       </Grid>
       <Box mt={4}>
-        <Typography variant="h6" color="textSecondary">
+        <Typography variant="h6" className={classes.secondaryText}>
           Price($): {selectedGameHour ? selectedGameHour.price : "--"}
         </Typography>
         <Typography variant="body2" className={classes.warningText}>

@@ -49,8 +49,12 @@ const useStyles = makeStyles(theme => ({
   ratingColor: {
     color: theme.palette.primary.main
   },
+  secondaryText: {
+    color: theme.palette.text.secondary
+  },
   ratingCount: {
-    marginLeft: "1rem"
+    marginLeft: "1rem",
+    color: theme.palette.text.secondary
   }
 }));
 

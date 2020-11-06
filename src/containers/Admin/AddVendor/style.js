@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "2rem"
   },
   vendorGroupText: {
-    margin: "1.5rem 0 1rem"
+    margin: "1.5rem 0 1rem",
+    color: theme.palette.text.secondary
   },
   fieldGroup: {
     display: "flex"

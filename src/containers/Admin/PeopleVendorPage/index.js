@@ -116,7 +116,6 @@ const PeopleVendorPage = ({
             <Typography
               variant="body1"
               onClick={() => history.push("/people/vendors")}
-              color="textSecondary"
               className={classes.backText}
             >
               <KeyboardBackspaceIcon fontSize="small" /> Back to Listing

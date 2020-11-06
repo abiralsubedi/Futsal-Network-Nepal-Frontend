@@ -8,7 +8,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   sectionTitle: {
-    margin: "1rem 0 0.5rem"
+    margin: "1rem 0 0.5rem",
+    color: theme.palette.text.secondary
   }
 }));
 

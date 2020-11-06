@@ -73,7 +73,7 @@ const CommentBox = ({
                   />
                 </Grid>
                 <Grid item>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="body2" className={classes.secondaryText}>
                     {getDateTime(reviewDate, "onlyDate")}
                   </Typography>
                 </Grid>
@@ -90,7 +90,7 @@ const CommentBox = ({
               >
                 <DeleteRoundedIcon
                   style={{ fontSize: 20 }}
-                  className={classes.commentActionIcon}
+                  className={classes.secondaryText}
                 />
               </IconButton>
             </Tooltip>
@@ -103,7 +103,7 @@ const CommentBox = ({
               >
                 <EditRoundedIcon
                   style={{ fontSize: 20 }}
-                  className={classes.commentActionIcon}
+                  className={classes.secondaryText}
                 />
               </IconButton>
             </Tooltip>

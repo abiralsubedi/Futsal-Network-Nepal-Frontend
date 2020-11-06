@@ -8,9 +8,7 @@ const NoData = ({ wrapperClass, text }) => {
   const classes = useStyles();
   return (
     <div className={`${classes.noDataWrapper} ${wrapperClass}`}>
-      <Typography color="textSecondary" className={classes.noDataText}>
-        {text}
-      </Typography>
+      <Typography className={classes.noDataText}>{text}</Typography>
     </div>
   );
 };

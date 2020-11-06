@@ -12,6 +12,9 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.warning.main,
     fontWeight: 600,
     marginTop: "0.25rem"
+  },
+  secondaryText: {
+    color: theme.palette.text.secondary
   }
 }));
 

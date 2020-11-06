@@ -121,20 +121,12 @@ const DashboardPage = ({
           App.
         </Typography>
 
-        <Typography
-          variant="h6"
-          color="textSecondary"
-          className={classes.sectionTitle}
-        >
+        <Typography variant="h6" className={classes.sectionTitle}>
           Most Rated Futsal
         </Typography>
         <SlickSlider>{getRatedFutsalCard()}</SlickSlider>
 
-        <Typography
-          variant="h6"
-          color="textSecondary"
-          className={classes.sectionTitle}
-        >
+        <Typography variant="h6" className={classes.sectionTitle}>
           Nearby Futsal
         </Typography>
         <SlickSlider>{getNearbyFutsalCard()}</SlickSlider>

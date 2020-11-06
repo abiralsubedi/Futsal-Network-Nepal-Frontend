@@ -61,7 +61,7 @@ const VendorCard = ({
       <div className={classes.cardContent}>
         <div>
           <Typography className={classes.vendorInfoText}>{fullName}</Typography>
-          <Typography color="textSecondary" variant="body2">
+          <Typography className={classes.secondaryText} variant="body2">
             <span className={classes.vendorAddress}>
               <RoomOutlinedIcon fontSize="small" />
               <span className={classes.vendorInfoText}>{place}</span>
@@ -78,11 +78,7 @@ const VendorCard = ({
               classes={{ iconFilled: classes.ratingColor }}
               size="small"
             />
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              className={classes.ratingCount}
-            >
+            <Typography variant="body2" className={classes.ratingCount}>
               ({totalReview.toLocaleString()})
             </Typography>
           </div>

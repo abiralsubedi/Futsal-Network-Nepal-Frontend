@@ -24,7 +24,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   tableTitle: {
-    marginRight: "1rem"
+    marginRight: "1rem",
+    color: theme.palette.text.secondary
   },
   selectedRow: {
     backgroundColor: `${theme.palette.primary.main}20 !important`

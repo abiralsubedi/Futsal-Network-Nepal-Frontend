@@ -6,6 +6,9 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
+  },
+  noDataText: {
+    color: theme.palette.text.secondary
   }
 }));
 
