@@ -101,7 +101,10 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
             key={item._id}
             onClick={() => {
               setGlobalSearchAnchorEl(null);
-              history.push(`/vendor/${item._id}/site`);
+              history.push({
+                pathname: `/vendor/${item._id}/site`,
+                state: { vendorDetail: item }
+              });
             }}
           >
             <ListItemAvatar>

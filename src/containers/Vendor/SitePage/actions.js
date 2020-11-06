@@ -2,6 +2,11 @@ import {
   GET_VENDOR_INFO,
   GET_VENDOR_INFO_SUCCESS,
   GET_VENDOR_INFO_ERROR,
+  GET_VENDOR_DISTANCE,
+  GET_VENDOR_DISTANCE_SUCCESS,
+  GET_VENDOR_DISTANCE_ERROR,
+  SET_VENDOR_INFO,
+  CLEAR_VENDOR_DISTANCE,
   CLEAR_DATA
 } from "./constants";
 
@@ -19,7 +24,29 @@ export const getVendorInfoError = error => ({
   error
 });
 
-export const clearData = error => ({
-  type: CLEAR_DATA,
+export const getVendorDistance = payload => ({
+  type: GET_VENDOR_DISTANCE,
+  payload
+});
+
+export const getVendorDistanceSuccess = payload => ({
+  type: GET_VENDOR_DISTANCE_SUCCESS,
+  payload
+});
+export const getVendorDistanceError = error => ({
+  type: GET_VENDOR_DISTANCE_ERROR,
   error
+});
+
+export const setVendorInfo = payload => ({
+  type: SET_VENDOR_INFO,
+  payload
+});
+
+export const clearVendorDistance = () => ({
+  type: CLEAR_VENDOR_DISTANCE
+});
+
+export const clearData = () => ({
+  type: CLEAR_DATA
 });

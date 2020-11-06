@@ -42,10 +42,10 @@ const DashboardPage = ({
 
   useEffect(() => {
     fetchRatedVendor();
-    getDirection();
+    getLocation();
   }, []);
 
-  const getDirection = () => {
+  const getLocation = () => {
     navigator.geolocation.getCurrentPosition(
       position => {
         const { latitude, longitude } = position.coords;
@@ -81,7 +81,12 @@ const DashboardPage = ({
             rating={item.rating}
             totalReview={item.totalReview}
             key={item._id}
-            handleClick={() => history.push(`/vendor/${item._id}/site`)}
+            handleClick={() =>
+              history.push({
+                pathname: `/vendor/${item._id}/site`,
+                state: { vendorDetail: vendor }
+              })
+            }
           />
         );
       });
@@ -105,12 +110,17 @@ const DashboardPage = ({
             photoUri={item.photoUri}
             place={item.location.place}
             key={item._id}
-            handleClick={() => history.push(`/vendor/${item._id}/site`)}
+            handleClick={() =>
+              history.push({
+                pathname: `/vendor/${item._id}/site`,
+                state: { vendorDetail: item }
+              })
+            }
           />
         );
       });
     }
-    return <NoData text="Sorry there is no nearby futsal" />;
+    return <NoData text="Sorry there is no nearby futsal." />;
   };
 
   return (

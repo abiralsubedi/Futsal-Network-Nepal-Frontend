@@ -15,7 +15,7 @@ import { Typography } from "@material-ui/core";
 const MapPage = ({ sitePageData, google, globalData }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
-  const { vendorProfile, getVendorProfileLoading } = sitePageData;
+  const { vendorProfile } = sitePageData;
   const { profile } = globalData;
 
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
@@ -46,7 +46,7 @@ const MapPage = ({ sitePageData, google, globalData }) => {
     updatedVendorProfile = profile;
   }
 
-  if (getVendorProfileLoading) {
+  if (!vendorProfile) {
     return <Loader wrapperClass={classes.loadingWrapper} />;
   }
 

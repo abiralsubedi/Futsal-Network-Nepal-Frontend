@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from "react";
+import React, { useEffect, useContext, useRef, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
@@ -19,7 +19,12 @@ import { VerticalTabs, HorizontalTabs } from "components/CustomTabs";
 
 import { ThemeContext } from "context/themeContext";
 
-import { getVendorInfo } from "./actions";
+import {
+  getVendorInfo,
+  getVendorDistance,
+  setVendorInfo,
+  clearVendorDistance
+} from "./actions";
 import useStyles from "./style";
 
 const SitePage = ({
@@ -28,18 +33,25 @@ const SitePage = ({
   globalData,
   match,
   fetchVendorInfo,
-  sitePageData
+  sitePageData,
+  fetchVendorDistance,
+  onSetVendorInfo,
+  onClearVendorDistance
 }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
   const {
     profile: { role }
   } = globalData;
-  const { vendorProfile } = sitePageData;
+  const {
+    vendorProfile,
+    getVendorDistanceLoading,
+    vendorDistance
+  } = sitePageData;
   const { vendorId } = match.params;
 
-  const [tabIndexValue, setTabIndexValue] = React.useState(0);
-  const [vendorChanged, setVendorChanged] = React.useState(false);
+  const [tabIndexValue, setTabIndexValue] = useState(0);
+  const [vendorChanged, setVendorChanged] = useState(false);
 
   const isInitialMount = useRef(true);
   const isUser = role === "User";
@@ -71,9 +83,38 @@ const SitePage = ({
       setTimeout(() => setVendorChanged(false), 0);
     }
     if (vendorId) {
-      fetchVendorInfo(vendorId);
+      if (location.state) {
+        onSetVendorInfo(location.state.vendorDetail);
+      } else {
+        fetchVendorInfo(vendorId);
+      }
+      if (isUser) {
+        getUserDistance();
+      }
     }
   }, [vendorId]);
+
+  const getUserDistance = () => {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        fetchVendorDistance({
+          vendorId: match.params.vendorId,
+          query: getLocationParams(latitude, longitude)
+        });
+      },
+      () => {
+        onClearVendorDistance();
+      },
+      { enableHighAccuracy: true, timeout: 5000 }
+    );
+  };
+
+  const getLocationParams = (lat, lng) => {
+    const latitude = `lat=${lat}`;
+    const longitude = `&lng=${lng}`;
+    return latitude + longitude;
+  };
 
   const getPushPathname = val => {
     switch (val) {
@@ -168,6 +209,8 @@ const SitePage = ({
           {isAdmin && " - "}
           {vendorProfile &&
             `${vendorProfile.fullName} (${vendorProfile.phone})`}
+          {getVendorDistanceLoading && " - ... away"}
+          {vendorDistance && ` - ${vendorDistance.distance.text} away`}
         </Typography>
         {getTabContent()}
       </div>
@@ -181,7 +224,10 @@ SitePage.propTypes = {
   globalData: PropTypes.object,
   match: PropTypes.object,
   sitePageData: PropTypes.object,
-  fetchVendorInfo: PropTypes.func
+  fetchVendorInfo: PropTypes.func,
+  fetchVendorDistance: PropTypes.func,
+  onSetVendorInfo: PropTypes.func,
+  onClearVendorDistance: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -190,7 +236,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchVendorInfo: data => dispatch(getVendorInfo(data))
+  fetchVendorInfo: data => dispatch(getVendorInfo(data)),
+  fetchVendorDistance: data => dispatch(getVendorDistance(data)),
+  onSetVendorInfo: data => dispatch(setVendorInfo(data)),
+  onClearVendorDistance: () => dispatch(clearVendorDistance())
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
