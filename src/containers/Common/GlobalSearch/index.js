@@ -102,7 +102,7 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
             onClick={() => {
               setGlobalSearchAnchorEl(null);
               history.push({
-                pathname: `/vendor/${item._id}/site`,
+                pathname: `/vendor/${item._id}/site/description`,
                 state: { vendorDetail: item }
               });
             }}

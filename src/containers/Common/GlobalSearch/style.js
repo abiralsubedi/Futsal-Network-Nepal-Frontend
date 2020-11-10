@@ -52,6 +52,7 @@ const useStyles = makeStyles(theme => ({
   },
   searchItemSecondary: {
     display: "flex",
+    color: theme.palette.text.secondary,
     alignItems: "center",
     "& svg": {
       marginRight: "5px"

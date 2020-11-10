@@ -71,8 +71,8 @@ const DashboardPage = ({
       return loadingArray.map(item => <VendorCard loading key={item} />);
     }
     if (ratedVendor.length) {
-      return ratedVendor.map((item, index) => {
-        const vendor = item.vendor[0];
+      return ratedVendor.map(item => {
+        const vendor = item.vendor;
         return (
           <VendorCard
             fullName={vendor.fullName}
@@ -83,7 +83,7 @@ const DashboardPage = ({
             key={item._id}
             handleClick={() =>
               history.push({
-                pathname: `/vendor/${item._id}/site`,
+                pathname: `/vendor/${item._id}/site/description`,
                 state: { vendorDetail: vendor }
               })
             }
@@ -112,7 +112,7 @@ const DashboardPage = ({
             key={item._id}
             handleClick={() =>
               history.push({
-                pathname: `/vendor/${item._id}/site`,
+                pathname: `/vendor/${item._id}/site/description`,
                 state: { vendorDetail: item }
               })
             }
