@@ -24,6 +24,7 @@ import VendorSchedulePage from "containers/Vendor/SchedulePage";
 import VendorSitePage from "containers/Vendor/SitePage";
 
 import UserDashboardPage from "containers/User/DashboardPage";
+import VendorListPage from "containers/User/VendorListPage";
 
 import PrivateRoute from "components/PrivateRoute";
 import PublicRoute from "components/PublicRoute";
@@ -85,6 +86,14 @@ const Main = () => {
                 }}
               />
               <PrivateRoute path="/profile" component={ProfilePage} />
+              <PrivateRoute
+                exact
+                path="/vendor"
+                component={{
+                  Admin: VendorListPage,
+                  User: VendorListPage
+                }}
+              />
 
               <PrivateRoute
                 path="/people/users/edit/:userId"

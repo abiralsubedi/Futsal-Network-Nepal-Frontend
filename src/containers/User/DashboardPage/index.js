@@ -12,7 +12,7 @@ import VendorCard from "components/VendorCard";
 import SlickSlider from "components/SlickSlider";
 import NoData from "components/NoData";
 
-import { getRatedVendor, getNearbyVendor } from "./actions";
+import { getRatedVendor, getNearbyVendor, clearDashboardPage } from "./actions";
 
 import useStyles from "./style";
 
@@ -21,7 +21,8 @@ const DashboardPage = ({
   dashboardPageData,
   fetchRatedVendor,
   fetchNearbyVendor,
-  history
+  history,
+  onClearDashboardPage
 }) => {
   const classes = useStyles();
 
@@ -43,6 +44,10 @@ const DashboardPage = ({
   useEffect(() => {
     fetchRatedVendor();
     getLocation();
+
+    return () => {
+      onClearDashboardPage();
+    };
   }, []);
 
   const getLocation = () => {
@@ -150,7 +155,8 @@ DashboardPage.propTypes = {
   dashboardPageData: PropTypes.object,
   fetchRatedVendor: PropTypes.func,
   fetchNearbyVendor: PropTypes.func,
-  history: PropTypes.object
+  history: PropTypes.object,
+  onClearDashboardPage: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -160,7 +166,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchRatedVendor: data => dispatch(getRatedVendor(data)),
-  fetchNearbyVendor: data => dispatch(getNearbyVendor(data))
+  fetchNearbyVendor: data => dispatch(getNearbyVendor(data)),
+  onClearDashboardPage: () => dispatch(clearDashboardPage())
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

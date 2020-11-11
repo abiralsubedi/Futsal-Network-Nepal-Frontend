@@ -28,6 +28,7 @@ import CreditPageSagas from "containers/User/CreditPage/saga.js";
 import PaymentFormSagas from "containers/User/PaymentForm/saga.js";
 import BookingDetailPageSagas from "containers/User/BookingDetailPage/saga.js";
 import UserDashboardPageSagas from "containers/User/DashboardPage/saga.js";
+import VendorListPageSagas from "containers/User/VendorListPage/saga.js";
 
 export default function* rootSaga() {
   yield all(
@@ -55,7 +56,8 @@ export default function* rootSaga() {
       SitePageSagas,
       SchedulePageSagas,
       BookingDetailPageSagas,
-      UserDashboardPageSagas
+      UserDashboardPageSagas,
+      VendorListPageSagas
     ].map(fork)
   );
 }

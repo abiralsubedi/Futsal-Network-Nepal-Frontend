@@ -24,6 +24,7 @@ const CustomButton = ({
       }}
       disableFocusRipple
       disableRipple
+      size="large"
       {...rest}
     >
       {actionLoading && (

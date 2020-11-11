@@ -27,9 +27,9 @@ const userLinks = [
     icon: <GetCommonIcon type="filledHome" />
   },
   {
-    value: "Profile",
-    url: "/profile",
-    icon: <GetCommonIcon type="filledProfile" />
+    value: "Futsal",
+    url: "/vendor",
+    icon: <GetCommonIcon type="filledFootball" />
   }
 ];
 
@@ -56,6 +56,11 @@ const adminLinks = [
     value: "Home",
     url: "/",
     icon: <GetCommonIcon type="filledHome" />
+  },
+  {
+    value: "Futsal",
+    url: "/vendor",
+    icon: <GetCommonIcon type="filledFootball" />
   },
   {
     value: "People",

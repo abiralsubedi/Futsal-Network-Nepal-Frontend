@@ -28,6 +28,7 @@ import CreditPageReducer from "containers/User/CreditPage/reducer.js";
 import PaymentFormReducer from "containers/User/PaymentForm/reducer.js";
 import BookingDetailPageReducer from "containers/User/BookingDetailPage/reducer.js";
 import UserDashboardPageReducer from "containers/User/DashboardPage/reducer.js";
+import VendorListPageReducer from "containers/User/VendorListPage/reducer.js";
 
 export default combineReducers({
   LoginReducer,
@@ -53,5 +54,6 @@ export default combineReducers({
   SitePageReducer,
   SchedulePageReducer,
   BookingDetailPageReducer,
-  UserDashboardPageReducer
+  UserDashboardPageReducer,
+  VendorListPageReducer
 });
