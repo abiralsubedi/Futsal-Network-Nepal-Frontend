@@ -2,6 +2,7 @@ import {
   GET_VENDOR_LIST,
   GET_VENDOR_LIST_ERROR,
   GET_VENDOR_LIST_SUCCESS,
+  SET_FILTER_OPTIONS,
   CLEAR_VENDOR_DATA
 } from "./constants";
 
@@ -9,7 +10,8 @@ export default (
   state = {
     vendorListLoading: false,
     vendorList: [],
-    vendorListError: ""
+    vendorListError: "",
+    filterOptions: false
   },
   action
 ) => {
@@ -32,6 +34,12 @@ export default (
         ...state,
         vendorListLoading: false,
         vendorListError: action.error
+      };
+
+    case SET_FILTER_OPTIONS:
+      return {
+        ...state,
+        filterOptions: action.payload
       };
 
     case CLEAR_VENDOR_DATA:

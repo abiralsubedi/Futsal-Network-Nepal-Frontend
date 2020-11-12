@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { IOSSwitch } from "components/Common";
-import Switch from "@material-ui/core/Switch";
 import Modal from "components/Modal";
 import Button from "components/Button";
 import TextField from "components/TextField";

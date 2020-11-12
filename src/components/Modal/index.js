@@ -29,7 +29,7 @@ const CustomModal = ({
       }}
       {...rest}
     >
-      <div className={`${classes.dialogContent} ${contentWrapperClass}`}>
+      <div className={classes.dialogContent}>
         <div className={classes.dialogTitle}>
           <div>{title}</div>
           <div onClick={handleClose}>
@@ -37,7 +37,9 @@ const CustomModal = ({
           </div>
         </div>
         <hr />
-        <div className={classes.dialogBody}>{children}</div>
+        <div className={`${classes.dialogBody} ${contentWrapperClass}`}>
+          {children}
+        </div>
       </div>
     </Dialog>
   );

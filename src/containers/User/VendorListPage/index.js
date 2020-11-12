@@ -3,60 +3,69 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
 
-import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 import LazyLoad from "react-lazyload";
 
 import { Wrapper } from "components/Common";
 import VendorListCard from "components/VendorListCard";
 import NoData from "components/NoData";
+import VendorListFilter from "components/VendorListFilter";
 
-import { clearVendorData, getVendorList } from "./actions";
+import { getVendorList, setFilterOptions } from "./actions";
 
 import useStyles from "./style";
 
-const DashboardPage = ({
+const VendorListPage = ({
   globalData,
   vendorListPageData,
   fetchVendorList,
-  onClearVendorData
+  onSetFilterOptions
 }) => {
   const classes = useStyles();
 
   const {
     profile: { role }
   } = globalData;
-  const { vendorListLoading, vendorList } = vendorListPageData;
+  const { vendorListLoading, vendorList, filterOptions } = vendorListPageData;
 
-  const [locationDisabled, setLocationDisabled] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState(false);
 
   useEffect(() => {
-    fetchVendorList();
     getLocation();
-
-    return () => {
-      onClearVendorData();
-    };
   }, []);
 
   const getLocation = () => {
     navigator.geolocation.getCurrentPosition(
       position => {
         const { latitude, longitude } = position.coords;
-        // fetchNearbyVendor(getLocationParams(latitude, longitude));
+        setCurrentLocation({ lat: latitude, lng: longitude });
       },
       () => {
-        setLocationDisabled(true);
+        setCurrentLocation(false);
       },
       { enableHighAccuracy: true, timeout: 5000 }
     );
   };
 
-  const getLocationParams = (lat, lng) => {
-    const latitude = `lat=${lat}`;
-    const longitude = `&lng=${lng}`;
-    const radius = `&radius=6`;
-    return latitude + longitude + radius;
+  const searchVendorList = ({ vendorName, radius, ratingRange }) => {
+    const [minRate, maxRate] = ratingRange;
+    fetchVendorList({
+      query: getUrlParam(vendorName, radius, minRate, maxRate)
+    });
+  };
+
+  const getUrlParam = (vendorName, radius, minRate, maxRate) => {
+    const queryArray = [];
+    queryArray.push(
+      `vendorName=${vendorName}`,
+      `radius=${radius}`,
+      `minRate=${minRate}`,
+      `maxRate=${maxRate}`,
+      `lat=${currentLocation.lat}`,
+      `lng=${currentLocation.lng}`
+    );
+    return queryArray.join("&");
   };
 
   const getVendorCardList = () => {
@@ -81,27 +90,38 @@ const DashboardPage = ({
         );
       });
     }
-    return <NoData text="Sorry futsal are currently not available." />;
+    return <NoData text="Sorry there are no matching futsal." />;
   };
 
   return (
     <Wrapper>
       <div className={classes.vendorListContainer}>
-        {/* <Typography variant="body1" className={classes.welcomeText}>
-          Hello <strong>{fullName}</strong>, Welcome to Futsal Network Nepal
-          App.
-        </Typography> */}
-        {getVendorCardList()}
+        <Grid container spacing={1}>
+          <Grid item md={4} xs={12}>
+            <VendorListFilter
+              location={currentLocation}
+              loading={vendorListLoading}
+              handleSearch={data => {
+                searchVendorList(data);
+                onSetFilterOptions(data);
+              }}
+              initialFilterOptions={filterOptions}
+            />
+          </Grid>
+          <Grid item md={8} xs={12}>
+            {getVendorCardList()}
+          </Grid>
+        </Grid>
       </div>
     </Wrapper>
   );
 };
 
-DashboardPage.propTypes = {
+VendorListPage.propTypes = {
   globalData: PropTypes.object,
   vendorListPageData: PropTypes.object,
   fetchVendorList: PropTypes.func,
-  onClearVendorData: PropTypes.func
+  onSetFilterOptions: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -111,9 +131,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchVendorList: data => dispatch(getVendorList(data)),
-  onClearVendorData: () => dispatch(clearVendorData())
+  onSetFilterOptions: data => dispatch(setFilterOptions(data))
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect)(DashboardPage);
+export default compose(withConnect)(VendorListPage);

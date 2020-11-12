@@ -2,6 +2,7 @@ import {
   GET_VENDOR_LIST,
   GET_VENDOR_LIST_ERROR,
   GET_VENDOR_LIST_SUCCESS,
+  SET_FILTER_OPTIONS,
   CLEAR_VENDOR_DATA
 } from "./constants";
 
@@ -17,6 +18,11 @@ export const getVendorListSuccess = payload => ({
 export const getVendorListError = error => ({
   type: GET_VENDOR_LIST_ERROR,
   error
+});
+
+export const setFilterOptions = payload => ({
+  type: SET_FILTER_OPTIONS,
+  payload
 });
 
 export const clearVendorData = () => ({

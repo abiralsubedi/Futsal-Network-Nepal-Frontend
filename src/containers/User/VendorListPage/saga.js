@@ -4,11 +4,12 @@ import request from "utils/request";
 import { GET_VENDOR_LIST } from "./constants";
 import { getVendorListSuccess, getVendorListError } from "./actions";
 
-function* getVendorList() {
+function* getVendorList({ payload }) {
   try {
     const token = localStorage.getItem("token");
+    const { query } = payload;
 
-    const response = yield call(request, `/vendor/custom-search?searchText=&minRate=0&maxRate=5`, {
+    const response = yield call(request, `/vendor/custom-search?${query}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
