@@ -89,8 +89,8 @@ const VendorListFilter = ({
         }}
       >
         <TextField
-          id="vendor-name"
-          label="Vendor Name"
+          id="futsal-name"
+          label="Futsal Name"
           value={vendorName}
           handleChange={val => setVendorName(val)}
           autoFocus

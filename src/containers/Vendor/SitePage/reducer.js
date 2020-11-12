@@ -5,6 +5,9 @@ import {
   GET_VENDOR_DISTANCE,
   GET_VENDOR_DISTANCE_ERROR,
   GET_VENDOR_DISTANCE_SUCCESS,
+  GET_VENDOR_ADDITIONAL_INFO,
+  GET_VENDOR_ADDITIONAL_INFO_ERROR,
+  GET_VENDOR_ADDITIONAL_INFO_SUCCESS,
   SET_VENDOR_INFO,
   CLEAR_VENDOR_DISTANCE,
   CLEAR_DATA
@@ -17,7 +20,11 @@ export default (
     getVendorProfileError: "",
     getVendorDistanceLoading: false,
     vendorDistance: false,
-    getVendorDistanceError: ""
+    getVendorDistanceError: "",
+    vendorAdditionalInfoLoading: false,
+    galleryInfo: [],
+    descriptionInfo: "",
+    vendorAdditionalInfoError: ""
   },
   action
 ) => {
@@ -60,6 +67,26 @@ export default (
         ...state,
         getVendorDistanceLoading: false,
         getVendorDistanceError: action.error
+      };
+
+    case GET_VENDOR_ADDITIONAL_INFO:
+      return {
+        ...state,
+        vendorAdditionalInfoLoading: true,
+        vendorAdditionalInfoError: ""
+      };
+    case GET_VENDOR_ADDITIONAL_INFO_SUCCESS:
+      return {
+        ...state,
+        vendorAdditionalInfoLoading: false,
+        galleryInfo: action.payload.gallery,
+        descriptionInfo: action.payload.description
+      };
+    case GET_VENDOR_ADDITIONAL_INFO_ERROR:
+      return {
+        ...state,
+        vendorAdditionalInfoLoading: false,
+        vendorAdditionalInfoError: action.error
       };
 
     case SET_VENDOR_INFO:

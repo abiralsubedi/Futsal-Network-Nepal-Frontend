@@ -12,40 +12,35 @@ import TextEditor from "components/TextEditor";
 import Button from "components/Button";
 import Loader from "components/Loader";
 
-import {
-  getDescriptionInfo,
-  postDescriptionInfo,
-  clearDescriptionData
-} from "./actions";
+import { getVendorAdditionalInfo } from "containers/Vendor/SitePage/actions";
+
+import { postDescriptionInfo, clearDescriptionData } from "./actions";
 import useStyles from "./style";
 
 const DescriptionPage = ({
-  fetchDescriptionInfo,
   saveDescriptionInfo,
   onClearDescriptionData,
   globalData: { profile },
   descriptionInfoData,
-  match
+  match,
+  sitePageData,
+  fetchVendorAdditionalInfo
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
   const {
-    descriptionInfoLoading,
-    descriptionInfo,
     postDescriptionInfoLoading,
     postDescriptionInfoSuccess,
     postDescriptionInfoError
   } = descriptionInfoData;
 
+  const { descriptionInfo, vendorAdditionalInfoLoading } = sitePageData;
+
   const vendorId = match.params.vendorId || profile._id;
   const isUser = profile.role === "User";
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
-  useEffect(() => {
-    fetchDescriptionInfo({ vendorId });
-  }, []);
 
   useEffect(() => {
     if (descriptionInfo) {
@@ -71,6 +66,7 @@ const DescriptionPage = ({
         variant: "success",
         onClose: () => onClearDescriptionData()
       });
+      fetchVendorAdditionalInfo({ vendorId });
     }
   }, [postDescriptionInfoError, postDescriptionInfoSuccess]);
 
@@ -81,7 +77,7 @@ const DescriptionPage = ({
     return `<p style="color: #989393; text-align: center; font-size: 1rem">There is no description.</p>`;
   }, [descriptionInfo]);
 
-  if (descriptionInfoLoading) {
+  if (vendorAdditionalInfoLoading) {
     return <Loader wrapperClass={classes.loadingWrapper} />;
   }
 
@@ -119,20 +115,22 @@ const DescriptionPage = ({
 };
 
 DescriptionPage.propTypes = {
-  fetchDescriptionInfo: PropTypes.func,
   onClearDescriptionData: PropTypes.func,
   saveDescriptionInfo: PropTypes.func,
   descriptionInfoData: PropTypes.object,
-  match: PropTypes.object
+  match: PropTypes.object,
+  sitePageData: PropTypes.object,
+  fetchVendorAdditionalInfo: PropTypes.func
 };
 
 const mapStateToProps = state => ({
   descriptionInfoData: state.DescriptionReducer,
-  globalData: state.LoginReducer
+  globalData: state.LoginReducer,
+  sitePageData: state.SitePageReducer
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchDescriptionInfo: data => dispatch(getDescriptionInfo(data)),
+  fetchVendorAdditionalInfo: data => dispatch(getVendorAdditionalInfo(data)),
   onClearDescriptionData: () => dispatch(clearDescriptionData()),
   saveDescriptionInfo: data => dispatch(postDescriptionInfo(data))
 });

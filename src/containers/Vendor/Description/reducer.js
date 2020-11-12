@@ -1,7 +1,4 @@
 import {
-  GET_DESCRIPTION_INFO,
-  GET_DESCRIPTION_INFO_ERROR,
-  GET_DESCRIPTION_INFO_SUCCESS,
   POST_DESCRIPTION,
   POST_DESCRIPTION_ERROR,
   POST_DESCRIPTION_SUCCESS,
@@ -10,9 +7,6 @@ import {
 
 export default (
   state = {
-    descriptionInfoLoading: false,
-    descriptionInfo: "",
-    descriptionInfoError: "",
     postDescriptionInfoLoading: false,
     postDescriptionInfoSuccess: "",
     postDescriptionInfoError: ""
@@ -20,26 +14,6 @@ export default (
   action
 ) => {
   switch (action.type) {
-    case GET_DESCRIPTION_INFO:
-      return {
-        ...state,
-        descriptionInfoLoading: true,
-        descriptionInfo: "",
-        descriptionInfoError: ""
-      };
-    case GET_DESCRIPTION_INFO_SUCCESS:
-      return {
-        ...state,
-        descriptionInfoLoading: false,
-        descriptionInfo: action.payload
-      };
-    case GET_DESCRIPTION_INFO_ERROR:
-      return {
-        ...state,
-        descriptionInfoLoading: false,
-        descriptionInfoError: action.error
-      };
-
     case POST_DESCRIPTION:
       return {
         ...state,

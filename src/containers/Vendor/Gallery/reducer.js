@@ -1,7 +1,4 @@
 import {
-  GET_GALLERY_INFO,
-  GET_GALLERY_INFO_ERROR,
-  GET_GALLERY_INFO_SUCCESS,
   POST_GALLERY_INFO,
   POST_GALLERY_INFO_ERROR,
   POST_GALLERY_INFO_SUCCESS,
@@ -10,9 +7,6 @@ import {
 
 export default (
   state = {
-    galleryInfoLoading: false,
-    galleryInfo: [],
-    galleryInfoError: "",
     postGalleryInfoLoading: false,
     postGalleryInfoSuccess: "",
     postGalleryInfoError: ""
@@ -20,26 +14,6 @@ export default (
   action
 ) => {
   switch (action.type) {
-    case GET_GALLERY_INFO:
-      return {
-        ...state,
-        galleryInfoLoading: true,
-        galleryInfo: [],
-        galleryInfoError: ""
-      };
-    case GET_GALLERY_INFO_SUCCESS:
-      return {
-        ...state,
-        galleryInfoLoading: false,
-        galleryInfo: action.payload
-      };
-    case GET_GALLERY_INFO_ERROR:
-      return {
-        ...state,
-        galleryInfoLoading: false,
-        galleryInfoError: action.error
-      };
-
     case POST_GALLERY_INFO:
       return {
         ...state,
@@ -63,7 +37,6 @@ export default (
     case CLEAR_GALLERY_DATA:
       return {
         ...state,
-        postGalleryInfoLoading: false,
         postGalleryInfoSuccess: "",
         postGalleryInfoError: ""
       };

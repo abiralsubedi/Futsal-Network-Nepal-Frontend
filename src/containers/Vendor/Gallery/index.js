@@ -28,27 +28,30 @@ import NoData from "components/NoData";
 
 import getImageUrl from "utils/getImageUrl";
 
-import { getGalleryInfo, postGalleryInfo, clearGalleryData } from "./actions";
+import { getVendorAdditionalInfo } from "containers/Vendor/SitePage/actions";
+
+import { postGalleryInfo, clearGalleryData } from "./actions";
 import useStyles from "./style";
 
 const GalleryPage = ({
-  fetchGalleryInfo,
   saveGalleryInfo,
   onClearGalleryData,
   globalData: { profile },
   galleryInfoData,
-  match
+  match,
+  fetchVendorAdditionalInfo,
+  sitePageData
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
   const {
-    galleryInfoLoading,
-    galleryInfo,
     postGalleryInfoLoading,
     postGalleryInfoSuccess,
     postGalleryInfoError
   } = galleryInfoData;
+
+  const { galleryInfo, vendorAdditionalInfoLoading } = sitePageData;
 
   const [editMode, setEditMode] = useState(false);
   const [viewPhotoUrl, setViewPhotoUrl] = useState(false);
@@ -57,10 +60,6 @@ const GalleryPage = ({
   const vendorId = match.params.vendorId || profile._id;
 
   const isUser = profile.role === "User";
-
-  useEffect(() => {
-    fetchGalleryInfo({ vendorId });
-  }, []);
 
   useEffect(() => {
     if (galleryInfo) {
@@ -80,7 +79,7 @@ const GalleryPage = ({
         variant: "success",
         onClose: () => onClearGalleryData()
       });
-      fetchGalleryInfo({ vendorId });
+      fetchVendorAdditionalInfo({ vendorId });
     }
   }, [postGalleryInfoError, postGalleryInfoSuccess]);
 
@@ -115,7 +114,7 @@ const GalleryPage = ({
       thumbnailWidth: 320,
       thumbnailHeight: 212
     }));
-  }, [galleryInfoLoading]);
+  }, [vendorAdditionalInfoLoading]);
 
   const galleryMemo = useMemo(() => {
     if (!galleryImagesMemo.length) {
@@ -129,7 +128,7 @@ const GalleryPage = ({
         backdropClosesModal
       />
     );
-  }, [galleryInfoLoading]);
+  }, [vendorAdditionalInfoLoading]);
 
   const addImageMemo = useMemo(
     () => (
@@ -189,7 +188,7 @@ const GalleryPage = ({
     setEditImages(newImages);
   };
 
-  if (galleryInfoLoading) {
+  if (vendorAdditionalInfoLoading) {
     return <Loader wrapperClass={classes.loadingWrapper} />;
   }
 
@@ -246,20 +245,22 @@ const GalleryPage = ({
 };
 
 GalleryPage.propTypes = {
-  fetchGalleryInfo: PropTypes.func,
   onClearGalleryData: PropTypes.func,
   saveGalleryInfo: PropTypes.func,
   galleryInfoData: PropTypes.object,
-  match: PropTypes.object
+  match: PropTypes.object,
+  fetchVendorAdditionalInfo: PropTypes.func,
+  sitePageData: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   galleryInfoData: state.GalleryReducer,
-  globalData: state.LoginReducer
+  globalData: state.LoginReducer,
+  sitePageData: state.SitePageReducer
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchGalleryInfo: data => dispatch(getGalleryInfo(data)),
+  fetchVendorAdditionalInfo: data => dispatch(getVendorAdditionalInfo(data)),
   onClearGalleryData: () => dispatch(clearGalleryData()),
   saveGalleryInfo: data => dispatch(postGalleryInfo(data))
 });

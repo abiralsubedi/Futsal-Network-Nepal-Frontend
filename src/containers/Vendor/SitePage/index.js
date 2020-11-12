@@ -23,7 +23,8 @@ import {
   getVendorInfo,
   getVendorDistance,
   setVendorInfo,
-  clearVendorDistance
+  clearVendorDistance,
+  getVendorAdditionalInfo
 } from "./actions";
 import useStyles from "./style";
 
@@ -36,19 +37,20 @@ const SitePage = ({
   sitePageData,
   fetchVendorDistance,
   onSetVendorInfo,
-  onClearVendorDistance
+  onClearVendorDistance,
+  fetchVendorAdditionalInfo
 }) => {
   const classes = useStyles();
   const { isMobile } = useContext(ThemeContext);
-  const {
-    profile: { role }
-  } = globalData;
+  const { profile } = globalData;
   const {
     vendorProfile,
     getVendorDistanceLoading,
     vendorDistance
   } = sitePageData;
-  const { vendorId } = match.params;
+  const { role } = profile;
+
+  const vendorId = match.params.vendorId || profile._id;
 
   const [tabIndexValue, setTabIndexValue] = useState(0);
   const [vendorChanged, setVendorChanged] = useState(false);
@@ -91,6 +93,7 @@ const SitePage = ({
       if (isUser) {
         getUserDistance();
       }
+      fetchVendorAdditionalInfo({ vendorId });
     }
   }, [vendorId]);
 
@@ -227,7 +230,8 @@ SitePage.propTypes = {
   fetchVendorInfo: PropTypes.func,
   fetchVendorDistance: PropTypes.func,
   onSetVendorInfo: PropTypes.func,
-  onClearVendorDistance: PropTypes.func
+  onClearVendorDistance: PropTypes.func,
+  fetchVendorAdditionalInfo: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -237,6 +241,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchVendorInfo: data => dispatch(getVendorInfo(data)),
+  fetchVendorAdditionalInfo: data => dispatch(getVendorAdditionalInfo(data)),
   fetchVendorDistance: data => dispatch(getVendorDistance(data)),
   onSetVendorInfo: data => dispatch(setVendorInfo(data)),
   onClearVendorDistance: () => dispatch(clearVendorDistance())

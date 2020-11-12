@@ -1,12 +1,18 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import request from "utils/request";
 
-import { GET_VENDOR_INFO, GET_VENDOR_DISTANCE } from "./constants";
+import {
+  GET_VENDOR_INFO,
+  GET_VENDOR_DISTANCE,
+  GET_VENDOR_ADDITIONAL_INFO
+} from "./constants";
 import {
   getVendorInfoSuccess,
   getVendorInfoError,
   getVendorDistanceSuccess,
-  getVendorDistanceError
+  getVendorDistanceError,
+  getVendorAdditionalInfoError,
+  getVendorAdditionalInfoSuccess
 } from "./actions";
 
 function* getVendorInfo({ vendorId }) {
@@ -48,7 +54,26 @@ function* getVendorDistance({ payload }) {
   }
 }
 
+function* getVendorAdditionalInfo({ payload }) {
+  try {
+    const { vendorId } = payload;
+    const token = localStorage.getItem("token");
+
+    const vendorInfo = yield call(request, `/vendor/${vendorId}/info`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    yield put(getVendorAdditionalInfoSuccess(vendorInfo));
+  } catch (error) {
+    const errorObj = yield error.response.json();
+    yield put(getVendorAdditionalInfoError(errorObj.message));
+  }
+}
+
 export default function* mySaga() {
   yield takeLatest(GET_VENDOR_INFO, getVendorInfo);
   yield takeLatest(GET_VENDOR_DISTANCE, getVendorDistance);
+  yield takeLatest(GET_VENDOR_ADDITIONAL_INFO, getVendorAdditionalInfo);
 }

@@ -5,6 +5,9 @@ import {
   GET_VENDOR_DISTANCE,
   GET_VENDOR_DISTANCE_SUCCESS,
   GET_VENDOR_DISTANCE_ERROR,
+  GET_VENDOR_ADDITIONAL_INFO,
+  GET_VENDOR_ADDITIONAL_INFO_ERROR,
+  GET_VENDOR_ADDITIONAL_INFO_SUCCESS,
   SET_VENDOR_INFO,
   CLEAR_VENDOR_DISTANCE,
   CLEAR_DATA
@@ -35,6 +38,20 @@ export const getVendorDistanceSuccess = payload => ({
 });
 export const getVendorDistanceError = error => ({
   type: GET_VENDOR_DISTANCE_ERROR,
+  error
+});
+
+export const getVendorAdditionalInfo = payload => ({
+  type: GET_VENDOR_ADDITIONAL_INFO,
+  payload
+});
+
+export const getVendorAdditionalInfoSuccess = payload => ({
+  type: GET_VENDOR_ADDITIONAL_INFO_SUCCESS,
+  payload
+});
+export const getVendorAdditionalInfoError = error => ({
+  type: GET_VENDOR_ADDITIONAL_INFO_ERROR,
   error
 });
 
