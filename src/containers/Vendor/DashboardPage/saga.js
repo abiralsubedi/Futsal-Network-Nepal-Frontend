@@ -14,13 +14,18 @@ import {
 function* getDashboardInfo() {
   try {
     const token = localStorage.getItem("token");
+    const reqDate = getDateTime(new Date("2020-11-25"), "dashedDate");
 
-    const response = yield call(request, `/admin/dashboard-info`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`
+    const response = yield call(
+      request,
+      `/vendor/dashboard-info?presentDate=${reqDate}&day=${new Date().getDay()}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
-    });
+    );
     yield put(getDashboardInfoSuccess(response));
   } catch (error) {
     const errorObj = yield error.response.json();
@@ -28,14 +33,14 @@ function* getDashboardInfo() {
   }
 }
 
-function* getCurrentBooking({ payload }) {
+function* getCurrentBooking() {
   try {
     const token = localStorage.getItem("token");
     const reqDate = getDateTime(new Date("2020-11-25"), "dashedDate");
 
     const response = yield call(
       request,
-      `/admin/current-booking?presentDate=${reqDate}`,
+      `/vendor/current-booking?presentDate=${reqDate}`,
       {
         method: "GET",
         headers: {

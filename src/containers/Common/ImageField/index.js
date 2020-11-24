@@ -170,14 +170,18 @@ const ImageField = ({
         {(images || []).map((image, index) => (
           <div className={classes.imageField} key={index}>
             <div
-              className={classes.roundedImage}
+              className={classes.imageWrapper}
               style={{
-                backgroundImage: `url(${image}`,
                 cursor: !photoUri && "auto"
               }}
               key={index}
               onClick={() => (photoUri ? openImageViewer(index) : null)}
             >
+              <img
+                src={image}
+                alt="Profile"
+                className={classes.roundedImage}
+              />
               <div
                 className={classes.imageAction}
                 onClick={handleProfileMenuClick}

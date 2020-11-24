@@ -10,7 +10,7 @@ import getDateTime from "utils/getDateTime";
 
 import useStyles from "./style";
 
-const AddFieldModal = ({ open, handleClose, bookingDetail, role }) => {
+const BookingDetailModal = ({ open, handleClose, bookingDetail, role }) => {
   const classes = useStyles();
 
   const isUser = role === "User";
@@ -40,7 +40,7 @@ const AddFieldModal = ({ open, handleClose, bookingDetail, role }) => {
           <br />
           Field Name: {bookingDetail.field.name} <br />
           Price: ${bookingDetail.workingHour.price} <br />
-          Status: {bookingDetail.status} <br />
+          Status: {bookingDetail.status || "Active"} <br />
           Booked on: {getDateTime(bookingDetail.createdAt, "onlyDate")}
         </Typography>
       </>
@@ -70,11 +70,11 @@ const AddFieldModal = ({ open, handleClose, bookingDetail, role }) => {
   );
 };
 
-AddFieldModal.propTypes = {
+BookingDetailModal.propTypes = {
   open: PropTypes.bool,
   handleClose: PropTypes.func,
   addFieldData: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   role: PropTypes.string
 };
 
-export default AddFieldModal;
+export default BookingDetailModal;

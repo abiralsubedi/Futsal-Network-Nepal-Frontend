@@ -23,6 +23,7 @@ import AdminDashboardPage from "containers/Admin/DashboardPage";
 
 import VendorSchedulePage from "containers/Vendor/SchedulePage";
 import VendorSitePage from "containers/Vendor/SitePage";
+import VendorDashboardPage from "containers/Vendor/DashboardPage";
 
 import UserDashboardPage from "containers/User/DashboardPage";
 import VendorListPage from "containers/User/VendorListPage";
@@ -82,7 +83,7 @@ const Main = () => {
                 path="/"
                 component={{
                   Admin: AdminDashboardPage,
-                  Vendor: DashboardPage,
+                  Vendor: VendorDashboardPage,
                   User: UserDashboardPage
                 }}
               />

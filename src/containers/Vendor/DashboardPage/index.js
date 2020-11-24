@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
@@ -10,6 +10,7 @@ import Card from "@material-ui/core/Card";
 import { Wrapper } from "components/Common";
 import DashboardInfoCard from "components/DashboardInfoCard";
 import PeopleTable from "components/PeopleTable";
+import BookingDetailModal from "components/BookingDetailModal";
 
 import {
   getDashboardInfo,
@@ -29,7 +30,7 @@ const DashboardPage = ({
   const classes = useStyles();
 
   const {
-    profile: { fullName }
+    profile: { fullName, role }
   } = globalData;
   const {
     dashboardInfoLoading,
@@ -37,6 +38,8 @@ const DashboardPage = ({
     currentBookingLoading,
     currentBooking
   } = dashboardPageData;
+
+  const [viewBookingInfo, setViewBookingInfo] = useState(false);
 
   useEffect(() => {
     fetchDashboardInfo();
@@ -50,24 +53,24 @@ const DashboardPage = ({
   const getCardDetail = () => {
     return [
       {
-        title: "Total User",
-        count: dashboardInfo.userCount,
-        iconType: "user"
-      },
-      {
-        title: "Total Futsal",
-        count: dashboardInfo.vendorCount,
+        title: "Booking (Today)",
+        count: dashboardInfo.todayBooking,
         iconType: "futsal"
       },
       {
-        title: "Total Booking",
-        count: dashboardInfo.booking.count,
+        title: "Available Booking (Today)",
+        count: dashboardInfo.availableBooking,
+        iconType: "futsal"
+      },
+      {
+        title: "Total Fields",
+        count: dashboardInfo.fieldCount,
         iconType: "booking"
       },
       {
-        title: "Total Amount (USD)",
-        count: dashboardInfo.booking.amount,
-        iconType: "payment"
+        title: "Total Booking",
+        count: dashboardInfo.totalBooking,
+        iconType: "booking"
       }
     ];
   };
@@ -94,9 +97,17 @@ const DashboardPage = ({
   };
 
   const tableHeader = [
-    { label: "Futsal Name", key: "vendor.fullName" },
-    { label: "Booking Number", key: "count", align: "right" },
-    { label: "Booking Amount (USD)", key: "amount", align: "right" }
+    { label: "User", key: "user.fullName" },
+    { label: "Time", key: "workingHour.clock.fullName" },
+    { label: "Field Name", key: "field.name" },
+    { label: "Price ($)", key: "workingHour.price", align: "right" }
+  ];
+
+  const actions = [
+    {
+      type: "View",
+      handleClick: item => setViewBookingInfo(item)
+    }
   ];
 
   const bookingTableMemo = useMemo(() => {
@@ -106,6 +117,7 @@ const DashboardPage = ({
         tableHeader={tableHeader}
         tableBody={currentBooking}
         tableBodyLoading={currentBookingLoading}
+        actions={actions}
         noMultiSelect
       />
     );
@@ -124,9 +136,15 @@ const DashboardPage = ({
         </Grid>
 
         <Typography variant="h6" className={classes.sectionTitle}>
-          Today's Statistic
+          Today's Booking
         </Typography>
         <Card variant="outlined">{bookingTableMemo}</Card>
+        <BookingDetailModal
+          open={!!viewBookingInfo}
+          handleClose={() => setViewBookingInfo(false)}
+          bookingDetail={viewBookingInfo}
+          role={role}
+        />
       </div>
     </Wrapper>
   );
@@ -142,7 +160,7 @@ DashboardPage.propTypes = {
 
 const mapStateToProps = state => ({
   globalData: state.LoginReducer,
-  dashboardPageData: state.AdminDashboardPageReducer
+  dashboardPageData: state.VendorDashboardPageReducer
 });
 
 const mapDispatchToProps = dispatch => ({

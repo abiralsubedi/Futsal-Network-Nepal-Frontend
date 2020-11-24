@@ -24,6 +24,7 @@ import ReviewPageSagas from "containers/Vendor/ReviewPage/saga.js";
 import BookingPageSagas from "containers/Vendor/BookingPage/saga.js";
 import SitePageSagas from "containers/Vendor/SitePage/saga.js";
 import SchedulePageSagas from "containers/Vendor/SchedulePage/saga.js";
+import VendorDashboardPageSagas from "containers/Vendor/DashboardPage/saga.js";
 
 import CreditPageSagas from "containers/User/CreditPage/saga.js";
 import PaymentFormSagas from "containers/User/PaymentForm/saga.js";
@@ -59,7 +60,8 @@ export default function* rootSaga() {
       BookingDetailPageSagas,
       UserDashboardPageSagas,
       VendorListPageSagas,
-      AdminDashboardPageSagas
+      AdminDashboardPageSagas,
+      VendorDashboardPageSagas
     ].map(fork)
   );
 }

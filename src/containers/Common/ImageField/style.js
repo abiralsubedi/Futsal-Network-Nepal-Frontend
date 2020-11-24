@@ -8,15 +8,16 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "6px"
   },
   imageField: {},
-  roundedImage: {
+  imageWrapper: {
     position: "relative",
-    borderRadius: "6%",
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
     width: "12rem",
     height: "12rem",
     cursor: "pointer"
+  },
+  roundedImage: {
+    borderRadius: "6%",
+    height: "100%",
+    width: "100%"
   },
   imageAction: {
     position: "absolute",
