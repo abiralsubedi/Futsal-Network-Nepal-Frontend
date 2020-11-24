@@ -26,12 +26,7 @@ const VendorCard = ({
   if (loading) {
     return (
       <Card className={classes.vendorCardRoot} variant="outlined">
-        <Skeleton
-          variant="rect"
-          height={160}
-          animation="wave"
-          classes={{ root: classes.skeletonRoot }}
-        />
+        <Skeleton variant="rect" height={160} animation="wave" />
         <div className={classes.loadingCardContent}>
           <Skeleton
             animation="wave"

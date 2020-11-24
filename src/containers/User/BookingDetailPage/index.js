@@ -13,7 +13,6 @@ import ConfirmationModal from "components/ConfirmationModal";
 import BookingDetailModal from "components/BookingDetailModal";
 
 import getDateTime from "utils/getDateTime";
-import getFirstHourDate from "utils/getFirstHourDate";
 
 import { getBookingDetail, removeBooking, clearPostData } from "./actions";
 import useStyles from "./style";
@@ -79,8 +78,8 @@ const FieldsPage = ({
   };
 
   const getUrlParam = pageNum => {
-    const startDateQuery = `startDate=${getFirstHourDate(startDate)}`;
-    const endDateQuery = `&endDate=${getFirstHourDate(endDate, 1)}`;
+    const startDateQuery = `startDate=${getDateTime(startDate, "dashedDate")}`;
+    const endDateQuery = `&endDate=${getDateTime(endDate, "dashedDate")}`;
     const pageQuery = `&currentPage=${pageNum}`;
     const sizeQuery = `&pageSize=${pageSize}`;
 
@@ -92,9 +91,9 @@ const FieldsPage = ({
   };
 
   const tableHeader = [
-    ...(isVendor
-      ? [{ label: "User", key: "user.fullName" }]
-      : [{ label: "Futsal", key: "vendor.fullName" }]),
+    ...(isUser
+      ? [{ label: "Futsal", key: "vendor.fullName" }]
+      : [{ label: "User", key: "user.fullName" }]),
     { label: "Booking Date", key: "bookingDate", type: "Date" },
     { label: "Time", key: "workingHour.clock.fullName" },
     { label: "Status", key: "inactive", type: "Bool", status: "status" }
@@ -142,7 +141,7 @@ const FieldsPage = ({
     });
     return (
       <PeopleTable
-        type="booking"
+        noDataText="Sorry, There is no matching booking."
         tableHeader={tableHeader}
         tableBody={updatedBookingDetail || []}
         tableBodyLoading={getBookingDetailLoading}

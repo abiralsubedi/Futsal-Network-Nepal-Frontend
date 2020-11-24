@@ -42,10 +42,10 @@ const PeopleTable = ({
   currentPage,
   handlePaginationChange,
   actions,
-  type,
   addButton,
   selectedActions,
-  noMultiSelect
+  noMultiSelect,
+  noDataText
 }) => {
   const classes = useStyles();
 
@@ -241,9 +241,7 @@ const PeopleTable = ({
                   {tableBodyLoading && (
                     <Loader wrapperClass={classes.loadingWrapper} />
                   )}
-                  {!tableBodyLoading && (
-                    <NoData text={`Sorry, there is no matching ${type}.`} />
-                  )}
+                  {!tableBodyLoading && <NoData text={noDataText} />}
                 </TableCell>
               </TableRow>
             )}
@@ -329,7 +327,7 @@ PeopleTable.propTypes = {
   currentPage: PropTypes.number,
   handlePaginationChange: PropTypes.func,
   actions: PropTypes.instanceOf(Array),
-  type: PropTypes.string,
+  noDataText: PropTypes.string,
   addButton: PropTypes.object,
   selectedActions: PropTypes.instanceOf(Array),
   noMultiSelect: PropTypes.bool

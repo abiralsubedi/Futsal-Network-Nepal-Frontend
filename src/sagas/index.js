@@ -14,6 +14,7 @@ import PeopleUserPageSagas from "containers/Admin/PeopleUserPage/saga.js";
 import AddUserSagas from "containers/Admin/AddUser/saga.js";
 import PeopleVendorPageSagas from "containers/Admin/PeopleVendorPage/saga.js";
 import AddVendorSagas from "containers/Admin/AddVendor/saga.js";
+import AdminDashboardPageSagas from "containers/Admin/DashboardPage/saga.js";
 
 import GameHourSagas from "containers/Vendor/GameHour/saga.js";
 import FieldSagas from "containers/Vendor/Fields/saga.js";
@@ -57,7 +58,8 @@ export default function* rootSaga() {
       SchedulePageSagas,
       BookingDetailPageSagas,
       UserDashboardPageSagas,
-      VendorListPageSagas
+      VendorListPageSagas,
+      AdminDashboardPageSagas
     ].map(fork)
   );
 }

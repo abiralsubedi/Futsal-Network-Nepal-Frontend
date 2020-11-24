@@ -94,7 +94,7 @@ const PeopleVendorPage = ({
     const paginationSize = Math.ceil(searchCount / pageSize);
     return (
       <PeopleTable
-        type="vendor"
+        noDataText="Sorry, There is no matching vendor."
         tableHeader={tableHeader}
         tableBody={userList || []}
         tableBodyLoading={userListLoading}

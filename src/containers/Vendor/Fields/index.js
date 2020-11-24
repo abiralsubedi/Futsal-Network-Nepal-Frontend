@@ -71,7 +71,7 @@ const FieldsPage = ({
   const fieldTableMemo = useMemo(() => {
     return (
       <PeopleTable
-        type="field"
+        noDataText="Sorry, There is no any available field."
         tableHeader={tableHeader}
         tableBody={fieldInfo || []}
         tableBodyLoading={fieldInfoLoading}

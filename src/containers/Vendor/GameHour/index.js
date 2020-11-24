@@ -129,7 +129,7 @@ const GameHour = ({
   const gameHourTableMemo = useMemo(() => {
     return (
       <PeopleTable
-        type="game hour"
+        noDataText="Sorry, There is no any available game hour."
         tableHeader={tableHeader}
         tableBody={gameHour || []}
         tableBodyLoading={gameHourLoading || weekDataLoading}

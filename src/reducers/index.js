@@ -14,6 +14,7 @@ import PeopleUserPageReducer from "containers/Admin/PeopleUserPage/reducer.js";
 import AddUserReducer from "containers/Admin/AddUser/reducer.js";
 import PeopleVendorPageReducer from "containers/Admin/PeopleVendorPage/reducer.js";
 import AddVendorReducer from "containers/Admin/AddVendor/reducer.js";
+import AdminDashboardPageReducer from "containers/Admin/DashboardPage/reducer.js";
 
 import GameHourReducer from "containers/Vendor/GameHour/reducer.js";
 import FieldReducer from "containers/Vendor/Fields/reducer.js";
@@ -55,5 +56,6 @@ export default combineReducers({
   SchedulePageReducer,
   BookingDetailPageReducer,
   UserDashboardPageReducer,
-  VendorListPageReducer
+  VendorListPageReducer,
+  AdminDashboardPageReducer
 });

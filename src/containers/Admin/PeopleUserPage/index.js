@@ -94,7 +94,7 @@ const PeopleUserPage = ({
     const paginationSize = Math.ceil(searchCount / pageSize);
     return (
       <PeopleTable
-        type="user"
+        noDataText="Sorry, There is no matching user."
         tableHeader={tableHeader}
         tableBody={userList || []}
         tableBodyLoading={userListLoading}

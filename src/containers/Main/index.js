@@ -19,6 +19,7 @@ import ProfilePage from "containers/Common/ProfilePage";
 import DashboardPage from "containers/DashboardPage";
 
 import AdminPeoplePage from "containers/Admin/PeoplePage";
+import AdminDashboardPage from "containers/Admin/DashboardPage";
 
 import VendorSchedulePage from "containers/Vendor/SchedulePage";
 import VendorSitePage from "containers/Vendor/SitePage";
@@ -80,7 +81,7 @@ const Main = () => {
                 exact
                 path="/"
                 component={{
-                  Admin: DashboardPage,
+                  Admin: AdminDashboardPage,
                   Vendor: DashboardPage,
                   User: UserDashboardPage
                 }}
