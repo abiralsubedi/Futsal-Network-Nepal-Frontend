@@ -1,27 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import PropTypes, { number } from "prop-types";
 import { compose } from "redux";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
-import { withStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-
 import Button from "components/Button";
-import NoData from "components/NoData";
-import Loader from "components/Loader";
 import TableDateFilter from "components/TableDateFilter";
 import AddCreditModal from "components/AddCreditModal";
+import PeopleTable from "components/PeopleTable";
 
-import getDateTime from "utils/getDateTime";
 import getFirstHourDate from "utils/getFirstHourDate";
 
 import { toggleAddCreditModal } from "containers/LoginPage/actions";
@@ -42,9 +31,9 @@ const CreditPage = ({
   } = globalData;
 
   const { creditHistoryLoading, creditHistory } = creditPageData;
+  const pageSize = 8;
 
-  const [orderBy, setOrderBy] = useState("transactionDate");
-  const [order, setOrder] = useState("desc");
+  const [currentPage, setCurrentPage] = useState(1);
   const [startDate, setStartDate] = useState(
     new Date(new Date().setDate(new Date().getDate() - 14))
   );
@@ -65,45 +54,36 @@ const CreditPage = ({
     });
   };
 
-  const StyledTableCell = withStyles(theme => ({
-    head: {},
-    body: {
-      fontSize: "0.95rem"
-    }
-  }))(TableCell);
-
-  const StyledTableRow = withStyles(theme => ({
-    root: {}
-  }))(TableRow);
-
   const tableHeader = [
-    { label: "Date", id: "transactionDate" },
-    { label: "Remarks" },
-    { label: "Credit", align: "right" }
+    { label: "Date", key: "transactionDate", type: "Date", sortable: true },
+    { label: "Remarks", key: "remark" },
+    {
+      label: "Credit",
+      align: "right",
+      key: "amount",
+      sortable: true,
+      type: "Number"
+    }
   ];
 
-  const createSortHandler = property => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
+  const creditTableMemo = useMemo(() => {
+    return (
+      <PeopleTable
+        noDataText="Sorry, There has been no transaction for the period."
+        tableHeader={tableHeader}
+        tableBody={creditHistory}
+        tableBodyLoading={creditHistoryLoading}
+        noMultiSelect
+        sortable
+        initialOrder={{ orderBy: "transactionDate", order: "desc" }}
+        currentPage={currentPage}
+        pageSize={pageSize}
+        paginationSize={Math.ceil(creditHistory.length / pageSize)}
+        handlePaginationChange={(e, page) => setCurrentPage(page)}
+      />
+    );
+  }, [creditHistoryLoading, currentPage]);
 
-  const stableHistorySort = () => {
-    const newCreditHistory = JSON.parse(JSON.stringify(creditHistory));
-    return (newCreditHistory || []).sort((a, b) => {
-      let val;
-      if (a[orderBy] > b[orderBy]) {
-        val = 1;
-      } else {
-        val = -1;
-      }
-
-      if (order === "asc") {
-        return val;
-      }
-      return -val;
-    });
-  };
   return (
     <div className={classes.creditPageContent}>
       <AddCreditModal />
@@ -146,70 +126,7 @@ const CreditPage = ({
       />
 
       <Typography className={classes.tableTitle}>Credit History</Typography>
-      <TableContainer className={classes.tableContainer}>
-        <Table
-          className={classes.table}
-          aria-label="customized table"
-          stickyHeader
-        >
-          <TableHead>
-            <TableRow>
-              {(tableHeader || []).map(headCell => (
-                <TableCell
-                  key={headCell.label}
-                  align={headCell.align || "left"}
-                  sortDirection={orderBy === headCell.id ? order : false}
-                  classes={{ head: classes.tableHead }}
-                >
-                  {headCell.id ? (
-                    <TableSortLabel
-                      active={orderBy === headCell.id}
-                      direction={orderBy === headCell.id ? order : "asc"}
-                      onClick={() => createSortHandler(headCell.id)}
-                    >
-                      {headCell.label}
-                    </TableSortLabel>
-                  ) : (
-                    headCell.label
-                  )}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {!creditHistory.length && (
-              <TableRow>
-                <TableCell colSpan={3}>
-                  {creditHistoryLoading && (
-                    <Loader wrapperClass={classes.loadingWrapper} />
-                  )}
-                  {!creditHistoryLoading && (
-                    <NoData text="You do not have any financial transaction during the period." />
-                  )}
-                </TableCell>
-              </TableRow>
-            )}
-            {!!creditHistory.length &&
-              stableHistorySort().map(row => (
-                <StyledTableRow key={row.transactionDate} hover>
-                  <StyledTableCell>
-                    {getDateTime(row.transactionDate, "onlyDate")}
-                  </StyledTableCell>
-                  <StyledTableCell>{row.remark}</StyledTableCell>
-                  <StyledTableCell align="right">
-                    <Typography
-                      className={`${classes.creditCell}
-                        ${row.amount > 0 ? "creditAmount" : "debitAmount"}
-                      `}
-                    >
-                      {row.amount}
-                    </Typography>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {creditTableMemo}
     </div>
   );
 };

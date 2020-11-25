@@ -19,6 +19,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Chip from "@material-ui/core/Chip";
 import IconButton from "@material-ui/core/IconButton";
 import Pagination from "@material-ui/lab/Pagination";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import BlockIcon from "@material-ui/icons/Block";
@@ -45,18 +46,16 @@ const PeopleTable = ({
   addButton,
   selectedActions,
   noMultiSelect,
-  noDataText
+  noDataText,
+  sortable,
+  initialOrder,
+  pageSize
 }) => {
   const classes = useStyles();
 
-  const StyledTableCell = withStyles(theme => ({
-    head: {},
-    body: {
-      fontSize: "0.95rem"
-    }
-  }))(TableCell);
-
   const [selectedRow, setSelectedRow] = useState([]);
+  const [orderBy, setOrderBy] = useState(initialOrder && initialOrder.orderBy);
+  const [order, setOrder] = useState(initialOrder && initialOrder.order);
 
   useEffect(() => {
     setSelectedRow([]);
@@ -162,8 +161,52 @@ const PeopleTable = ({
 
   const columnCount = useMemo(() => getColumnCount(), []);
 
+  const createSortHandler = property => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
+  const getSortedBody = () => {
+    if (!sortable) {
+      return tableBody || [];
+    }
+
+    let updatedTableBody = JSON.parse(JSON.stringify(tableBody));
+    updatedTableBody = (updatedTableBody || []).sort((a, b) => {
+      let val;
+      if (a[orderBy] > b[orderBy]) {
+        val = 1;
+      } else {
+        val = -1;
+      }
+
+      if (order === "asc") {
+        return val;
+      }
+      return -val;
+    });
+    if (!currentPage) {
+      return updatedTableBody;
+    }
+    return updatedTableBody.slice(
+      (currentPage - 1) * pageSize,
+      currentPage * pageSize
+    );
+  };
+
+  const getBodyColClass = (colType, colVal) => {
+    if (colType && colType === "Number") {
+      if (colVal > 0) {
+        return "success";
+      }
+      return "error";
+    }
+    return "";
+  };
+
   return (
-    <>
+    <div>
       {addButton && (
         <Toolbar
           className={`${classes.tableToolbar} ${
@@ -222,9 +265,20 @@ const PeopleTable = ({
                 <TableCell
                   key={headCell.label}
                   align={headCell.align || "left"}
+                  sortDirection={orderBy === headCell.key ? order : false}
                   classes={{ head: classes.tableHead }}
                 >
-                  {headCell.label}
+                  {headCell.sortable ? (
+                    <TableSortLabel
+                      active={orderBy === headCell.key}
+                      direction={orderBy === headCell.key ? order : "asc"}
+                      onClick={() => createSortHandler(headCell.key)}
+                    >
+                      {headCell.label}
+                    </TableSortLabel>
+                  ) : (
+                    headCell.label
+                  )}
                 </TableCell>
               ))}
               {actions && (
@@ -245,7 +299,7 @@ const PeopleTable = ({
                 </TableCell>
               </TableRow>
             )}
-            {(tableBody || []).map(row => {
+            {getSortedBody().map(row => {
               const isSelected = isRowSelected(row._id);
               const rowId = row._id;
               return (
@@ -268,9 +322,9 @@ const PeopleTable = ({
                   {(tableHeader || []).map(col => {
                     if (col.type === "Bool") {
                       return (
-                        <StyledTableCell key={col.key} align={col.align}>
+                        <TableCell key={col.key} align={col.align}>
                           {getChipContent(row[col.key], row[col.status])}
-                        </StyledTableCell>
+                        </TableCell>
                       );
                     }
                     const keyArray = col.key.split(".");
@@ -282,15 +336,20 @@ const PeopleTable = ({
                       colValue = getDateTime(colValue, "onlyDate");
                     }
                     return (
-                      <StyledTableCell key={col.key} align={col.align}>
+                      <TableCell
+                        classes={{ body: classes.tableBody }}
+                        key={col.key}
+                        align={col.align}
+                        className={getBodyColClass(col.type, colValue)}
+                      >
                         {colValue || "N/A"}
-                      </StyledTableCell>
+                      </TableCell>
                     );
                   })}
                   {actions && (
-                    <StyledTableCell align="right">
+                    <TableCell align="right">
                       {(actions || []).map(action => getAction(action, row))}
-                    </StyledTableCell>
+                    </TableCell>
                   )}
                 </TableRow>
               );
@@ -315,7 +374,7 @@ const PeopleTable = ({
           )}
         </Table>
       </TableContainer>
-    </>
+    </div>
   );
 };
 
@@ -330,7 +389,10 @@ PeopleTable.propTypes = {
   noDataText: PropTypes.string,
   addButton: PropTypes.object,
   selectedActions: PropTypes.instanceOf(Array),
-  noMultiSelect: PropTypes.bool
+  noMultiSelect: PropTypes.bool,
+  sortable: PropTypes.bool,
+  initialOrder: PropTypes.object,
+  pageSize: PropTypes.number
 };
 
 export default compose(withRouter)(PeopleTable);

@@ -31,7 +31,7 @@ function* getDashboardInfo() {
 function* getCurrentBooking({ payload }) {
   try {
     const token = localStorage.getItem("token");
-    const reqDate = getDateTime(new Date("2020-11-25"), "dashedDate");
+    const reqDate = getDateTime(new Date(), "dashedDate");
 
     const response = yield call(
       request,

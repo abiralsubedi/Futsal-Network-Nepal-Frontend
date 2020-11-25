@@ -11,7 +11,15 @@ const useStyles = makeStyles(theme => ({
   tableHead: {
     fontSize: "1.125rem"
   },
-
+  tableBody: {
+    fontSize: "0.95rem",
+    "&.success": {
+      color: theme.palette.success.main
+    },
+    "&.error": {
+      color: theme.palette.error.main
+    }
+  },
   tableToolbar: {
     display: "flex",
     justifyContent: "flex-end",

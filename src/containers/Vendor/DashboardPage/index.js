@@ -28,6 +28,7 @@ const DashboardPage = ({
   onClearDashboardPage
 }) => {
   const classes = useStyles();
+  const pageSize = 8;
 
   const {
     profile: { fullName, role }
@@ -40,6 +41,7 @@ const DashboardPage = ({
   } = dashboardPageData;
 
   const [viewBookingInfo, setViewBookingInfo] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     fetchDashboardInfo();
@@ -98,9 +100,9 @@ const DashboardPage = ({
 
   const tableHeader = [
     { label: "User", key: "user.fullName" },
-    { label: "Time", key: "workingHour.clock.fullName" },
-    { label: "Field Name", key: "field.name" },
-    { label: "Price ($)", key: "workingHour.price", align: "right" }
+    { label: "Time", key: "time", sortable: true },
+    { label: "Field Name", key: "fieldName", sortable: true },
+    { label: "Price ($)", key: "price", align: "right", sortable: true }
   ];
 
   const actions = [
@@ -110,15 +112,32 @@ const DashboardPage = ({
     }
   ];
 
+  const getUpdatedBookingContent = () => {
+    return currentBooking.map(item => {
+      const time = item.workingHour.clock.fullName;
+      const fieldName = item.field.name;
+      const price = item.workingHour.price;
+
+      return { ...item, time, fieldName, price };
+    });
+  };
+
   const bookingTableMemo = useMemo(() => {
+    const updatedCurrentBooking = getUpdatedBookingContent();
     return (
       <PeopleTable
         noDataText="Sorry, There has been no booking for today."
         tableHeader={tableHeader}
-        tableBody={currentBooking}
+        tableBody={updatedCurrentBooking}
         tableBodyLoading={currentBookingLoading}
         actions={actions}
         noMultiSelect
+        sortable
+        initialOrder={{ orderBy: "time", order: "asc" }}
+        currentPage={currentPage}
+        pageSize={pageSize}
+        paginationSize={Math.ceil(currentBooking.length / pageSize)}
+        handlePaginationChange={(e, page) => setCurrentPage(page)}
       />
     );
   }, [currentBookingLoading]);

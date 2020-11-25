@@ -94,19 +94,34 @@ const DashboardPage = ({
   };
 
   const tableHeader = [
-    { label: "Futsal Name", key: "vendor.fullName" },
-    { label: "Booking Number", key: "count", align: "right" },
-    { label: "Booking Amount (USD)", key: "amount", align: "right" }
+    { label: "Futsal Name", key: "vendorFullName", sortable: true },
+    { label: "Booking Number", key: "count", align: "right", sortable: true },
+    {
+      label: "Booking Amount (USD)",
+      key: "amount",
+      align: "right",
+      sortable: true
+    }
   ];
 
+  const getUpdatedBookingContent = () => {
+    return currentBooking.map(item => {
+      const vendorFullName = item.vendor.fullName;
+      return { ...item, vendorFullName };
+    });
+  };
+
   const bookingTableMemo = useMemo(() => {
+    const updatedCurrentBooking = getUpdatedBookingContent();
     return (
       <PeopleTable
         noDataText="Sorry, There has been no booking for today."
         tableHeader={tableHeader}
-        tableBody={currentBooking}
+        tableBody={updatedCurrentBooking}
         tableBodyLoading={currentBookingLoading}
         noMultiSelect
+        sortable
+        initialOrder={{ orderBy: "count", order: "desc" }}
       />
     );
   }, [currentBookingLoading]);
