@@ -113,6 +113,12 @@ const SitePage = ({
     );
   };
 
+  useEffect(() => {
+    return () => {
+      onClearVendorDistance();
+    };
+  }, []);
+
   const getLocationParams = (lat, lng) => {
     const latitude = `lat=${lat}`;
     const longitude = `&lng=${lng}`;

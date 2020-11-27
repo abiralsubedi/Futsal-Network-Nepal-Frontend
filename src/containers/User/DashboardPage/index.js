@@ -21,8 +21,7 @@ const DashboardPage = ({
   dashboardPageData,
   fetchRatedVendor,
   fetchNearbyVendor,
-  history,
-  onClearDashboardPage
+  history
 }) => {
   const classes = useStyles();
 
@@ -42,12 +41,12 @@ const DashboardPage = ({
   const [locationDisabled, setLocationDisabled] = useState(false);
 
   useEffect(() => {
-    fetchRatedVendor();
-    getLocation();
-
-    return () => {
-      onClearDashboardPage();
-    };
+    if (!ratedVendor.length) {
+      fetchRatedVendor();
+    }
+    if (!nearbyVendor.length) {
+      getLocation();
+    }
   }, []);
 
   const getLocation = () => {
@@ -155,8 +154,7 @@ DashboardPage.propTypes = {
   dashboardPageData: PropTypes.object,
   fetchRatedVendor: PropTypes.func,
   fetchNearbyVendor: PropTypes.func,
-  history: PropTypes.object,
-  onClearDashboardPage: PropTypes.func
+  history: PropTypes.object
 };
 
 const mapStateToProps = state => ({
@@ -166,8 +164,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchRatedVendor: data => dispatch(getRatedVendor(data)),
-  fetchNearbyVendor: data => dispatch(getNearbyVendor(data)),
-  onClearDashboardPage: () => dispatch(clearDashboardPage())
+  fetchNearbyVendor: data => dispatch(getNearbyVendor(data))
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

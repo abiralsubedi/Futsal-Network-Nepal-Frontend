@@ -6,6 +6,8 @@ import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/core/styles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
+import AppLogo from "assets/images/app-logo.png";
+
 import useStyles from "./style";
 
 export const Wrapper = ({ style, children, ...props }) => {
@@ -33,7 +35,7 @@ export const OuterLogo = () => {
   return (
     <Link to="/login">
       <img
-        src="https://image.flaticon.com/icons/svg/2965/2965279.svg"
+        src={AppLogo}
         alt="logo"
         style={{ width: "5rem", paddingBottom: "2rem" }}
       />

@@ -9,7 +9,8 @@ const useStyles = makeStyles(theme => ({
     border: `1px solid ${theme.palette.divider}`
   },
   tableHead: {
-    fontSize: "1.125rem"
+    fontSize: "1.125rem",
+    fontWeight: 600,
   },
   tableBody: {
     fontSize: "0.95rem",

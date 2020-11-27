@@ -111,7 +111,7 @@ const LoginPage = ({
         <form
           onSubmit={e => {
             e.preventDefault();
-            postLogin({ username, password });
+            postLogin({ username: username.trim(), password });
           }}
         >
           {isMobile && <OuterLogo />}

@@ -18,6 +18,8 @@ import ProfileMenu from "components/ProfileMenu";
 import { ThemeContext } from "context/themeContext";
 import GetCommonIcon from "utils/getCommonIcon.js";
 
+import AppLogo from "assets/images/app-logo.png";
+
 import useStyles from "./style";
 
 const userLinks = [
@@ -140,11 +142,7 @@ const Header = ({ globalData }) => {
                 </IconButton>
               ) : (
                 <Link to="/">
-                  <img
-                    src="https://image.flaticon.com/icons/svg/2965/2965279.svg"
-                    alt="logo"
-                    style={{ width: "3rem" }}
-                  />
+                  <img src={AppLogo} alt="logo" style={{ width: "3rem" }} />
                 </Link>
               )}
             </div>
@@ -169,11 +167,7 @@ const Header = ({ globalData }) => {
           }}
         >
           <div className={classes.drawerLogo}>
-            <img
-              src="https://image.flaticon.com/icons/svg/2965/2965279.svg"
-              alt="logo"
-              style={{ width: "3rem" }}
-            />
+            <img src={AppLogo} alt="logo" style={{ width: "3rem" }} />
           </div>
           <ul className={classes.navLinkList}>{renderNavBar()}</ul>
         </SwipeableDrawer>

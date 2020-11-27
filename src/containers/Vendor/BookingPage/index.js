@@ -37,7 +37,8 @@ const BookingPage = ({
   match,
   saveBooking,
   onClearPostData,
-  onToggleCreditModal
+  onToggleCreditModal,
+  sitePageData: { vendorProfile }
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -208,6 +209,9 @@ const BookingPage = ({
         confirmationText={getConfirmationText()}
         handleConfirm={() =>
           saveBooking({
+            vendorName: vendorProfile.fullName,
+            fullBookingTime: selectedGameHour.clock.fullName,
+            fullBookingDate: getDateTime(bookingDate, "onlyDate"),
             vendorId,
             fieldId: selectedField._id,
             gameHourId: selectedGameHour._id,
@@ -230,12 +234,14 @@ BookingPage.propTypes = {
   bookingPageData: PropTypes.object,
   globalData: PropTypes.object,
   match: PropTypes.object,
-  onToggleCreditModal: PropTypes.func
+  onToggleCreditModal: PropTypes.func,
+  sitePageData: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   bookingPageData: state.BookingPageReducer,
-  globalData: state.LoginReducer
+  globalData: state.LoginReducer,
+  sitePageData: state.SitePageReducer
 });
 
 const mapDispatchToProps = dispatch => ({
