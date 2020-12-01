@@ -15,7 +15,8 @@ export default (
     ratedVendorError: "",
     nearbyVendorLoading: false,
     nearbyVendor: [],
-    nearbyVendorError: ""
+    nearbyVendorError: "",
+    fetchedNearbyVendor: false
   },
   action
 ) => {
@@ -51,7 +52,8 @@ export default (
       return {
         ...state,
         nearbyVendorLoading: false,
-        nearbyVendor: action.payload
+        nearbyVendor: action.payload,
+        fetchedNearbyVendor: true
       };
     case GET_NEARBY_VENDOR_ERROR:
       return {

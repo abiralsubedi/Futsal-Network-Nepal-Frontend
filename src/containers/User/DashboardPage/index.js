@@ -32,7 +32,8 @@ const DashboardPage = ({
     ratedVendorLoading,
     ratedVendor,
     nearbyVendorLoading,
-    nearbyVendor
+    nearbyVendor,
+    fetchedNearbyVendor
   } = dashboardPageData;
 
   const theme = useTheme();
@@ -44,7 +45,7 @@ const DashboardPage = ({
     if (!ratedVendor.length) {
       fetchRatedVendor();
     }
-    if (!nearbyVendor.length) {
+    if (!fetchedNearbyVendor) {
       getLocation();
     }
   }, []);

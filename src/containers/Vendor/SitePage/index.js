@@ -219,7 +219,7 @@ const SitePage = ({
           {vendorProfile &&
             `${vendorProfile.fullName} (${vendorProfile.phone})`}
           {getVendorDistanceLoading && " - ... away"}
-          {vendorDistance && ` - ${vendorDistance.distance.text} away`}
+          {vendorDistance && vendorDistance.distance && ` - ${vendorDistance.distance.text} away`}
         </Typography>
         {getTabContent()}
       </div>

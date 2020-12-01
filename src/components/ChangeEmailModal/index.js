@@ -28,7 +28,7 @@ const ChangeEmailModal = ({ open, handleClose, loading, handleConfirm }) => {
         variant: "error"
       });
     }
-    handleConfirm(newEmail);
+    handleConfirm(newEmail.trim());
   };
 
   return (
