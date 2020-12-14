@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { compose } from "redux";
 import { withRouter } from "react-router-dom";
+import { ThemeContext } from "context/themeContext";
 
 import Popover from "@material-ui/core/Popover";
 import InputBase from "@material-ui/core/InputBase";
@@ -33,6 +34,7 @@ import useStyles from "./style";
 
 const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
   const classes = useStyles();
+  const { darkMode } = useContext(ThemeContext);
 
   const { globalSearchLoading, globalSearch } = globalSearchData;
 
@@ -90,7 +92,7 @@ const GlobalSearch = ({ globalSearchData, fetchGlobalSearch, history }) => {
         </div>
       </div>
     ));
-  }, []);
+  }, [darkMode]);
 
   const renderSearchList = () => {
     return (

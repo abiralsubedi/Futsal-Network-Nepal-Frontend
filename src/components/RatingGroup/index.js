@@ -108,7 +108,7 @@ const RatingGroup = ({ reviewDetail, loading }) => {
           />
           <div>
             <Typography className={classes.secondaryText}>
-              {vendorReviewMemo.totalReview.toLocaleString()} total
+              {vendorReviewMemo.totalReview.toLocaleString()} Total
             </Typography>
           </div>
         </div>

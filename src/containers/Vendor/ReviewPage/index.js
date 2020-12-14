@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { compose } from "redux";
+import { ThemeContext } from "context/themeContext";
 
 import { useSnackbar } from "notistack";
 import Box from "@material-ui/core/Box";
@@ -41,6 +42,7 @@ const ReviewPage = ({
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const { darkMode } = useContext(ThemeContext);
 
   const {
     reviewLoading,
@@ -156,7 +158,7 @@ const ReviewPage = ({
         )}
       </div>
     );
-  }, [reviewDetailLoading]);
+  }, [reviewDetailLoading, darkMode]);
 
   const reviewListMemo = useMemo(() => {
     if (reviewLoading && currentPage === 1) {

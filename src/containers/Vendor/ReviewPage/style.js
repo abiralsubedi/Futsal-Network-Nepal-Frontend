@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "5px"
   },
   writeReviewButtonLabel: {
-    color: theme.palette.grey[500]
+    color: theme.palette.text.secondary
   },
   selfReviewWrapper: {
     marginTop: "2rem"

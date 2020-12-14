@@ -58,6 +58,7 @@ const VendorListCard = ({
                       height={35}
                       width={100}
                       animation="wave"
+                      style={{ borderRadius: "1rem" }}
                     />
                   </Box>
                 ))}
