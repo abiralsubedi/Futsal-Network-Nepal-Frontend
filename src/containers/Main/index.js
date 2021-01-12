@@ -16,7 +16,6 @@ import LoginPage from "containers/LoginPage";
 import RegisterPage from "containers/RegisterPage";
 import SetPasswordPage from "containers/SetPasswordPage";
 import ProfilePage from "containers/Common/ProfilePage";
-import DashboardPage from "containers/DashboardPage";
 
 import AdminPeoplePage from "containers/Admin/PeoplePage";
 import AdminDashboardPage from "containers/Admin/DashboardPage";

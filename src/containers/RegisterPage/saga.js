@@ -4,8 +4,7 @@ import request from "utils/request";
 import { REGISTER } from "./constants";
 import { registerSuccess, registerError } from "./actions";
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
-function* register({ payload }) {
+export function* register({ payload }) {
   try {
     const response = yield call(request, "/register", {
       method: "POST",

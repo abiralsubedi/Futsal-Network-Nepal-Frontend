@@ -1,21 +1,49 @@
-import { REQUEST_API_DATA, RECEIVE_API_DATA } from "../constants";
-import { requestApiData, receiveApiData } from "../actions";
+import {
+  REGISTER,
+  REGISTER_SUCCESS,
+  REGISTER_ERROR,
+  CLEAR_REGISTER_MESSAGE
+} from "../constants";
+import {
+  register,
+  registerSuccess,
+  registerError,
+  clearRegisterMessage
+} from "../actions";
 
-describe("HomePage actions", () => {
-  describe("request API data", () => {
-    it("request data", () => {
+describe("Register Page actions", () => {
+  describe("request user register", () => {
+    it("request register", () => {
       const expected = {
-        type: REQUEST_API_DATA
+        type: REGISTER,
+        payload: "request payload"
       };
-      expect(requestApiData()).toEqual(expected);
+      expect(register("request payload")).toEqual(expected);
     });
 
-    it("receive data", () => {
+    it("register success", () => {
       const expected = {
-        type: RECEIVE_API_DATA,
-        data: "required data"
+        type: REGISTER_SUCCESS,
+        payload: "success response"
       };
-      expect(receiveApiData("required data")).toEqual(expected);
+      expect(registerSuccess("success response")).toEqual(expected);
+    });
+
+    it("register error", () => {
+      const expected = {
+        type: REGISTER_ERROR,
+        error: "error response"
+      };
+      expect(registerError("error response")).toEqual(expected);
+    });
+  });
+
+  describe("clear registration messages", () => {
+    it("clear message", () => {
+      const expected = {
+        type: CLEAR_REGISTER_MESSAGE
+      };
+      expect(clearRegisterMessage()).toEqual(expected);
     });
   });
 });

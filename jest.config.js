@@ -4,7 +4,7 @@ module.exports = {
     "!src/**/*.test.{js,jsx}",
     "!src/*/RbGenerated*/*.{js,jsx}",
     "!src/app.js",
-    "!src/global-styles.js",
+    "!src/**/style.js",
     "!src/*/*/Loadable.{js,jsx}"
   ],
   coverageThreshold: {
@@ -22,6 +22,6 @@ module.exports = {
       "<rootDir>/internals/mocks/image.js"
   },
   setupFiles: ["raf/polyfill"],
-  testRegex: "tests/.*\\.test\\.js$",
+  testRegex: "RegisterPage/tests/.*\\.test\\.jsx?$",
   snapshotSerializers: ["enzyme-to-json/serializer"]
 };
