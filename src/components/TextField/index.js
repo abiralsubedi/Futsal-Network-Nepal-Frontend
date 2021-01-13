@@ -7,7 +7,7 @@ import useStyles from "./style";
 
 const CustomTextField = ({
   customClasses,
-  type,
+  type = "text",
   handleChange,
   endAdornment,
   maxDecimalValue = 0,
@@ -23,7 +23,7 @@ const CustomTextField = ({
         endAdornment: endAdornment ? endAdornment : ""
       }}
       variant="outlined"
-      type={type || "text"}
+      type={type}
       onChange={({ target: { value } }) => {
         let updatedVal = value;
         if (type === "number" && +value % 1 !== 0) {

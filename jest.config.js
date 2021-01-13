@@ -22,6 +22,6 @@ module.exports = {
       "<rootDir>/internals/mocks/image.js"
   },
   setupFiles: ["raf/polyfill"],
-  testRegex: "RegisterPage/tests/.*\\.test\\.jsx?$",
+  testRegex: "/tests/.*\\.test\\.jsx?$",
   snapshotSerializers: ["enzyme-to-json/serializer"]
 };

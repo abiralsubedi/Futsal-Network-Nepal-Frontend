@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { compose } from "redux";
-import { connect } from "react-redux";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import useStyles from "./style";
@@ -22,13 +20,7 @@ const ReCaptcha = ({ onCaptchaChange, captchaRef }) => {
 
 ReCaptcha.propTypes = {
   onCaptchaChange: PropTypes.func,
-  captchaRef: PropTypes.node
+  captchaRef: PropTypes.object
 };
 
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = dispatch => ({});
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-
-export default compose(withConnect)(ReCaptcha);
+export default ReCaptcha;
