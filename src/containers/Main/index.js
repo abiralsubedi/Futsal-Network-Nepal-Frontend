@@ -4,8 +4,6 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/core/styles";
-import { SnackbarProvider } from "notistack";
-import Button from "@material-ui/core/Button";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
@@ -30,6 +28,7 @@ import VendorListPage from "containers/User/VendorListPage";
 import PrivateRoute from "components/PrivateRoute";
 import PublicRoute from "components/PublicRoute";
 import NotFoundPage from "components/NotFoundPage";
+import SnackbarProvider from "utils/snackbarProvider";
 
 import useStyles from "./style";
 
@@ -47,29 +46,9 @@ const Main = () => {
     };
   }, []);
 
-  const notistackRef = React.createRef();
-  const onClickDismiss = key => () => {
-    notistackRef.current.closeSnackbar(key);
-  };
-
   return (
     <ThemeProvider theme={getTheme(darkMode)}>
-      <SnackbarProvider
-        maxSnack={4}
-        ref={notistackRef}
-        action={key => (
-          <Button
-            onClick={onClickDismiss(key)}
-            className={classes.snackBarButton}
-          >
-            Dismiss
-          </Button>
-        )}
-        autoHideDuration={8000}
-        classes={{
-          root: classes.snackBarRoot
-        }}
-      >
+      <SnackbarProvider>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <BrowserRouter>
             <CssBaseline />
