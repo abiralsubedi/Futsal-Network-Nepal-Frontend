@@ -38,7 +38,7 @@ const SnackBarProviderWrapper = ({ children }) => {
           Dismiss
         </Button>
       )}
-      autoHideDuration={80000}
+      autoHideDuration={8000}
       classes={{
         root: classes.snackBarRoot
       }}
