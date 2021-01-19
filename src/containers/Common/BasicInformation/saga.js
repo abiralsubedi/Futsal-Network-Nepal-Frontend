@@ -23,7 +23,7 @@ function* postProfileInfo({ payload }) {
       body: JSON.stringify(payload)
     });
     yield call(getProfileData);
-    yield put(postProfileInfoSuccess("Profile Updated successfully!"));
+    yield put(postProfileInfoSuccess("Profile Updated Successfully!"));
   } catch (error) {
     const errorObj = yield error.response.json();
     yield put(postProfileInfoError(errorObj.message));

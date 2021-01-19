@@ -43,8 +43,7 @@ const ProfileMenu = ({ history, postLogout, globalData }) => {
         onClick={evt => setProfileMenuAnchorEl(evt.currentTarget)}
         classes={{ root: classes.iconButtonRoot }}
         className={profileMenuAnchorEl ? "active" : ""}
-        disableFocusRipple
-        disableRipple
+        data-cy="profile-menu-btn"
       >
         <Avatar
           alt="header-profile-picture"
@@ -78,6 +77,7 @@ const ProfileMenu = ({ history, postLogout, globalData }) => {
           }}
           className="first-menu-item"
           disableRipple
+          data-cy="profile-menu-personal-info"
         >
           <div>
             <Avatar
@@ -123,6 +123,7 @@ const ProfileMenu = ({ history, postLogout, globalData }) => {
             root: classes.menuItemRoot
           }}
           disableRipple
+          data-cy="profile-menu-logout"
         >
           <div className={classes.menuItemLeft}>
             <ExitToAppIcon />

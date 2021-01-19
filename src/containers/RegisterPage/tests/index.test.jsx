@@ -21,7 +21,7 @@ describe("Register index", () => {
 
   jest.spyOn(React, "useState").mockImplementation(useStateMock);
 
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

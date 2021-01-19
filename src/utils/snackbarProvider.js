@@ -33,14 +33,16 @@ const SnackBarProviderWrapper = ({ children }) => {
         <Button
           onClick={onClickDismiss(key)}
           className={classes.snackBarButton}
+          data-cy="snackbar-item-dismiss"
         >
           Dismiss
         </Button>
       )}
-      autoHideDuration={8000}
+      autoHideDuration={80000}
       classes={{
         root: classes.snackBarRoot
       }}
+      data-cy="snackbar-item"
     >
       {children}
     </SnackbarProvider>

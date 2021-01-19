@@ -46,7 +46,8 @@
     "test:clean": "rimraf ./coverage",
     "test": "NODE_ENV=test jest --verbose",
     "test:coverage": "NODE_ENV=test jest --verbose --coverage",
-    "test:watch": "NODE_ENV=test jest --verbose --watchAll"
+    "test:watch": "NODE_ENV=test jest --verbose --watchAll",
+    "cypress": "cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -69,6 +70,8 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "24.9.0",
     "babel-loader": "^8.1.0",
+    "cypress": "^6.2.1",
+    "cypress-react-selector": "^2.2.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.5.0",

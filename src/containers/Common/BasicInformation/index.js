@@ -110,6 +110,7 @@ const ProfilePage = ({
               autoFocus
               required
               fullWidth
+              data-cy="profile-full-name"
             />
           </Grid>
           <Grid item lg={5} md={6} xs={12}>
@@ -190,6 +191,7 @@ const ProfilePage = ({
           buttonRootClass={classes.informationButtonRoot}
           actionLoading={postProfileLoading}
           buttonText="Save Changes"
+          data-cy="basic-info-save"
         />
       </form>
 

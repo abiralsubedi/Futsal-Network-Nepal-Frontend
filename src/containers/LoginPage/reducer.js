@@ -65,7 +65,13 @@ export default (state = initialState, action) => {
     case LOGOUT:
       return { ...state, isLoading: true, isAuthenticated: true };
     case LOGOUT_SUCCESS:
-      return { ...state, isLoading: false, isAuthenticated: false, token: "" };
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: false,
+        token: "",
+        profile: false
+      };
 
     case GET_PROFILE_INFO:
       return { ...state, isLoading: true };
