@@ -102,6 +102,7 @@ const CreditPage = ({
             onClick={() => onToggleCreditModal(true)}
             buttonRootClass={classes.creditButtonRoot}
             buttonText="Add Credit"
+            data-cy="add-credit-button"
           />
         </Grid>
       </Grid>

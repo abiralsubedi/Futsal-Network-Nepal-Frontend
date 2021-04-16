@@ -8,11 +8,11 @@ describe("Profile Page", () => {
     cy.getByData("profile-menu-personal-info").click();
     cy.url().should("include", "/profile");
 
-    cy.get("#fullName").type("{selectall}{backspace}Bishal Rana");
+    cy.get("#fullName").type("{selectall}{backspace}Abiral Subedi");
     cy.getReact("CustomTextField", { props: { id: "fullName" } })
       .getProps("value")
-      .should("eq", "Bishal Rana");
-    cy.get("#fullName").should("have.attr", "value", "Bishal Rana");
+      .should("eq", "Abiral Subedi");
+    cy.get("#fullName").should("have.attr", "value", "Abiral Subedi");
 
     cy.getByData("basic-info-save").click();
     cy.getByData("snackbar-item").contains("Profile Updated Successfully");

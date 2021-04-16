@@ -92,7 +92,10 @@ export const VerticalTabs = ({
         {(items || []).map((item, index) => (
           <Tab
             label={
-              <div className={`${classes.tabLabel} vertical`}>
+              <div
+                className={`${classes.tabLabel} vertical`}
+                data-cy={item.labelText}
+              >
                 {item.labelIcon} {item.labelText}
               </div>
             }

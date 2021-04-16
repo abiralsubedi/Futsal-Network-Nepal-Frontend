@@ -108,6 +108,7 @@ const AddCreditModal = ({ globalData, onToggleCreditModal, topUpAmount }) => {
             buttonText="Continue"
             onClick={handleContinue}
             disabled={amountError}
+            data-cy="credit-amount-continue"
           />
         )}
       </div>

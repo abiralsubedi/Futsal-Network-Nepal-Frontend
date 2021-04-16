@@ -132,6 +132,7 @@ const VendorListFilter = ({
           buttonText="Search"
           type="submit"
           disabled={loading}
+          data-cy="vendor-search-button"
         />
         <Button
           variant="contained"

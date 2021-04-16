@@ -44,7 +44,7 @@ const AddReviewModal = ({
   const commentBoxMemo = useMemo(
     () => (
       <TextField
-        id="image-caption"
+        id="review-comment"
         label="Comment"
         value={comment}
         handleChange={val => setComment(val)}
@@ -114,6 +114,7 @@ const AddReviewModal = ({
               variant="contained"
               actionLoading={loading}
               disabled={loading || !comment || !rating}
+              data-cy="submit-review"
             />
           </div>
         </form>

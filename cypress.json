@@ -1,11 +1,11 @@
 {
-  "baseUrl": "http://localhost:3000",
+  "baseUrl": "http://localhost:3001",
   "defaultCommandTimeout": 10000,
   "env": {
     "cypress-react-selector": {
       "root": "#root"
     },
-    "username": "bishal+teacher@innovatetech.co",
-    "password": "Bishal1234?"
+    "username": "abiral+user@innovatetech.co",
+    "password": "Abiral1234?"
   }
 }
