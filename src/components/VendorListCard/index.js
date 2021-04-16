@@ -110,6 +110,7 @@ const VendorListCard = ({
       }
       style={{ cursor: "pointer" }}
       variant="outlined"
+      data-cy="vendor-list-card-wrapper"
     >
       <Grid container spacing={0}>
         <Grid item sm={4} xs={12}>
@@ -124,7 +125,7 @@ const VendorListCard = ({
         <Grid item sm={8} xs={12}>
           <div className={classes.cardContent}>
             <div>
-              <Typography className={classes.vendorInfoText}>
+              <Typography className={classes.vendorInfoText} data-cy="vendor-list-card-name">
                 {fullName}
               </Typography>
               <Typography className={classes.secondaryText} variant="body2">

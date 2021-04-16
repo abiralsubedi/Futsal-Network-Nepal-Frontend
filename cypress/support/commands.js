@@ -30,6 +30,7 @@ Cypress.Commands.add("logout", () => {
       store.dispatch({ type: "LOGOUT_SUCCESS" });
       cy.visit("/login");
     });
+    cy.contains('Futsal Network Nepal App')
 });
 
 // add data-cy selector

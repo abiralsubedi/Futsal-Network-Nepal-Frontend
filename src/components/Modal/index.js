@@ -32,7 +32,7 @@ const CustomModal = ({
       <div className={classes.dialogContent}>
         <div className={classes.dialogTitle}>
           <div>{title}</div>
-          <div onClick={handleClose}>
+          <div onClick={handleClose} data-cy="close-modal-button">
             <CancelIcon />
           </div>
         </div>

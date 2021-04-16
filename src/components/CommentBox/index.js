@@ -100,6 +100,7 @@ const CommentBox = ({
               <IconButton
                 onClick={handleEdit}
                 className={classes.commentActionButton}
+                data-cy="review-edit-button"
               >
                 <EditRoundedIcon
                   style={{ fontSize: 20 }}
