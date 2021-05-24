@@ -6,6 +6,9 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import useStyles from "./style";
 
+/**
+ * Custom MUI button for user interaction
+ */
 const CustomButton = ({
   buttonRootClass,
   buttonLabelClass,
@@ -44,9 +47,12 @@ CustomButton.propTypes = {
   buttonRootClass: PropTypes.string,
   buttonLabelClass: PropTypes.string,
   circularRootClass: PropTypes.string,
-  buttonText: PropTypes.string,
   actionLoading: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
+  /**
+   * Text on the button
+   */
+  buttonText: PropTypes.string
 };
 
 export default CustomButton;
