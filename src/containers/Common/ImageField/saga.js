@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import request from "utils/request";
 
-import { uploadFile } from "containers/LoginPage/saga";
+import { uploadFile, getProfileData } from "containers/LoginPage/saga";
 import {
   setFileUploadData,
   updateProfilePicture
@@ -34,7 +34,9 @@ function* postProfilePicture({ payload }) {
     const successMessage = `Profile picture ${
       payload ? "updated" : "removed"
     } successfully`;
+    yield call(getProfileData)
     yield put(postProfilePictureSuccess(successMessage));
+    
   } catch (error) {
     let errorObj = error;
     if (error.response) {
