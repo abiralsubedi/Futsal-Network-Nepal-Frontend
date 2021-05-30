@@ -284,6 +284,9 @@ const AddVendor = ({
             type="number"
             maxDecimalValue={2}
             fullWidth
+            inputProps={{
+              min: 1
+            }}
           />
         </Grid>
       </Grid>

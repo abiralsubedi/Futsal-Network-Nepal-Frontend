@@ -215,6 +215,9 @@ const AddUser = ({
               maxDecimalValue={2}
               handleChange={val => updateUserInfo("credit", val)}
               fullWidth
+              inputProps={{
+                min: 0
+              }}
             />
           </Grid>
           {!profileInfo.googleId && (
