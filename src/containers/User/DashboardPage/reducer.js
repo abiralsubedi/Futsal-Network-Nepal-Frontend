@@ -67,8 +67,6 @@ export default (
         ...state,
         ratedVendor: [],
         ratedVendorError: "",
-        nearbyVendorError: "",
-        nearbyVendor: []
       };
 
     default:

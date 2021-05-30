@@ -76,6 +76,9 @@ const AddGameHourModal = ({
             maxDecimalValue={2}
             fullWidth
             customClasses={classes.addPriceField}
+            inputProps={{
+              min: 1
+            }}
           />
           <div>
             <FormControlLabel

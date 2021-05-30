@@ -19,6 +19,7 @@ import ConfirmationModal from "components/ConfirmationModal";
 import AddReviewModal from "components/AddReviewModal";
 import NoData from "components/NoData";
 
+import {clearDashboardPage} from 'containers/User/DashboardPage/actions'
 import {
   getReview,
   postReview,
@@ -38,7 +39,8 @@ const ReviewPage = ({
   saveReview,
   onClearPostData,
   fetchReviewDetail,
-  onRemoveReview
+  onRemoveReview,
+  onClearDashboardVendorList
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -84,6 +86,7 @@ const ReviewPage = ({
       setRemoveReview(false);
       fetchReviewDetail({ vendorId });
       forceCheck();
+      onClearDashboardVendorList()
     }
   }, [
     postReviewError,
@@ -242,7 +245,8 @@ ReviewPage.propTypes = {
   saveReview: PropTypes.func,
   onClearPostData: PropTypes.func,
   onRemoveReview: PropTypes.func,
-  fetchReviewDetail: PropTypes.func
+  fetchReviewDetail: PropTypes.func,
+  onClearDashboardVendorList: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -256,7 +260,8 @@ const mapDispatchToProps = dispatch => ({
   onClearReviewData: () => dispatch(clearReviewData()),
   onClearPostData: () => dispatch(clearPostData()),
   saveReview: data => dispatch(postReview(data)),
-  onRemoveReview: data => dispatch(removeReview(data))
+  onRemoveReview: data => dispatch(removeReview(data)),
+  onClearDashboardVendorList: () => dispatch(clearDashboardPage()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

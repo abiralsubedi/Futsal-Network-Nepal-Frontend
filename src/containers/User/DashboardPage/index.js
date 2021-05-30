@@ -12,7 +12,7 @@ import VendorCard from "components/VendorCard";
 import SlickSlider from "components/SlickSlider";
 import NoData from "components/NoData";
 
-import { getRatedVendor, getNearbyVendor, clearDashboardPage } from "./actions";
+import { getRatedVendor, getNearbyVendor } from "./actions";
 
 import useStyles from "./style";
 
