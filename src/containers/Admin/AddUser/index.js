@@ -24,7 +24,7 @@ import {
   postProfileInfo,
   clearMessage,
   getProfileInfo,
-  clearUserInfo
+  clearUserInfo,
 } from "./actions";
 import useStyles from "./style";
 
@@ -35,7 +35,7 @@ const AddUser = ({
   getProfileInfo,
   match,
   onClearUserInfo,
-  history
+  history,
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -45,7 +45,7 @@ const AddUser = ({
     profileInfo,
     postProfileLoading,
     postProfileSuccess,
-    postProfileError
+    postProfileError,
   } = addUserData;
 
   const selectedUserId = match.params.userId;
@@ -57,7 +57,7 @@ const AddUser = ({
     emailAddress: "",
     credit: 0,
     userPhoto: "",
-    newPassword: ""
+    newPassword: "",
   }));
   const [viewPhotoUrl, setViewPhotoUrl] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -73,7 +73,7 @@ const AddUser = ({
     emailAddress,
     credit,
     userPhoto,
-    newPassword
+    newPassword,
   } = userInfo;
 
   useEffect(() => {
@@ -94,7 +94,7 @@ const AddUser = ({
         phone,
         emailAddress,
         credit,
-        photoUri
+        photoUri,
       }) => ({
         fullName,
         username,
@@ -102,7 +102,7 @@ const AddUser = ({
         emailAddress,
         credit,
         userPhoto: photoUri,
-        newPassword: ""
+        newPassword: "",
       }))(profileInfo);
       setUserInfo(pickedInfo);
     }
@@ -112,7 +112,7 @@ const AddUser = ({
     if (postProfileError) {
       enqueueSnackbar(postProfileError, {
         variant: "error",
-        onClose: () => onClearMessage()
+        onClose: () => onClearMessage(),
       });
       updateUserInfo("userPhoto", profileInfo.photoUri);
     }
@@ -124,11 +124,11 @@ const AddUser = ({
       setUserInfo({
         ...userInfo,
         newPassword: "",
-        userPhoto: profileInfo.photoUri
+        userPhoto: profileInfo.photoUri,
       });
       enqueueSnackbar(successMessage, {
         variant: "success",
-        onClose: () => onClearMessage()
+        onClose: () => onClearMessage(),
       });
       if (!selectedUserId) {
         history.replace(`/people/users/edit/${postProfileSuccess._id}`);
@@ -136,12 +136,12 @@ const AddUser = ({
     }
   }, [postProfileError, postProfileSuccess]);
 
-  const handleFormSubmit = e => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!checkValidEmail(emailAddress)) {
       return enqueueSnackbar("Email is invalid", {
         variant: "error",
-        onClose: () => onClearMessage()
+        onClose: () => onClearMessage(),
       });
     }
     saveProfileInfo({ ...userInfo, userId: selectedUserId });
@@ -158,8 +158,8 @@ const AddUser = ({
           noCaption
           image={userPhoto}
           wrapperClass={classes.userImageContainer}
-          handleImageClick={url => setViewPhotoUrl(url)}
-          handleImageEdit={imageFormData =>
+          handleImageClick={(url) => setViewPhotoUrl(url)}
+          handleImageEdit={(imageFormData) =>
             updateUserInfo("userPhoto", imageFormData)
           }
           handleImageRemove={() => updateUserInfo("userPhoto", "")}
@@ -171,7 +171,7 @@ const AddUser = ({
               id="fullName"
               label="Full Name"
               value={fullName}
-              handleChange={val => updateUserInfo("fullName", val)}
+              handleChange={(val) => updateUserInfo("fullName", val)}
               autoFocus
               required
               fullWidth
@@ -182,7 +182,7 @@ const AddUser = ({
               id="username"
               label="Username"
               value={username}
-              handleChange={val => updateUserInfo("username", val)}
+              handleChange={(val) => updateUserInfo("username", val)}
               required
               fullWidth
             />
@@ -192,7 +192,7 @@ const AddUser = ({
               id="phone"
               label="Phone"
               value={phone}
-              handleChange={val => updateUserInfo("phone", val)}
+              handleChange={(val) => updateUserInfo("phone", val)}
               fullWidth
             />
           </Grid>
@@ -201,7 +201,7 @@ const AddUser = ({
               id="email"
               label="Email"
               value={emailAddress}
-              handleChange={val => updateUserInfo("emailAddress", val)}
+              handleChange={(val) => updateUserInfo("emailAddress", val)}
               required
               fullWidth
             />
@@ -213,10 +213,11 @@ const AddUser = ({
               value={credit}
               type="number"
               maxDecimalValue={2}
-              handleChange={val => updateUserInfo("credit", val)}
+              handleChange={(val) => updateUserInfo("credit", val)}
               fullWidth
               inputProps={{
-                min: 0
+                min: 0,
+                step: ".05",
               }}
             />
           </Grid>
@@ -227,7 +228,7 @@ const AddUser = ({
                 label="New Password"
                 type={showNewPassword ? "text" : "password"}
                 value={newPassword}
-                handleChange={val => updateUserInfo("newPassword", val)}
+                handleChange={(val) => updateUserInfo("newPassword", val)}
                 fullWidth
                 required={!selectedUserId}
                 endAdornment={
@@ -235,7 +236,7 @@ const AddUser = ({
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={() =>
-                        setShowNewPassword(prevState => !prevState)
+                        setShowNewPassword((prevState) => !prevState)
                       }
                       edge="end"
                     >
@@ -279,18 +280,18 @@ AddUser.propTypes = {
   getProfileInfo: PropTypes.func,
   match: PropTypes.object,
   onClearUserInfo: PropTypes.func,
-  history: PropTypes.object
+  history: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  addUserData: state.AddUserReducer
+const mapStateToProps = (state) => ({
+  addUserData: state.AddUserReducer,
 });
 
-const mapDispatchToProps = dispatch => ({
-  saveProfileInfo: data => dispatch(postProfileInfo(data)),
-  getProfileInfo: data => dispatch(getProfileInfo(data)),
+const mapDispatchToProps = (dispatch) => ({
+  saveProfileInfo: (data) => dispatch(postProfileInfo(data)),
+  getProfileInfo: (data) => dispatch(getProfileInfo(data)),
   onClearMessage: () => dispatch(clearMessage()),
-  onClearUserInfo: () => dispatch(clearUserInfo())
+  onClearUserInfo: () => dispatch(clearUserInfo()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
