@@ -19,7 +19,7 @@ const AddGameHourModal = ({
   globalData,
   addHourData,
   handleSubmit,
-  loading
+  loading,
 }) => {
   const classes = useStyles();
 
@@ -47,17 +47,17 @@ const AddGameHourModal = ({
     >
       <div className={classes.addHourContent}>
         <form
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             handleSubmit({ gameHour, price, gameHourId, disabled });
           }}
         >
           <SelectField
             options={clockData}
-            getOptionLabel={option => option.fullName}
+            getOptionLabel={(option) => option.fullName}
             label="Game Hour"
             value={gameHour}
-            handleChange={opt => setGameHour(opt)}
+            handleChange={(opt) => setGameHour(opt)}
             getOptionSelected={(option, value) => option.name === value.name}
             isLoading={clockDataLoading}
             disableClearable
@@ -70,14 +70,15 @@ const AddGameHourModal = ({
             id="price"
             label="Hourly Price ($)"
             value={price}
-            handleChange={val => setPrice(val)}
+            handleChange={(val) => setPrice(val)}
             required
             type="number"
             maxDecimalValue={2}
             fullWidth
             customClasses={classes.addPriceField}
             inputProps={{
-              min: 1
+              min: 1,
+              step: ".05",
             }}
           />
           <div>
@@ -86,7 +87,7 @@ const AddGameHourModal = ({
               labelPlacement="start"
               classes={{
                 label: classes.controlLabel,
-                root: classes.controlLabelRoot
+                root: classes.controlLabelRoot,
               }}
               control={
                 <IOSSwitch
@@ -121,11 +122,11 @@ AddGameHourModal.propTypes = {
   globalData: PropTypes.object,
   addHourData: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   handleSubmit: PropTypes.func,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  globalData: state.LoginReducer
+const mapStateToProps = (state) => ({
+  globalData: state.LoginReducer,
 });
 
 // const mapDispatchToProps = dispatch => ({});

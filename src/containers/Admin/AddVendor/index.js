@@ -33,7 +33,7 @@ import {
   postProfileInfo,
   clearMessage,
   getProfileInfo,
-  clearUserInfo
+  clearUserInfo,
 } from "./actions";
 import useStyles from "./style";
 
@@ -46,7 +46,7 @@ const AddVendor = ({
   onClearUserInfo,
   history,
   fetchClockData,
-  globalData: { clockDataLoading, clockData }
+  globalData: { clockDataLoading, clockData },
 }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -56,7 +56,7 @@ const AddVendor = ({
     profileInfo,
     postProfileLoading,
     postProfileSuccess,
-    postProfileError
+    postProfileError,
   } = addUserData;
 
   const selectedUserId = match.params.vendorId;
@@ -69,7 +69,7 @@ const AddVendor = ({
     credit: 0,
     userPhoto: "",
     newPassword: "",
-    phone: ""
+    phone: "",
   }));
   const [viewPhotoUrl, setViewPhotoUrl] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -90,7 +90,7 @@ const AddVendor = ({
     emailAddress,
     userPhoto,
     newPassword,
-    phone
+    phone,
   } = userInfo;
 
   useEffect(() => {
@@ -115,7 +115,7 @@ const AddVendor = ({
         location,
         emailAddress,
         photoUri,
-        phone
+        phone,
       }) => ({
         fullName,
         username,
@@ -123,7 +123,7 @@ const AddVendor = ({
         emailAddress,
         phone,
         userPhoto: photoUri,
-        newPassword: ""
+        newPassword: "",
       }))(profileInfo);
       setUserInfo(pickedInfo);
     }
@@ -133,7 +133,7 @@ const AddVendor = ({
     if (postProfileError) {
       enqueueSnackbar(postProfileError, {
         variant: "error",
-        onClose: () => onClearMessage()
+        onClose: () => onClearMessage(),
       });
       updateUserInfo("userPhoto", profileInfo.photoUri);
     }
@@ -145,11 +145,11 @@ const AddVendor = ({
       setUserInfo({
         ...userInfo,
         newPassword: "",
-        userPhoto: profileInfo.photoUri
+        userPhoto: profileInfo.photoUri,
       });
       enqueueSnackbar(successMessage, {
         variant: "success",
-        onClose: () => onClearMessage()
+        onClose: () => onClearMessage(),
       });
       if (!selectedUserId) {
         history.replace(`/people/vendors/edit/${postProfileSuccess._id}`);
@@ -157,12 +157,12 @@ const AddVendor = ({
     }
   }, [postProfileError, postProfileSuccess]);
 
-  const handleFormSubmit = e => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!checkValidEmail(emailAddress)) {
       return enqueueSnackbar("Email is invalid", {
         variant: "error",
-        onClose: () => onClearMessage()
+        onClose: () => onClearMessage(),
       });
     }
     saveProfileInfo({
@@ -171,11 +171,11 @@ const AddVendor = ({
       startPeriod,
       endPeriod,
       price,
-      fields
+      fields,
     });
   };
 
-  const getFieldAction = index => {
+  const getFieldAction = (index) => {
     const isLastIndex = index + 1 === fields.length;
     const hideRemove = index === 0 && fields.length === 1;
     return (
@@ -226,7 +226,7 @@ const AddVendor = ({
                 id={`field-${index + 1}`}
                 label="Field Name"
                 value={field.name}
-                handleChange={val => {
+                handleChange={(val) => {
                   const updatedField = [...fields];
                   updatedField[index].name = val;
                   setFields(updatedField);
@@ -251,10 +251,10 @@ const AddVendor = ({
         <Grid item md={4} sm={6} xs={12}>
           <SelectField
             options={clockData}
-            getOptionLabel={option => option.name}
+            getOptionLabel={(option) => option.name}
             label="First Game at"
             value={startPeriod}
-            handleChange={opt => setStartPeriod(opt)}
+            handleChange={(opt) => setStartPeriod(opt)}
             getOptionSelected={(option, value) => option.name === value.name}
             isLoading={clockDataLoading}
             disableClearable
@@ -264,10 +264,10 @@ const AddVendor = ({
         <Grid item md={4} sm={6} xs={12}>
           <SelectField
             options={clockData}
-            getOptionLabel={option => option.name}
+            getOptionLabel={(option) => option.name}
             label="Last game at"
             value={endPeriod}
-            handleChange={opt => setEndPeriod(opt)}
+            handleChange={(opt) => setEndPeriod(opt)}
             getOptionSelected={(option, value) => option.name === value.name}
             isLoading={clockDataLoading}
             disableClearable
@@ -279,13 +279,14 @@ const AddVendor = ({
             id="price"
             label="Hourly Price ($)"
             value={price}
-            handleChange={val => setPrice(val)}
+            handleChange={(val) => setPrice(val)}
             required
             type="number"
             maxDecimalValue={2}
             fullWidth
             inputProps={{
-              min: 1
+              min: 1,
+              step: ".05",
             }}
           />
         </Grid>
@@ -305,8 +306,8 @@ const AddVendor = ({
           noCaption
           image={userPhoto}
           wrapperClass={classes.userImageContainer}
-          handleImageClick={url => setViewPhotoUrl(url)}
-          handleImageEdit={imageFormData =>
+          handleImageClick={(url) => setViewPhotoUrl(url)}
+          handleImageEdit={(imageFormData) =>
             updateUserInfo("userPhoto", imageFormData)
           }
           handleImageRemove={() => updateUserInfo("userPhoto", "")}
@@ -318,7 +319,7 @@ const AddVendor = ({
               id="fullName"
               label="Full Name"
               value={fullName}
-              handleChange={val => updateUserInfo("fullName", val)}
+              handleChange={(val) => updateUserInfo("fullName", val)}
               autoFocus
               required
               fullWidth
@@ -329,7 +330,7 @@ const AddVendor = ({
               id="username"
               label="Username"
               value={username}
-              handleChange={val => updateUserInfo("username", val)}
+              handleChange={(val) => updateUserInfo("username", val)}
               required
               fullWidth
             />
@@ -359,7 +360,7 @@ const AddVendor = ({
               id="phone"
               label="Phone"
               value={phone}
-              handleChange={val => updateUserInfo("phone", val)}
+              handleChange={(val) => updateUserInfo("phone", val)}
               required
               fullWidth
             />
@@ -369,7 +370,7 @@ const AddVendor = ({
               id="email"
               label="Email"
               value={emailAddress}
-              handleChange={val => updateUserInfo("emailAddress", val)}
+              handleChange={(val) => updateUserInfo("emailAddress", val)}
               required
               fullWidth
             />
@@ -381,7 +382,7 @@ const AddVendor = ({
                 label="New Password"
                 type={showNewPassword ? "text" : "password"}
                 value={newPassword}
-                handleChange={val => updateUserInfo("newPassword", val)}
+                handleChange={(val) => updateUserInfo("newPassword", val)}
                 fullWidth
                 required={!selectedUserId}
                 endAdornment={
@@ -389,7 +390,7 @@ const AddVendor = ({
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={() =>
-                        setShowNewPassword(prevState => !prevState)
+                        setShowNewPassword((prevState) => !prevState)
                       }
                       edge="end"
                     >
@@ -432,7 +433,7 @@ const AddVendor = ({
         open={changeLocation}
         handleClose={() => setChangeLocation(false)}
         currentPlace={location}
-        handleConfirm={newLocation => updateUserInfo("location", newLocation)}
+        handleConfirm={(newLocation) => updateUserInfo("location", newLocation)}
       />
       <div className="custom-image-viewer single">
         {viewPhotoUrl && (
@@ -456,20 +457,20 @@ AddVendor.propTypes = {
   onClearUserInfo: PropTypes.func,
   history: PropTypes.object,
   globalData: PropTypes.object,
-  fetchClockData: PropTypes.func
+  fetchClockData: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   addUserData: state.AddVendorReducer,
-  globalData: state.LoginReducer
+  globalData: state.LoginReducer,
 });
 
-const mapDispatchToProps = dispatch => ({
-  saveProfileInfo: data => dispatch(postProfileInfo(data)),
-  getProfileInfo: data => dispatch(getProfileInfo(data)),
+const mapDispatchToProps = (dispatch) => ({
+  saveProfileInfo: (data) => dispatch(postProfileInfo(data)),
+  getProfileInfo: (data) => dispatch(getProfileInfo(data)),
   onClearMessage: () => dispatch(clearMessage()),
   fetchClockData: () => dispatch(getClockData()),
-  onClearUserInfo: () => dispatch(clearUserInfo())
+  onClearUserInfo: () => dispatch(clearUserInfo()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
