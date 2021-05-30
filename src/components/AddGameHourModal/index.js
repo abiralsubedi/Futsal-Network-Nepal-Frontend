@@ -63,7 +63,8 @@ const AddGameHourModal = ({
             disableClearable
             className={classes.gameHourFilter}
             required
-            autoFocus
+            autoFocus={!gameHourId}
+            disabled={!!gameHourId}
           />
 
           <TextField
@@ -80,6 +81,7 @@ const AddGameHourModal = ({
               min: 1,
               step: ".05",
             }}
+            autoFocus={!!gameHourId}
           />
           <div>
             <FormControlLabel
