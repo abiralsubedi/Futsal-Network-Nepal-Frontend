@@ -215,7 +215,7 @@ const SitePage = ({
       <div className={classes.profileContainer}>
         <Typography variant="h6" className={classes.pageTitle}>
           {!isUser && "Site"}
-          {isAdmin && " - "}
+          {!isUser && " - "}
           {vendorProfile &&
             `${vendorProfile.fullName} (${vendorProfile.phone})`}
           {getVendorDistanceLoading && " - ... away"}
