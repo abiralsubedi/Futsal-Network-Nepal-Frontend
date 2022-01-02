@@ -22,7 +22,7 @@ export const Wrapper = ({ style, children, ...props }) => {
       }}
       style={{
         flex: 1,
-        minHeight: "calc(100vh - 64px)",
+        minHeight: "calc(100vh - 95px)",
         ...(style || {})
       }}
     >
