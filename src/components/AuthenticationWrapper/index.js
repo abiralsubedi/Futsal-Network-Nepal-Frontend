@@ -33,6 +33,7 @@ const AuthenticationWrapper = ({ children }) => {
               Here you are able to search, review and book the most suitable
               futsal around you.
             </Typography>
+            <Typography variant="p">- Abiral Subedi</Typography>
           </div>
         </div>
       )}
@@ -41,7 +42,7 @@ const AuthenticationWrapper = ({ children }) => {
           <Button
             classes={{ label: classes.settingButtonLabel }}
             onClick={() => {
-              setDarkMode(prev => !prev);
+              setDarkMode((prev) => !prev);
               localStorage.setItem("darkMode", !darkMode);
             }}
             disableFocusRipple
@@ -67,7 +68,7 @@ const AuthenticationWrapper = ({ children }) => {
 };
 
 AuthenticationWrapper.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default AuthenticationWrapper;

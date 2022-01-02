@@ -3,6 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Header from "components/Header";
+import Footer from "components/Footer";
 
 const PrivateRoute = ({ component, globalData, ...rest }) => {
   const { isAuthenticated, profile } = globalData;
@@ -20,11 +21,12 @@ const PrivateRoute = ({ component, globalData, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props => {
+      render={(props) => {
         return (
           <>
             <Header />
             <Component {...props} />
+            <Footer />
           </>
         );
       }}
@@ -34,9 +36,9 @@ const PrivateRoute = ({ component, globalData, ...rest }) => {
 
 PrivateRoute.propTypes = {
   component: PropTypes.object,
-  globalData: PropTypes.object
+  globalData: PropTypes.object,
 };
 
-const mapStateToProps = state => ({ globalData: state.LoginReducer });
+const mapStateToProps = (state) => ({ globalData: state.LoginReducer });
 
 export default connect(mapStateToProps)(PrivateRoute);
