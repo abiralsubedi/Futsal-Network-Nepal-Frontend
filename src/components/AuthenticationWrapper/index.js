@@ -33,7 +33,7 @@ const AuthenticationWrapper = ({ children }) => {
               Here you are able to search, review and book the most suitable
               futsal around you.
             </Typography>
-            <Typography variant="subtitle1">- Abiral Subedi</Typography>
+            {/* <Typography variant="subtitle1">- Abiral Subedi</Typography> */}
           </div>
         </div>
       )}
