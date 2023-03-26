@@ -18,57 +18,55 @@ import ProfileMenu from "components/ProfileMenu";
 import { ThemeContext } from "context/themeContext";
 import GetCommonIcon from "utils/getCommonIcon.js";
 
-import AppLogo from "assets/images/app-logo.png";
-
 import useStyles from "./style";
 
 const userLinks = [
   {
     value: "Home",
     url: "/",
-    icon: <GetCommonIcon type="filledHome" />
+    icon: <GetCommonIcon type="filledHome" />,
   },
   {
     value: "Futsal",
     url: "/vendor",
-    icon: <GetCommonIcon type="filledFootball" />
-  }
+    icon: <GetCommonIcon type="filledFootball" />,
+  },
 ];
 
 const vendorLinks = [
   {
     value: "Home",
     url: "/",
-    icon: <GetCommonIcon type="filledHome" />
+    icon: <GetCommonIcon type="filledHome" />,
   },
   {
     value: "Schedule",
     url: "/schedule",
-    icon: <GetCommonIcon type="filledSchedule" />
+    icon: <GetCommonIcon type="filledSchedule" />,
   },
   {
     value: "Site",
     url: "/site",
-    icon: <GetCommonIcon type="filledFootball" />
-  }
+    icon: <GetCommonIcon type="filledFootball" />,
+  },
 ];
 
 const adminLinks = [
   {
     value: "Home",
     url: "/",
-    icon: <GetCommonIcon type="filledHome" />
+    icon: <GetCommonIcon type="filledHome" />,
   },
   {
     value: "Futsal",
     url: "/vendor",
-    icon: <GetCommonIcon type="filledFootball" />
+    icon: <GetCommonIcon type="filledFootball" />,
   },
   {
     value: "People",
     url: "/people",
-    icon: <GetCommonIcon type="filledProfile" />
-  }
+    icon: <GetCommonIcon type="filledProfile" />,
+  },
 ];
 
 const Header = ({ globalData }) => {
@@ -76,12 +74,12 @@ const Header = ({ globalData }) => {
 
   const { isMobile } = useContext(ThemeContext);
   const {
-    profile: { role }
+    profile: { role },
   } = globalData;
 
   const [navBarDrawerShow, setNavBarDrawerShow] = useState(false);
 
-  const toggleNavBarDrawer = event => {
+  const toggleNavBarDrawer = (event) => {
     if (
       event &&
       event.type === "keydown" &&
@@ -125,7 +123,7 @@ const Header = ({ globalData }) => {
         <Toolbar
           classes={{
             root: classes.toolBarRoot,
-            gutters: classes.toolBarGutters
+            gutters: classes.toolBarGutters,
           }}
           elevation={3}
         >
@@ -142,7 +140,11 @@ const Header = ({ globalData }) => {
                 </IconButton>
               ) : (
                 <Link to="/">
-                  <img src={AppLogo} alt="logo" style={{ width: "3rem" }} />
+                  <img
+                    src="https://fyp-app-assets.s3.amazonaws.com/images/app-logo.png"
+                    alt="logo"
+                    style={{ width: "3rem" }}
+                  />
                 </Link>
               )}
             </div>
@@ -163,11 +165,15 @@ const Header = ({ globalData }) => {
           onOpen={() => setNavBarDrawerShow(true)}
           disableSwipeToOpen={!isMobile}
           classes={{
-            paper: classes.drawerPaper
+            paper: classes.drawerPaper,
           }}
         >
           <div className={classes.drawerLogo}>
-            <img src={AppLogo} alt="logo" style={{ width: "3rem" }} />
+            <img
+              src="https://fyp-app-assets.s3.amazonaws.com/images/app-logo.png"
+              alt="logo"
+              style={{ width: "3rem" }}
+            />
           </div>
           <ul className={classes.navLinkList}>{renderNavBar()}</ul>
         </SwipeableDrawer>
@@ -177,14 +183,14 @@ const Header = ({ globalData }) => {
 };
 
 Header.propTypes = {
-  globalData: PropTypes.object
+  globalData: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  globalData: state.LoginReducer
+const mapStateToProps = (state) => ({
+  globalData: state.LoginReducer,
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = (dispatch) => ({});
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
